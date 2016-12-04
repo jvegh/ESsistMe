@@ -1,0 +1,114 @@
+##############################################################
+#  
+#  This is a CMake configuration file for the ESsistMe project.
+#  To use it you need CMake which can be 
+#  downloaded from here: 
+#    http://www.cmake.org/cmake/resources/software.html
+#
+# The directory structure (and other docs) can be found in cmake/Docs
+##############################################################
+#
+# @author János Végh
+if ( ${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_BINARY_DIR} )
+    message( FATAL_ERROR "In-source builds not allowed. Please make a new directory (called a build directory) and run CMake from there. You may need to remove CMakeCache.txt." )
+endif()
+
+cmake_policy(SET CMP0048 NEW)
+# Set the name of your project here
+set(CPACK_PACKAGE_NAME "essistme")
+project(ESsistMe VERSION 0.0.01 LANGUAGES C CXX)
+cmake_minimum_required(VERSION 3.0)
+set(CMAKE_INSTALL_PREFIX "${CMAKE_BINARY_DIR}/${CPACK_PACKAGE_NAME}")
+
+# ---[ Set up CMake options for ESsistMe
+# Choose whether you need debuggin support for development or making a release 
+option (DEBUG_MODE "Include debug support for the program"  ON)
+# Choose whether the Qt5-based stuff is to be built
+option (NEED_GUI "Include Qt support for the simulator"  ON) 
+# Choose whether the stand-alone unit testing is to be built
+option (NEED_TESTS "Include unit tests for the simulator"  ON) 
+# Choose whether to make documention as well
+option (NEED_DOCS "Prepare also HTML/CHM documentation" ON)
+# Choose whether to use asserts
+option (NDEBUG "Allow to assert the simulator" OFF)
+option(BUILD_SHARED_LIBS "Build shared libraries" ON)
+if(UNIX OR APPLE)
+  option(BUILD_docs   "Build documentation" ON)
+endif(UNIX OR APPLE)
+
+if(NEED_TESTS)
+  option (NEED_MINUIT_TESTS "Include Minuit math and unit tests"  ON)
+endif(NEED_TESTS)
+include(cmake/Colorize.cmake)
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
+  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}")
+set(CMAKE_CXX_STANDARD 11)
+
+# Set the build type if it isn't already
+if(DEBUG_MODE)
+  set(CMAKE_BUILD_TYPE Debug)
+  set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
+  set(CMAKE_RUNTIME_WORK_DIRECTORY "${CMAKE_BINARY_DIR}")
+  message(HIGHLIGHTED "Configuring ${PROJECT_NAME} V${PROJECT_VERSION} debug version")
+else(DEBUG_MODE)
+  set(CMAKE_BUILD_TYPE Release)
+  set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
+  set(CMAKE_RUNTIME_WORK_DIRECTORY "${CMAKE_BINARY_DIR}")
+  message(HIGHLIGHTED "Configuring ${PROJECT_NAME} V${PROJECT_VERSION} release version")
+endif(DEBUG_MODE)
+
+
+set(CMAKE_BINARY_DIR ${CMAKE_CURRENT_SOURCE_DIR}/build)
+# CMake useful variables
+#set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib")
+#set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib")
+
+# ---[ Using cmake scripts and modules
+list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/External)
+list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules)
+
+include(ExternalProject)
+include(cmake/Targets.cmake)
+include(cmake/Summary.cmake)
+include(cmake/Utils.cmake)
+
+# ---[ Dependencies 
+include(cmake/Dependencies.cmake)
+
+# ---[ Flags
+if(UNIX OR APPLE)
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC -Wall")
+endif()
+
+if(USE_libstdcpp)
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=libstdc++")
+  message("-- Warning: forcing libstdc++ (controlled by USE_libstdcpp option in cmake)")
+endif()
+
+# Copy the version and other configuration info to the source
+configure_file(${CMAKE_SOURCE_DIR}/main/Config.h.in ${CMAKE_SOURCE_DIR}/main/include/Config.h)
+#add_subdirectory(libEMPA) # The basic behavioral library
+add_subdirectory(Minuit) # The Minuit minimization library
+if (NEED_TESTS)
+  add_subdirectory(test)	# Tests for the tool library
+  if(NEED_MINUIT_TESTS)
+    add_subdirectory(test/Minuit)	# Tests for the Minuit library
+  endif (NEED_MINUIT_TESTS)
+endif (NEED_TESTS)
+#if (NEED_GUI)
+  add_subdirectory(QtGUI)	# The Qt-based graphics routines
+#endif (NEED_GUI)
+add_subdirectory(main)	# The main executables of the simulator , text and gui
+#  add_subdirectory(Y86)	# The Y86 simulator
+if(NEED_DOCS) 
+  set(doxyfile_in ${CMAKE_SOURCE_DIR}/doc/documentation-config.doxygen.in)
+  set(doxyfile ${CMAKE_BINARY_DIR}/Doxyfile)
+  add_subdirectory(doc) # The doxygen documentation
+endif(NEED_DOCS)
+
+# ---[ Target 'package' builds everything
+include(cmake/Packages.cmake)
+
+# ---[ Print configuration summary
+caffe_print_configuration_summary()
+# https://wiki.qt.io/Install_Qt_5_on_Ubuntu
