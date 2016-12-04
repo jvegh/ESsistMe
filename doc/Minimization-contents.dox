@@ -1,0 +1,20 @@
+
+/**
+@page Minimization Minimization
+
+(for those who want to know, how exacly the minimization is carried out)
+
+@htmlonly
+	<hr>
+	@endhtmlonly		
+
+	@section Minimization_TABLE_OF_CONTENTS Table of contents
+	-# @subpage Minimization_Intro
+	-# @subpage Minimization_Minuit
+	-# @subpage Minimization_Extensions
+	-# @subpage Minimization_Usage	
+		
+	@htmlonly
+	<hr>
+	@endhtmlonly		
+*/

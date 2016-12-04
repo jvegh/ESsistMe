@@ -1,0 +1,20 @@
+
+/**
+@page Visualization Visualization
+
+(for those who want to know, how exacly the visualization is carried out)
+
+@htmlonly
+<hr>
+@endhtmlonly		
+
+	@section Visualization_TABLE_OF_CONTENTS Table of contents
+	-# @subpage Visualization_Intro
+	-# @subpage Visualization_CustomPlot
+	-# @subpage Visualization_Extensions
+	-# @subpage Visualization_Usage	
+		
+@htmlonly
+<hr>
+@endhtmlonly		
+*/

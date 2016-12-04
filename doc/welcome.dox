@@ -1,0 +1,20 @@
+/*!
+@mainpage Welcome to the ESsistMe tool, for electron spectroscopy
+
+In sciences, we are working with "invisible" objects, like photons, electrons, voltage, ect.
+One can visualise the experiences with those objects using computer programs, like this.
+
+
+In order to provide as much professional solution as possible,
+some high quality, open source sof @ref Minimization is done by using 
+a fitting routine, which is one of the most frequently used fitting routines,
+but some unusual extensions increase its usability in spectroscopy.
+
+
+@ref Visualization 
+
+
+<b>An important note: this is a one-man project, and -- although intensively developed --
+it is not yet completed, neither the software nor the documentation. 
+Come back after a couple of days and pick up a new version.</b>
+*/

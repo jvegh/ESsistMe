@@ -1,0 +1,33 @@
+/**
+ @page APPENDIX Appendix
+@section Release_Notes Release Notes
+\tableofcontents
+
+@subsection RELEASE_INTRODUCTION INTRODUCTION
+		@subsubsection Features Features
+			- The latest release of [PRODUCT_NAME]  provides the following major features and improvements:
+				- Feature 1
+				- Feature 2
+              My introduction
+	@htmlonly
+	<hr>
+	@endhtmlonly		
+	@subsection Development_History Development history
+	
+			
+    @subsubsection Version_0.0 Version 0.0.1
+Just internal development.
+- Collected component:
+- Qt5
+- QCustomPlot
+- Minuit2 (modified)
+- QGest
+- GLog
+- GFlag
+
+
+	@htmlonly
+	<hr>
+	@endhtmlonly		
+	@subsection Errata
+*/

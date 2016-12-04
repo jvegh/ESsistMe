@@ -1,0 +1,38 @@
+/**
+@page Minimization_Intro Minimization: What and Why
+
+\tableofcontents
+
+@section Minimization_Intro_General Introduction
+In scientific research, the typical scenario is to have a theory,
+which can derive a parametrized description of the phenomenon in question,
+and a measurement which can derive experimental data. 
+The task is then to find out what parameters shall be used to <b>best</b>
+describe the experimental results. As detailed by @cite Minuit:2004, 
+neither the terminology nor the mathematical algorithm to determine
+what <b>best</b> means, is not unique. In the following, we will use the word
+"minimization" for this activity. 
+
+In general, it means that a function is derived somehow, which describes the "goodness",
+and a mathematical algorithm is applied to to find out the minimum value.
+The task is not easy at all: those functions may show quite extraordinary behavior:
+no "smooth" behavior, multiple minimums, out-of range minimum, 
+non-existing derivatives, et.
+
+Minuit @cite Minuit:2004 is one of the most widely used packages. It is mathematically well established,
+using several minimization algoritms, well tested and well documented. 
+It has been reimplemented in 2004 (from FORTRAN to C++) and it can be downloaded
+from @cite Minuit2:2004. For the mathematical algoritms, operational details see @cite Minuit:2004.
+
+@section Minimization_Intro_Parameter  Parameter
+
+In Minuit, the parameters are not just a value. MinuitParameter has in additition lower and upper bound,
+uncertainty, different flags, string label, format hints, etc. This allows to fix the parameter value
+(and so it cannot be changed by the minimization routine), upper and lower bounds (which, if they are active,
+the parameter cannot take the values excluded by the bounds. 
+
+
+@section MinimizationIntro_Steps Steps of execution
+
+
+*/

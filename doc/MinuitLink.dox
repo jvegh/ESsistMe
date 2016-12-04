@@ -1,0 +1,82 @@
+/*  A documentation page: Parameter linking for the Minuit program
+    RCS-ID    $Id:  $
+    \author   (c) János Végh, Debrecen, Hungary (veghj@users.sf.net)
+    \since    Jan 22, 2006
+ */
+
+/**	\page page_MinuitLinking Parameter linking options for MINUIT
+
+
+This description comprises the items<br>
+  - \ref sec_MINUIT_CPP "The C++ version of MINUT"<br>
+  - \ref sec_MinuitConstraints "Constraints in MINUIT"<br>
+  - \ref sec_WhyLinking "Why and when parameter linking is useful"<br>
+  - \ref sec_ParameterSets "Grouping parameters: parameter sets"<br>
+  - \ref sec_MasterSlave "Masters and slaves"<br>
+  - \ref sec_LinkingModes ""<br>
+
+\section sec_MINUIT_CPP The C++ version of MINUT
+
+The MINUIT program, written originally in FORTRAN, has been
+rewritten in C++.
+
+\section sec_MinuitConstraints Constraints in MINUIT
+The MINUIT parameter fitting program is equipped with constraints
+like lower or upper bound (or both) for the parameters, as well as
+fixing the parameter value.
+
+\section sec_WhyLinking Why and when parameter linking is useful
+
+When solving physics related tasks, however, different kinds of
+constraints might also be needed, other than \ref sec_MinuitConstraints "those
+implemented originally in MINUIT".
+Say, one might not know the width of neither of the two peaks
+in the spectrum, but is sure that they have the same value;
+or one might know that the intensity of the second is twice
+of that of the first.
+Similarly, one might know that the contribution of the detector
+electronics to the width of the peak depends linearly on the 
+energy of the peak, etc.
+
+Of course, the fitting parameters can be configured to describe
+such situations, but to change the constraints one needs to
+write a new fitting function.
+Using parameter linking, provided by these functions,
+one can change these these constraints "on the fly".
+
+
+\section sec_ParameterSets Grouping parameters: parameter sets
+When modeling for example experimental spectra, the calculated 
+model comprises components, like Gaussians, Lorentzians or 
+polynomial background.
+These components are described by closely related parameters,
+which are worth to group into one set of parameters MinuitParameterSet,
+as they describe the same object.
+The parameter sets comprise individual parameters (MinuitParameter)
+which are identified by their index.
+
+\section sec_MasterSlave Master and slave relation
+
+
+\subsection sec_LinkingModes Linking modes
+
+The linking modes, in detail are as follows.
+  - \ref sec_IdentityLinking "(=) Identity"<br>
+  - \ref sec_AddLinking "(+) Additive"<br>
+  - \ref sec_MultiplyLinking "(*) Multiplicative"<br>
+
+\subsubsection sec_IdentityLinking 'Identity' type linking
+The slave parameter value is simply replaced by that of the master parameter
+
+\subsubsection sec_AddLinking 'Add' type linking
+The relative value of the slave is added to the value of the
+master parameter
+
+\subsubsection sec_MultiplyLinking 'Multiply' type linking
+The relative value of the slave is multiplied with the value of the
+master parameter
+
+\subsubsection sec_pm2LinearLink 2-parameter linear
+\subsubsection sec_pm2FWHMLink 2-parameter linear
+
+*/
