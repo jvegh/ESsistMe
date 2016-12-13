@@ -9,23 +9,12 @@ set(Caffe_LINKER_LIBS "")
 
 # ---[ Threads
 find_package(Threads REQUIRED)
-list(APPEND Caffe_LINKER_LIBS ${CMAKE_THREAD_LIBS_INIT})
-
-# ---[ Google-glog
-include("cmake/External/glog.cmake")
-include_directories(SYSTEM ${GLOG_INCLUDE_DIRS})
-list(APPEND Caffe_LINKER_LIBS ${GLOG_LIBRARIES})
-
-# ---[ Google-gflags
-include("cmake/External/gflags.cmake")
-include_directories(SYSTEM ${GFLAGS_INCLUDE_DIRS})
-list(APPEND Caffe_LINKER_LIBS ${GFLAGS_LIBRARIES})
+list(APPEND Caffe_LINKER_LIBS ${CMAKE_THREAD_LIBS_INIT} )
 
 # ---[ Google-test
 include("cmake/External/gtest.cmake")
 include_directories(SYSTEM ${GTEST_INCLUDE_DIRS})
 list(APPEND Caffe_LINKER_LIBS ${GTEST_LIBRARIES})
-
 
 
 # ---[ Doxygen
