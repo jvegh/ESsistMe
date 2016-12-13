@@ -16,19 +16,18 @@ endif()
 cmake_policy(SET CMP0048 NEW)
 # Set the name of your project here
 set(CPACK_PACKAGE_NAME "essistme")
-project(ESsistMe VERSION 0.0.01 LANGUAGES C CXX)
+project(ESsistMe VERSION 0.0.02 LANGUAGES C CXX)
 cmake_minimum_required(VERSION 3.0)
 set(CMAKE_INSTALL_PREFIX "${CMAKE_BINARY_DIR}/${CPACK_PACKAGE_NAME}")
+set(CMAKE_PREFIX_PATH "/home/jvegh/Qt/5.5")
 
 # ---[ Set up CMake options for ESsistMe
 # Choose whether you need debuggin support for development or making a release 
 option (DEBUG_MODE "Include debug support for the program"  ON)
-# Choose whether the Qt5-based stuff is to be built
-option (NEED_GUI "Include Qt support for the simulator"  ON) 
 # Choose whether the stand-alone unit testing is to be built
-option (NEED_TESTS "Include unit tests for the simulator"  ON) 
+option (NEED_TESTS "Include unit tests for the tool"  ON)
 # Choose whether to make documention as well
-option (NEED_DOCS "Prepare also HTML/CHM documentation" ON)
+option (BUILD_DOCS "Prepare also HTML/CHM documentation" ON)
 # Choose whether to use asserts
 option (NDEBUG "Allow to assert the simulator" OFF)
 option(BUILD_SHARED_LIBS "Build shared libraries" ON)
@@ -68,7 +67,7 @@ list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/External)
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules)
 
 include(ExternalProject)
-include(cmake/Targets.cmake)
+#include(cmake/Targets.cmake)
 include(cmake/Summary.cmake)
 include(cmake/Utils.cmake)
 
@@ -87,7 +86,6 @@ endif()
 
 # Copy the version and other configuration info to the source
 configure_file(${CMAKE_SOURCE_DIR}/main/Config.h.in ${CMAKE_SOURCE_DIR}/main/include/Config.h)
-#add_subdirectory(libEMPA) # The basic behavioral library
 add_subdirectory(Minuit) # The Minuit minimization library
 if (NEED_TESTS)
   add_subdirectory(test)	# Tests for the tool library
@@ -95,16 +93,13 @@ if (NEED_TESTS)
     add_subdirectory(test/Minuit)	# Tests for the Minuit library
   endif (NEED_MINUIT_TESTS)
 endif (NEED_TESTS)
-#if (NEED_GUI)
-  add_subdirectory(QtGUI)	# The Qt-based graphics routines
-#endif (NEED_GUI)
-add_subdirectory(main)	# The main executables of the simulator , text and gui
-#  add_subdirectory(Y86)	# The Y86 simulator
-if(NEED_DOCS) 
+add_subdirectory(QtGUI)	# The Qt-based graphics routines
+add_subdirectory(main)	# The main executables of the ES tool gui
+if(BUILD_DOCS)
   set(doxyfile_in ${CMAKE_SOURCE_DIR}/doc/documentation-config.doxygen.in)
   set(doxyfile ${CMAKE_BINARY_DIR}/Doxyfile)
   add_subdirectory(doc) # The doxygen documentation
-endif(NEED_DOCS)
+endif(BUILD_DOCS)
 
 # ---[ Target 'package' builds everything
 include(cmake/Packages.cmake)
