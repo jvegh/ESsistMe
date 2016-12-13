@@ -12,7 +12,7 @@
 option(BUILD_DOCUMENTATION "Create and install the HTML based API documentation (requires Doxygen)"
 ${DOXYGEN_FOUND})
 if (DOXYGEN_FOUND)
-if(NEED_DOCS)
+if(BUILD_DOCS)
     if(NOT DOXYGEN_FOUND)
         message(FATAL_ERROR "Doxygen is needed to build the .html documentation.")
     endif()
@@ -43,14 +43,19 @@ if(NEED_DOCS)
 
       add_dependencies(chm doc)     
      endif(DPKG_CHMCMD_FOUND)
-endif(NEED_DOCS)
+endif(BUILD_DOCS)
 else()
   message(AUTHOR_WARNING "Doxygen not found")
 endif (DOXYGEN_FOUND)
+### CMake will copy the 
+### These standard subdirectories are copied by default
+ file(COPY "${CMAKE_SOURCE_DIR}/doc/mntutorial.pdf" DESTINATION "${CMAKE_BINARY_DIR}/doc")
 
 INSTALL(FILES ${CMAKE_BINARY_DIR}/doc/${PROJECT_NAME}.chm 
+	${CMAKE_BINARY_DIR}/doc/mntutorial.pdf
 	DESTINATION doc
  	COMPONENT docs)
+
 file(GLOB_RECURSE DOCSFILES
     "*.dox"
 )
@@ -58,7 +63,12 @@ file(GLOB_RECURSE DOCSFILES
 file(GLOB_RECURSE IMAGEFILES
     "images/*.png"
 )
-  INSTALL(FILES  ${DOCSFILES} CMakeLists.txt documentation-config.doxygen.in ESsistMe.bib
+
+  INSTALL(FILES  
+	    ESsistMe.bib
+	    ${DOCSFILES}
+	    documentation-config.doxygen.in 
+	    CMakeLists.txt 
 	DESTINATION doc
 	COMPONENT srcs)
 

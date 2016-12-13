@@ -18,14 +18,12 @@ cmake_policy(SET CMP0048 NEW)
 set(CPACK_PACKAGE_NAME "essistme")
 project(ESsistMe VERSION 0.0.02 LANGUAGES C CXX)
 cmake_minimum_required(VERSION 3.0)
-set(CMAKE_INSTALL_PREFIX "${CMAKE_BINARY_DIR}/${CPACK_PACKAGE_NAME}")
-set(CMAKE_PREFIX_PATH "/home/jvegh/Qt/5.5")
 
 # ---[ Set up CMake options for ESsistMe
 # Choose whether you need debuggin support for development or making a release 
 option (DEBUG_MODE "Include debug support for the program"  ON)
 # Choose whether the stand-alone unit testing is to be built
-option (NEED_TESTS "Include unit tests for the tool"  ON)
+option (BUILD_TESTS "Include unit tests for the tool"  ON)
 # Choose whether to make documention as well
 option (BUILD_DOCS "Prepare also HTML/CHM documentation" ON)
 # Choose whether to use asserts
@@ -35,9 +33,9 @@ if(UNIX OR APPLE)
   option(BUILD_docs   "Build documentation" ON)
 endif(UNIX OR APPLE)
 
-if(NEED_TESTS)
-  option (NEED_MINUIT_TESTS "Include Minuit math and unit tests"  ON)
-endif(NEED_TESTS)
+if(BUILD_TESTS)
+  option (BUILD_MINUIT_TESTS "Include Minuit math and unit tests"  OFF)
+endif(BUILD_TESTS)
 include(cmake/Colorize.cmake)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
   set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}")
@@ -56,11 +54,11 @@ else(DEBUG_MODE)
   message(HIGHLIGHTED "Configuring ${PROJECT_NAME} V${PROJECT_VERSION} release version")
 endif(DEBUG_MODE)
 
+set(CMAKE_INSTALL_PREFIX "${CMAKE_BINARY_DIR}/${CPACK_PACKAGE_NAME}")
+#set(CMAKE_PREFIX_PATH "/home/jvegh/Qt/5.5")
 
+# ---[ The out-of-source build directory
 set(CMAKE_BINARY_DIR ${CMAKE_CURRENT_SOURCE_DIR}/build)
-# CMake useful variables
-#set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib")
-#set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib")
 
 # ---[ Using cmake scripts and modules
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/External)
@@ -87,14 +85,13 @@ endif()
 # Copy the version and other configuration info to the source
 configure_file(${CMAKE_SOURCE_DIR}/main/Config.h.in ${CMAKE_SOURCE_DIR}/main/include/Config.h)
 add_subdirectory(Minuit) # The Minuit minimization library
-if (NEED_TESTS)
-  add_subdirectory(test)	# Tests for the tool library
-  if(NEED_MINUIT_TESTS)
-    add_subdirectory(test/Minuit)	# Tests for the Minuit library
-  endif (NEED_MINUIT_TESTS)
-endif (NEED_TESTS)
+add_subdirectory(SPeval) # The SPeval spectrum evaluation library
 add_subdirectory(QtGUI)	# The Qt-based graphics routines
 add_subdirectory(main)	# The main executables of the ES tool gui
+if (BUILD_TESTS)
+  add_subdirectory(test)	# Tests for the tool library
+  add_subdirectory(test/Minuit)	# Tests for the Minuit library
+endif (BUILD_TESTS)
 if(BUILD_DOCS)
   set(doxyfile_in ${CMAKE_SOURCE_DIR}/doc/documentation-config.doxygen.in)
   set(doxyfile ${CMAKE_BINARY_DIR}/Doxyfile)

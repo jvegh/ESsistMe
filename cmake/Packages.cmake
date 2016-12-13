@@ -1,3 +1,11 @@
+##############################################################
+#
+#  This is a CMake configuration file for the ESsistMe project.
+#  For preparing distribution packahes
+#
+##############################################################
+#
+# @author János Végh
 # Architecture: (mandatory)
 IF(NOT CPACK_DEBIAN_PACKAGE_ARCHITECTURE)
   # There is no such thing as i686 architecture on debian, you should use i386 instead
@@ -13,11 +21,12 @@ IF(NOT CPACK_DEBIAN_PACKAGE_ARCHITECTURE)
     )
 ENDIF(NOT CPACK_DEBIAN_PACKAGE_ARCHITECTURE)
 
-set(CPACK_PACKAGING_INSTALL_PREFIX "/opt/${CPACK_PACKAGE_NAME}")
+set(CPACK_PACKAGING_INSTALL_PREFIX "$ENV{HOME}/${CPACK_PACKAGE_NAME}")
+#set(CPACK_PACKAGING_INSTALL_PREFIX "/opt/${CPACK_PACKAGE_NAME}")
 #set(CPACK_PACKAGING_INSTALL_PREFIX "/usr/${CPACK_PACKAGE_NAME}")
 set(CPACK_INCLUDE_TOPLEVEL_DIRECTORY 0)
 set(CPACK_PACKAGE_VENDOR "Végh, János  (Janos.Vegh at unideb.hu)")
-set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Simulate EMPA processor with Y86 cores")
+set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "A tool for Electron Spectroscopists")
 set(CPACK_PACKAGE_VERSION ${PROJECT_VERSION})
 set(CPACK_PACKAGE_VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
 set(CPACK_PACKAGE_VERSION_MINOR ${PROJECT_VERSION_MINOR})
@@ -28,22 +37,27 @@ set(CPACK_PACKAGE_FILE_NAME "${CPACK_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION}-Linu
 
 # ---[ Assemble distribution packages
 set(CPACK_COMPONENT_APPS_DISPLAY_NAME "${PROJECT_NAME} V${PROJECT_VERSION} Applications")
-set(CPACK_COMPONENT_DOCS_DISPLAY_NAME "${PROJECT_NAME} V${PROJECT_VERSION} Documentations")
-set(CPACK_COMPONENT_TESTS_DISPLAY_NAME "${PROJECT_NAME} V${PROJECT_VERSION} Tests")
-set(CPACK_COMPONENT_SOURCES_DISPLAY_NAME "${PROJECT_NAME} V${PROJECT_VERSION} Sources")
+set(CPACK_COMPONENT_APPS_DESCRIPTION
+   "${PROJECT_NAME} V${PROJECT_VERSION}, executables of tool ESsistMe")
 
-set(CPACK_COMPONENT_APPS_DESCRIPTION 
-   "${PROJECT_NAME} V${PROJECT_VERSION}, executables of simulator with EMPA architecture")
+set(CPACK_COMPONENT_DOCS_DISPLAY_NAME "${PROJECT_NAME} V${PROJECT_VERSION} Documentations")
 set(CPACK_COMPONENT_DOCS_DESCRIPTION
-   "${PROJECT_NAME} V${PROJECT_VERSION}, documentations of simulator with EMPA architecture")
+   "${PROJECT_NAME} V${PROJECT_VERSION}, documentations of tool ESsistMe")
+
+if(BUILD_TESTS)
+    set(CPACK_COMPONENT_TESTS_DISPLAY_NAME "${PROJECT_NAME} V${PROJECT_VERSION} Tests")
 set(CPACK_COMPONENT_TESTS_DESCRIPTION
-   "${PROJECT_NAME} V${PROJECT_VERSION}, unit tests of simulator with EMPA architecture")
+   "${PROJECT_NAME} V${PROJECT_VERSION}, unit tests of of tool ESsistMe")
+endif()
+
+set(CPACK_COMPONENT_SOURCES_DISPLAY_NAME "${PROJECT_NAME} V${PROJECT_VERSION} Sources")
 set(CPACK_COMPONENT_SOURCES_DESCRIPTION
-   "${PROJECT_NAME} V${PROJECT_VERSION}, full sources of simulator with EMPA architecture")
+   "${PROJECT_NAME} V${PROJECT_VERSION}, full sources of tool ESsistMe")
 set(CPACK_COMPONENTS_ALL apps docs tests srcs)
 
+
 # ---[ Debian-specific settings
-SET(CPACK_DEBIAN_PACKAGE_MAINTAINER "János Végh ( Janos.Vegh at unideb.hu)") #required
+SET(CPACK_DEBIAN_PACKAGE_MAINTAINER "János Végh (Janos.Vegh at unideb.hu)") #required
 set(CPACK_GENERATOR "DEB")
 set(CPACK_DEB_COMPONENT_INSTALL 1) # Enable more than one package
 set(CPACK_DEBIAN_PACKAGE_SHLIBDEPS ON)

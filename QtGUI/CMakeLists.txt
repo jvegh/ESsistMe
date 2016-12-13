@@ -40,6 +40,10 @@ file(GLOB_RECURSE QOBJECT_IMAGES
     "images/*.png"
 )
 
+file(GLOB_RECURSE QOBJECT_UIS
+    "include/*.ui"
+)
+
 QT5_WRAP_CPP(hdr_moc ${QOBJECT_HEADERS})
 #qt5_add_resources(mainresource application.qrc)
 
@@ -65,15 +69,15 @@ target_include_directories(libQtGUI PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
 )
 
-INSTALL(FILES  ${QOBJECT_SOURCES} application.qrc CMakeLists.txt RegisterWidget.ui
+INSTALL(FILES  ${QOBJECT_SOURCES} application.qrc CMakeLists.txt
 	DESTINATION QtGUI
 	COMPONENT srcs)
 
-INSTALL(FILES  ${QOBJECT_HEADERS} 
+INSTALL(FILES  ${QOBJECT_HEADERS}  ${QOBJECT_UIS}
 	DESTINATION QtGUI/include
 	COMPONENT srcs)
 
-INSTALL(FILES  ${QOBJECT_IMAGES}  images/empa-logo-small.ico
+INSTALL(FILES  ${QOBJECT_IMAGES}  images/ES_logo.png
 	DESTINATION QtGUI/images
 	COMPONENT srcs)
 

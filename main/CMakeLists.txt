@@ -10,7 +10,7 @@ set(CMAKE_CXX_STANDARD 11)
 set( MY_SRCS
    Stuff.cpp
 )
-message(HIGHLIGHTED "Configuring ${PROJECT_NAME} GUI simulator")
+message(HIGHLIGHTED "Configuring ${PROJECT_NAME} GUI tool")
 
 ## Deal with the GUI version
 find_package(Qt5Widgets)
@@ -31,7 +31,7 @@ ADD_LIBRARY(libMain
 	${mainresource}	# The resource file of the main window
 )
 
-set(CMAKE_CXX_FLAGS ${EMPA_CXX_FLAGS})
+set(CMAKE_CXX_FLAGS )
 # Tell CMake to create the  executable
 add_executable(${PROJECT_NAME}
 	ESsistMeMain.cpp
@@ -45,48 +45,39 @@ target_link_libraries(${PROJECT_NAME}
 	${Pthread}
 )
 
-if(0)
-install(TARGETS ${PROJECT_NAME}_GUI
-   RUNTIME
-   DESTINATION bin
-   COMPONENT apps)
-
- install(TARGETS ${PROJECT_NAME}_CLI
+install(TARGETS ${PROJECT_NAME}
    RUNTIME
    DESTINATION bin
    COMPONENT apps)
 
 
-INSTALL(FILES
-	  ${CMAKE_SOURCE_DIR}/EMPAfiles/source/asum.Eys ${CMAKE_SOURCE_DIR}/EMPAfiles/source/asum.Eyo
-	  ${CMAKE_SOURCE_DIR}/EMPAfiles/source/Qasum0.Eys ${CMAKE_SOURCE_DIR}/EMPAfiles/source/Qasum0.Eyo
-	  ${CMAKE_SOURCE_DIR}/EMPAfiles/source/asumQCall.Eys ${CMAKE_SOURCE_DIR}/EMPAfiles/source/asumQCall.Eyo
-	DESTINATION EMPAfiles/example
-	COMPONENT apps)
-
-INSTALL(FILES ${MY_SRCS} EMPAthY86e.cpp EMPAthY86e_GUI.cpp Config.h.in CMakeLists.txt
+INSTALL(FILES ${MY_SRCS} ESsistMeMain.cpp Config.h.in CMakeLists.txt
 	DESTINATION main
 	COMPONENT srcs)
 
-INSTALL(FILES include/Plot.h include/stuff.h
+INSTALL(FILES include/Stuff.h
 	DESTINATION main/include
 	COMPONENT srcs)
 
-file(GLOB_RECURSE CMAKEFILES
-    "../cmake/*.cmake"
-)
 
 ## http://stackoverflow.com/questions/3702115/creating-a-directory-in-cmake
 	
-INSTALL(FILES  ${CMAKEFILES}
+INSTALL(FILES  	../cmake/Colorize.cmake 
+		../cmake/Dependencies.cmake
+		../cmake/Packages.cmake
+		../cmake/Summary.cmake
+		../cmake/Targets.cmake
+		../cmake/Utils.cmake
 	DESTINATION cmake
 	COMPONENT srcs)
 	
-INSTALL(FILES  ../cmake/External/gflags.cmake ../cmake/External/glog.cmake ../cmake/External/gtest.cmake 
+INSTALL(FILES ../cmake/External/gtest.cmake 
 	DESTINATION cmake/External
 	COMPONENT srcs)
 
-INSTALL(FILES  ../cmake/Modules/FindGFlags.cmake  ../cmake/Modules/FindGlog.cmake ../cmake/Modules/FindGtest.cmake
+INSTALL(FILES   ../cmake/Modules/FindGtest.cmake
 	DESTINATION cmake/Modules
 	COMPONENT srcs)
-endif()
+
+
+
