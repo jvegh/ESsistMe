@@ -26,15 +26,19 @@ include_directories(${Qt5Widgets_INCLUDES}
   # We need add -DQT_WIDGETS_LIB when using QtWidgets in Qt 5.
 add_definitions(${Qt5Widgets_DEFINITIONS})
 
+ADD_LIBRARY(libMain
+	${MY_SRCS}
+	${mainresource}	# The resource file of the main window
+)
+
 set(CMAKE_CXX_FLAGS ${EMPA_CXX_FLAGS})
 # Tell CMake to create the  executable
 add_executable(${PROJECT_NAME}
 	ESsistMeMain.cpp
-	${MY_SRCS}
 	)
 # Use the Widgets module from Qt 5.
 target_link_libraries(${PROJECT_NAME}
-	Qt5::Widgets libQtGUI
+	Qt5::Widgets libQtGUI libMain
 	${GTEST_LIBRARIES}
 	libMinuit
 	${Caffe_LINKER_LIBS}
