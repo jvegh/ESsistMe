@@ -1,7 +1,7 @@
 #include "ESsistMe_mainwindow.h"
 #include "ui_ESsistMe_mainform.h"
 #include <QMdiSubWindow>
-
+#include <QtCore>
 #include "qcustomplot.h" // the header file of QCustomPlot.
 
 ESsistMe_MainWindow::ESsistMe_MainWindow(QWidget *parent) :
