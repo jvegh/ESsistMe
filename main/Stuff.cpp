@@ -4,15 +4,14 @@
  *  @bug No known bugs.
  */
 #include <fstream>      // std::ifstream
-#include <gtest/gtest.h>
-#include <glog/logging.h>
 #include <stdlib.h>
+#include <string>       // std::string
+#include <iostream>     // std::cout
+#include <sstream>      // std::ostringstream
 #include "Config.h"
 #include "Stuff.h"
-
 bool UNIT_TESTING;
 using namespace std;
-
   void
 CheckArgumentList(int argc, char** argv)
 {
@@ -28,9 +27,8 @@ CheckArgumentList(int argc, char** argv)
 void
 OpenSystemFiles(const char* FileName, const char* LogFileName, string Heading)
 {
-  // Prepare and start logging
-//  string FileRoot = GetFileNameRoot(FileName); // Prepare log file name
-  FLAGS_alsologtostderr = 1; // Log also to the screen
+/*//  string FileRoot = GetFileNameRoot(FileName); // Prepare log file name
+/*  FLAGS_alsologtostderr = 1; // Log also to the screen
   testing::internal::CaptureStdout();
   google::InstallFailureSignalHandler();
   google::SetLogDestination(0, (string(LogFileName)).c_str());
@@ -38,15 +36,17 @@ OpenSystemFiles(const char* FileName, const char* LogFileName, string Heading)
   LOG(INFO) << " " << Heading;
   LOG(INFO) << " Log file prefix for this run: \"" << LogFileName << "\"";
   LOG(INFO) << " <LOG message format: glog header] ><"  << GetAppName() << " message>";
+  */
 }
 
 //http://stackoverflow.com/questions/3803465/how-to-capture-stdout-stderr-with-googletest
 
 void CloseSystemFiles(string Trailing)
 {
-  std::string output = testing::internal::GetCapturedStdout(); // Write out the captured log info
+/*  std::string output = testing::internal::GetCapturedStdout(); // Write out the captured log info
   LOG(INFO) <<  endl << output;
   LOG(INFO) << " " << Trailing;
+  */
 }
 
   string

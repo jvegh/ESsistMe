@@ -8,6 +8,7 @@
 #ifndef ESsistMe_STUFF_H
 #define ESsistMe_STUFF_H
 //#include <glog/logging.h>
+#include <string>
 using namespace std;
 
 /**
