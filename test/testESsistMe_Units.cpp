@@ -1,7 +1,7 @@
 
 #include <iostream>
 #include <sstream>
-#include <glog/logging.h>
+//#include <glog/logging.h>
 #include <gtest/gtest.h>
 #include "../main/include/Stuff.h"
 #include "../main/include/Config.h"
@@ -23,8 +23,8 @@ int main(int argc, char **argv) {
 
   ostringstream Heading;
   Heading << GetAppName() << " tool tests has started";
-  string LogFileName = "LOG_"+GetFileNameRoot();
   string FileRoot = GetFileNameRoot() +'_'; // Prepare log file name
+  string LogFileName = "MyLog";
   OpenSystemFiles(FileRoot.c_str(), LogFileName.c_str(), Heading.str());
   testing::InitGoogleTest(&argc, argv);
   // if(UNIT_TESTING) all interfaces are valid, but there is no functionality, no file
