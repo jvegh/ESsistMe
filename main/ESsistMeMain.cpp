@@ -1,7 +1,9 @@
-#include <gtest/gtest.h>
+//#include <gtest/gtest.h>
 #include <QApplication>
 #include "Config.h"
 #include "Stuff.h"
+#include "QStuff.h"
+#include <sstream>
 
 #include "ESsistMe_mainwindow.h"
 
@@ -12,13 +14,13 @@ int main(int argc, char *argv[])
   std::ostringstream appname;
   QApplication app(argc, argv);
   appname << GetAppName();
-  testing::InitGoogleTest(&argc, argv);
+//  testing::InitGoogleTest(&argc, argv);
   // Open logging. It seems to be OK, open logging
   ostringstream Heading;
   Heading << GetAppName() << " GUI has started\n";
   string LogFileName = string("Log_")+string("TestFile");
-
-  OpenSystemFiles(GetFileNameRoot(appname.str()).c_str(), LogFileName.c_str(), Heading.str());    
+  SetupSystemDirectories();
+//  OpenSystemFiles(GetFileNameRoot(appname.str()).c_str(), LogFileName.c_str(), Heading.str());
   app.setApplicationName(appname.str().c_str());
   appname << "[*]";
   ESsistMe_MainWindow mainWin;
