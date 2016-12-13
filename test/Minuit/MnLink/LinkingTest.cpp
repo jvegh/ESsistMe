@@ -131,7 +131,7 @@ TEST_F(MinuitLinkTest, Dynamic)
    EXPECT_EQ( LorentzE, (*Lorentzian)[0].GetParameterValue() );
 }
 
-/*
+
 TEST_F(MinuitLinkTest, Extract)
 {
  	// generate the data (100 data points)
@@ -187,7 +187,7 @@ TEST_F(MinuitLinkTest, Extract)
   EXPECT_EQ( Gaussian[0].lowerLimit(), -60. );
   EXPECT_EQ( Gaussian[0].upperLimit(), 10. );
 }
-*/
+
 
 /*  std::vector<double> pars = Gaussian.GetParameterValues();
   for(std::vector<double>::const_iterator ipar = pars.begin();
@@ -379,5 +379,3 @@ void	DumpParameterSet(MinuitParameterSet &S, std::string prefix)
 	printf("Set :::::::::::::\n");
 }
 
-// Registers the fixture into the 'registry'
-//CPPUNIT_TEST_SUITE_REGISTRATION( MinuitLinkTest );

@@ -1,7 +1,6 @@
 
 #include <iostream>
 #include <sstream>
-//#include <glog/logging.h>
 #include <gtest/gtest.h>
 #include "../main/include/Stuff.h"
 #include "../main/include/Config.h"

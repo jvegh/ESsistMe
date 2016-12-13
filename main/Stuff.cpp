@@ -12,6 +12,7 @@
 #include "Stuff.h"
 bool UNIT_TESTING;
 using namespace std;
+
   void
 CheckArgumentList(int argc, char** argv)
 {
@@ -27,7 +28,7 @@ CheckArgumentList(int argc, char** argv)
 void
 OpenSystemFiles(const char* FileName, const char* LogFileName, string Heading)
 {
-/*//  string FileRoot = GetFileNameRoot(FileName); // Prepare log file name
+//  string FileRoot = GetFileNameRoot(FileName); // Prepare log file name
 /*  FLAGS_alsologtostderr = 1; // Log also to the screen
   testing::internal::CaptureStdout();
   google::InstallFailureSignalHandler();
