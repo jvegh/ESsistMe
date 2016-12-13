@@ -3,10 +3,8 @@
 #
 # @author János Végh
 
-message(HIGHLIGHTED "Configuring ${PROJECT_NAME} Qt5 GUI")
+message(HIGHLIGHTED "Configuring ${PROJECT_NAME} GUI library with Qt5")
 
-# Find includes in corresponding build directories
-set(CMAKE_INCLUDE_CURRENT_DIR ON)
 # Instruct CMake to run moc automatically when needed.
 set(CMAKE_AUTOMOC ON)
 # As moc files are generated in the binary dir, tell CMake
@@ -14,23 +12,18 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 # Find the QtWidgets library
-find_package(Qt5Widgets)
-find_package(Qt5PrintSupport REQUIRED)
-#find_package(Qt5 COMPONENTS Core Network 
-##Svg WebKit WebKitWidgets 
-#Widgets Xml 
-##XmlPatterns 
-#Concurrent PrintSupport LinguistTools)
-#find_package(Qt5 COMPONENTS Core Network WebKit WebKitWidgets Widgets Concurrent PrintSupport)
-
+find_package(Qt5 COMPONENTS
+      Core Widgets Concurrent PrintSupport LinguistTools REQUIRED)
 
   # The Qt5Widgets_INCLUDES also includes the include directories for
   # dependencies QtCore and QtGui
-include_directories(${Qt5Widgets_INCLUDES} ${Qt5Printer_INCLUDES}
-		include
-		${CMAKE_SOURCE_DIR}/main/include 
-		${CMAKE_SOURCE_DIR}/Minuit/include
-		)
+include_directories(
+      ${Qt5Widgets_INCLUDE_DIRS}
+      ${Qt5Printer_INCLUDE_DIRS}
+      include
+      ${CMAKE_SOURCE_DIR}/main/include
+      ${CMAKE_SOURCE_DIR}/Minuit/include
+      )
 
   # We need add -DQT_WIDGETS_LIB when using QtWidgets in Qt 5.
 add_definitions(${Qt5Widgets_DEFINITIONS} ${Qt5Printer_DEFINITIONS})
