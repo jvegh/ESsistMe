@@ -4,24 +4,29 @@
 \tableofcontents
 
 @subsection RELEASE_INTRODUCTION INTRODUCTION
-		@subsubsection Features Features
-			- The latest release of [PRODUCT_NAME]  provides the following major features and improvements:
-				- Feature 1
-				- Feature 2
-              My introduction
-	@htmlonly
-	<hr>
-	@endhtmlonly		
-	@subsection Development_History Development history
+@subsubsection Versioning Versioning
+
+The program is developed under strict version control. It follows the usual 3-level versioning system,
+as major, minor and patch numbers. Patch menas typically minor corrections, fixes, supplements.
+Minor means new features, and major means serious changes of different kind.
+
+This section will contain some release-specific notes and other information.
+The @ref Development_History shows details what and how changed. A more detailed history
+can be concluded from the repository files.
+
+@subsection Development_History Development history
 	
 			
     @subsubsection Version_0.0 Version 0.0.1
-Just internal development.
-- Collected component:
+Just an internal development. Several open-source components are put together.
+The Minuit package has been extended to provide facilities for the spectroscopies,
+especially for electron spectroscopies. 
+
+- Collected components:
 - Qt5
 - QCustomPlot
 - Minuit2 (modified)
-- QGest
+- GTest
 - GLog
 - GFlag
 

@@ -10,9 +10,12 @@ some high quality, open source sof @ref Minimization is done by using
 a fitting routine, which is one of the most frequently used fitting routines,
 but some unusual extensions increase its usability in spectroscopy.
 
+Today, people are used to high quality graphics, soe the @ref Visualization is very demanding.
 
-@ref Visualization 
 
+The name of the tool come from the Electron Spectroscopy, and -- hopefully --
+all researchers on the field will call it to assist their work. Which sounds (nearly)
+like Assist Me!
 
 <b>An important note: this is a one-man project, and -- although intensively developed --
 it is not yet completed, neither the software nor the documentation. 
