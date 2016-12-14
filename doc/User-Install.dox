@@ -5,10 +5,19 @@
 
 @section User-Install_General Introduction
 
+@section User-Install_Distrib Distribution kits
+
+The program is fully open source, so if you do not like some of its services,
+you may fix or enhance it. The development is available from the repository 
+https://github.com/jvegh/ESsistMe, which enables you to download or browse the files.
+The repository also contains  distribution packages of different forms and composition,
+and for different platforms. Most users need only the binary (apps) and documentation (docs)
+packages.
+
+
 @section User-Install_source Installing from source
 
 The program can be downloaded from
-https://github.com/jvegh/ESsistMe
 
 http://doc.qt.io/qt-5/
 

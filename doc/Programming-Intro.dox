@@ -18,7 +18,8 @@ CMake, QT, QCustomPlot and GTest; then you can start.
 
 At the beginning, test whether your programming environment is set up properly.
 This can easily be done through downloading the source code and making a complete rebuild
-of the application, as described in section 
+of the application, as described in section @ref User-Install_source.
+
 @section Programming_Intro_Steps Steps of execution
 
 

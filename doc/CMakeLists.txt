@@ -47,7 +47,7 @@ endif(BUILD_DOCS)
 else()
   message(AUTHOR_WARNING "Doxygen not found")
 endif (DOXYGEN_FOUND)
-### CMake will copy the 
+### CMake will copy the Minuit manual to the distribution area
 ### These standard subdirectories are copied by default
  file(COPY "${CMAKE_SOURCE_DIR}/doc/mntutorial.pdf" DESTINATION "${CMAKE_BINARY_DIR}/doc")
 
