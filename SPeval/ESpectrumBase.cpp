@@ -3,6 +3,7 @@
  *  @author János Végh (jvegh)
  *  @bug No known bugs.
  */
+#include <math.h>
 #include "ESpectrumBase.h"
 bool UNIT_TESTING;
 using namespace std;
@@ -12,37 +13,91 @@ using namespace std;
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /*! \class ESpectrumBase
-  \brief Represents two doubles as a mathematical 2D vector
+  \brief Represents 2-dim measured data in form of double-precision vectors
 
   This class acts as a replacement for QVector2D with the advantage of double precision instead of
   single, and some convenience methods tailored for the QCustomPlot library.
 */
 
-/*!
-  Creates a base spectrum object
+/*! \details Base class for storing spectral data
+ *  The base class really stores the data, i.e.
 */
-ESpectrumBase::ESpectrumBase() :
-  mX(0),
-  mY(0),
-  mBinding(false),   // Initially, there is no binding scale
-  mXEnergy(-1)  // Initially, there is no excitation energy
-{
-    ESpectrumBase::Ptr_X_Get = &ESpectrumBase::X_Get_Kinetic;   // Anyhow, be sure that XGet pointers have a value
-    ESpectrumBase::Ptr_X_Get_Kinetic = &ESpectrumBase::X_Get_Kinetic;   //
-    ESpectrumBase::Ptr_X_Get_Binding = &ESpectrumBase::X_Get_Kinetic;   // Until we know X value, use kinetic scale
 
-    cerr << (this->*Ptr_X_Get)(1);
+  /*! \fn Single-vector constructor for the 2-dim spectrum
+    Creates a base spectrum, using the intensity data only.
+    The energy data are simple sequence numbers.
+    The uncertainties are the square root of the intensity data
+    (zero protection provided).
+  */
+    ESpectrumBase::
+ESpectrumBase(vector<double>* Y)
+{
+    mData.resize(Y->size()); double x = 0.L;
+    cerr << NoOfDataPoints_Get() << " points" << endl;
+    std::vector<ESpectrumPoint>::iterator Dit = mData.begin();
+    for (std::vector<double>::iterator Yit = Y->begin(); Yit!=Y->end(); ++Yit, ++Dit)
+    {
+      Dit->Y = *Yit; Dit->X = x; x += 1.L;
+      *Yit >= 1 ? sqrt(*Yit) : 1;   // Protect from zero uncertainty
+      Dit->dY = *Yit;
+      std::cerr << ' ' << *Yit << ' ' << Dit->Y;
+    }
+
+    InitializeFunctionPointers();   // Set up function pointers
+/*    cerr << (this->*Ptr_X_Get)(1);
     ESpectrumBase::Ptr_X_Get = &ESpectrumBase::X_Get_Binding;
     cerr << (this->*Ptr_X_Get)(2);
     ESpectrumBase::Ptr_X_Get = &ESpectrumBase::X_Get_Kinetic;
     cerr << (this->*Ptr_X_Get)(3) << "Again";
-   cerr << "I am here" << endl;
+   cerr << "I am here" << endl;*/
+}
+
+    /*! \fn Double-vector constructor for the 2-dim spectrum
+      Creates a base spectrum using the provided energy and intensity data
+      the uncertainties are the square root of the intensity data
+
+    */
+
+    ESpectrumBase::
+ESpectrumBase(vector<double>*X, vector<double>*Y)
+{
+}
+
+    ESpectrumBase::
+ESpectrumBase(vector<double>*X, vector<double>*Y, vector<double>*dY)
+{
+}
+
+ /*! \brief ESpectrumBase::InitializeFunctionPointers*/
+ /*!    \fn InitializeFunctionPointers
+  * @details The energy can be given as either kinetic or binding energy
+  *
+  * Using function pointers, the working energy scale can be chosen as either of the two,
+  * provided that the excitation energy is known
+  */
+void ESpectrumBase::
+InitializeFunctionPointers(void)
+{
+    //
+    ESpectrumBase::Ptr_X_Get = &ESpectrumBase::X_Get_Kinetic;   // Anyhow, be sure that XGet pointers have a value
+    ESpectrumBase::Ptr_X_Get_Kinetic = &ESpectrumBase::X_Get_Kinetic;   //
+    ESpectrumBase::Ptr_X_Get_Binding = &ESpectrumBase::X_Get_Kinetic;   // Until we know X value, use kinetic scale
+    //
+    mBinding = false;   // Initially, there is no binding scale
+    mXEnergy = -1;      // Initially, there is no excitation energy
 }
 
     double ESpectrumBase::
-   X_Get_Kinetic(int i){ std::cout << "Kinetic" << std::endl; double di; di = i+5; return di;};
+   X_Get_Kinetic(int i){ // if(i < 0) i = 0; if (i>= mNoOfPoints ) i = mNoOfPoints;
+        return mData[i].X;
+//        std::cout << "Kinetic" << std::endl; double di; di = i+5;
+//        return di;
+    };
     double ESpectrumBase::
-   X_Get_Binding(int i){ std::cout << "Binding" << std::endl; double di; di = i; return di;};
+   X_Get_Binding(int i){
+        return mXEnergy- mData[i].X;
+//        std::cout << "Binding" << std::endl; double di; di = i; return di;
+    };
 
 
     double
