@@ -18,10 +18,14 @@ cmake_policy(SET CMP0048 NEW)
 set(CPACK_PACKAGE_NAME "essistme")
 project(ESsistMe VERSION 0.0.02 LANGUAGES C CXX)
 cmake_minimum_required(VERSION 3.0)
-
+###############################################################
+# Do not edit below this line until you knpw what you are doing! 
+###############################################################
+#  
 # ---[ Set up CMake options for ESsistMe
-# Choose whether you need debuggin support for development or making a release 
-option (DEBUG_MODE "Include debug support for the program"  ON)
+if(BUILD_TESTS)
+  option (BUILD_MINUIT_TESTS "Include Minuit math and unit tests"  OFF)
+endif(BUILD_TESTS)
 # Choose whether the stand-alone unit testing is to be built
 option (BUILD_TESTS "Include unit tests for the tool"  ON)
 # Choose whether to make documention as well
@@ -29,13 +33,10 @@ option (BUILD_DOCS "Prepare also HTML/CHM documentation" ON)
 # Choose whether to use asserts
 option (NDEBUG "Allow to assert the simulator" OFF)
 option(BUILD_SHARED_LIBS "Build shared libraries" ON)
-if(UNIX OR APPLE)
-  option(BUILD_docs   "Build documentation" ON)
-endif(UNIX OR APPLE)
+# Choose whether you need debugging support for development or making a release 
+option (DEBUG_MODE "Include debug support for the program"  ON)
 
-if(BUILD_TESTS)
-  option (BUILD_MINUIT_TESTS "Include Minuit math and unit tests"  OFF)
-endif(BUILD_TESTS)
+
 include(cmake/Colorize.cmake)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
   set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}")
@@ -65,7 +66,6 @@ list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/External)
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules)
 
 include(ExternalProject)
-#include(cmake/Targets.cmake)
 include(cmake/Summary.cmake)
 include(cmake/Utils.cmake)
 
