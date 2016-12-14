@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
-#include "../main/include/Stuff.h"
-
+#include "Stuff.h"
+#include "ESpectrumBase.h"
 
 #include <sstream>
 
@@ -22,5 +22,10 @@ public:
  */
 TEST_F(EvalTest, Tools)
 {
-    EXPECT_EQ(0 , 0 );
- }
+    ESpectrumBase SP;
+    EXPECT_EQ(-1, SP.XEnergy_Get()); // After creating, the X energy is invalid
+    EXPECT_FALSE(SP.XEnergy_Valid());
+    SP.XEnergy_Set(1486.295);
+    EXPECT_EQ(1486.295, SP.XEnergy_Get()); // After setting, the X energy is valid
+    EXPECT_TRUE(SP.XEnergy_Valid());
+}

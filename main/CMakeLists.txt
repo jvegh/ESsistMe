@@ -19,6 +19,7 @@ find_package(Qt5Widgets)
   # dependencies QtCore and QtGui
 include_directories(${Qt5Widgets_INCLUDES}
         include
+        ${CMAKE_SOURCE_DIR}/SPeval/include 
         ${CMAKE_SOURCE_DIR}/QtGUI/include 
 	${CMAKE_SOURCE_DIR}/Minuit/include
 )
@@ -38,7 +39,7 @@ add_executable(${PROJECT_NAME}
 	)
 # Use the Widgets module from Qt 5.
 target_link_libraries(${PROJECT_NAME}
-	Qt5::Widgets libQtGUI libMain
+	Qt5::Widgets libQtGUI libMain libSPeval
 	${GTEST_LIBRARIES}
 	libMinuit
 	${Caffe_LINKER_LIBS}

@@ -147,7 +147,6 @@ target_link_libraries(testMinuit libMinuit
     ${Pthread}
 )
 
-message(WARNING "Caffe "  ${Caffe_LINKER_LIBS})
 install(TARGETS testMinuit  RUNTIME  DESTINATION bin COMPONENT tests)
 INSTALL(FILES ${CMAKE_SOURCE_DIR}/test/Minuit/MnLink/LinkingTest.cpp
 	DESTINATION test/Minuit/MnSim COMPONENT tests)
