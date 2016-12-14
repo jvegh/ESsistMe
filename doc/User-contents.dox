@@ -1,0 +1,18 @@
+
+/**
+@page UserGuide User's Guide
+
+(for those who want to learn how to use the facilities provided)
+
+@htmlonly
+<hr>
+@endhtmlonly		
+
+        @section User_TABLE_OF_CONTENTS Table of contents
+        -# @subpage User-Intro
+        -# @subpage User-Install
+		
+@htmlonly
+<hr>
+@endhtmlonly		
+*/

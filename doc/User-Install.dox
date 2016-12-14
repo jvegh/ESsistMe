@@ -1,0 +1,15 @@
+/**
+@page User-Install How to install ESsistMe
+
+\tableofcontents
+
+@section User-Install_General Introduction
+
+@section User-Install_source Installing from source
+
+The program can be downloaded from
+https://github.com/jvegh/ESsistMe
+
+http://doc.qt.io/qt-5/
+
+*/
