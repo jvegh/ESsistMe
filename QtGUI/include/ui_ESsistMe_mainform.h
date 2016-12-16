@@ -43,7 +43,7 @@ QT_BEGIN_NAMESPACE
 class Ui_ESsistMe_MainWindow
 {
 public:
-    QWidget *centralwidget;
+    QWidget *centralwidget, *spectrumWidget;
 //    QVBoxLayout *vboxLayout;
     ESsistMe_SpectrumWindow* spectrumWindow;
     QMdiArea
@@ -77,6 +77,9 @@ public:
         MainWindow->resize(1063, 798);
         centralwidget = new QWidget(MainWindow);
         centralwidget->setObjectName(QStringLiteral("centralwidget"));
+
+        MainWindow->setCentralWidget(centralwidget);
+
         topLayout = new QHBoxLayout(centralwidget);
 	mainsplitter = new QSplitter(centralwidget);	
 	toolBox = new QToolBox;
@@ -86,8 +89,8 @@ public:
         stacksplitter->addWidget(toolBox);
 	mdisplitter = new QSplitter(centralwidget);
 	mdisplitter->setOrientation(Qt::Vertical);
-
-        spectrumPlot = new QCustomPlot(centralwidget);
+  //      spectrumWidget = new QWidget(centralwidget);
+        spectrumPlot = new QCustomPlot(stacksplitter);
         spectrumPlot->setObjectName(QStringLiteral("customPlot"));
         spectrumWindow = new ESsistMe_SpectrumWindow(spectrumPlot, centralwidget);
         spectrumPlot->resize(500,300);
@@ -100,8 +103,6 @@ public:
           mdisplitter->addWidget(spectrumWindow);
 
         mdisplitter->addWidget(mdiAreaRes);
-
-        MainWindow->setCentralWidget(centralwidget);
 
         mdiAreaNav = new QMdiArea(centralwidget);
         mdiAreaNav->setObjectName(QStringLiteral("mdiAreaNav"));
