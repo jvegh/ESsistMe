@@ -87,6 +87,17 @@ InitializeFunctionPointers(void)
     mXEnergy = -1;      // Initially, there is no excitation energy
 }
 
+/*!
+     * \brief ESpectrumBase::X_Get_Kinetic
+     * \param[in] i kinetic energy at measured point i
+     * \return
+     */
+
+/*!
+ \f$ E_b = h*\nu - E_k - E_F \f$
+
+\f$ E_k = h*\nu - E_b - E_F \f$
+*/
     double ESpectrumBase::
    X_Get_Kinetic(int i){ // if(i < 0) i = 0; if (i>= mNoOfPoints ) i = mNoOfPoints;
         return mData[i].X;
