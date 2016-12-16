@@ -1,16 +1,18 @@
 #include "ESsistMe_mainwindow.h"
 #include "ESpectrumWindow.h"
-#include "ui_essistmemainwindow.h"
+#include "ui_ESsistMe_mainform.h"
 #include <QtCore>
 #include "qcustomplot.h" // the header file of QCustomPlot.
 
 class EResidualWindow;
 class ENavigatorWindow;
 
-ESsistMe_SpectrumWindow::ESsistMe_SpectrumWindow(QCustomPlot *parent) :
+ESsistMe_SpectrumWindow::ESsistMe_SpectrumWindow(QCustomPlot *plotter, QWidget *parent) :
     QMainWindow(parent)
 {
-  //  spectrumPlot = parent;
+    spectrumPlot = plotter;
+    resize(1000, 800);
+//    setupSincScatterDemo(spectrumPlot);
 }
 
 ESsistMe_SpectrumWindow::~ESsistMe_SpectrumWindow()
@@ -18,7 +20,7 @@ ESsistMe_SpectrumWindow::~ESsistMe_SpectrumWindow()
  //   delete ui;
 }
 
-/*
+
 void ESsistMe_SpectrumWindow::setupSincScatterDemo(QCustomPlot *customPlot)
 {
 //  demoName = "Sinc Scatter Demo";
@@ -100,7 +102,7 @@ void ESsistMe_SpectrumWindow::setupSincScatterDemo(QCustomPlot *customPlot)
   // make top right axes clones of bottom left axes. Looks prettier:
   customPlot->axisRect()->setupFullAxesBox();
 }
-*/
+
 ESsistMe_ResidualWindow::ESsistMe_ResidualWindow(QCustomPlot  *parent) :
     QMainWindow(parent)
 {

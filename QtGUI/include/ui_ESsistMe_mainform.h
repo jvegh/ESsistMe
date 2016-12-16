@@ -35,6 +35,8 @@
 #include <QtWidgets/QTreeView>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QSplitter>
+#include "qcustomplot.h"
+#include "ESpectrumWindow.h"
 
 QT_BEGIN_NAMESPACE
 
@@ -43,7 +45,10 @@ class Ui_ESsistMe_MainWindow
 public:
     QWidget *centralwidget;
 //    QVBoxLayout *vboxLayout;
-    QMdiArea *mdiAreaFit,*mdiAreaRes,*mdiAreaNav;
+    ESsistMe_SpectrumWindow* spectrumWindow;
+    QMdiArea
+    *mdiAreaRes,*mdiAreaNav;
+    QCustomPlot *spectrumPlot ;
 //    QDockWidget *infoDockWidget;
 //    QWidget *dockWidgetContents_2;
 //    QVBoxLayout *vboxLayout1;
@@ -62,7 +67,7 @@ public:
 //    QVBoxLayout *vboxLayout7;
     QListWidget *filesListWidget;
     QToolBox *toolBox;
-    QHBoxLayout *topLayout; 
+    QHBoxLayout *topLayout;
     QSplitter *mdisplitter, *mainsplitter, *stacksplitter;
     
     void setupUi(QMainWindow *MainWindow)
@@ -72,7 +77,7 @@ public:
         MainWindow->resize(1063, 798);
         centralwidget = new QWidget(MainWindow);
         centralwidget->setObjectName(QStringLiteral("centralwidget"));
-	topLayout = new QHBoxLayout(centralwidget);
+        topLayout = new QHBoxLayout(centralwidget);
 	mainsplitter = new QSplitter(centralwidget);	
 	toolBox = new QToolBox;
 	toolBox->setSizePolicy(QSizePolicy(QSizePolicy::Maximum, QSizePolicy::Ignored));
@@ -81,11 +86,19 @@ public:
         stacksplitter->addWidget(toolBox);
 	mdisplitter = new QSplitter(centralwidget);
 	mdisplitter->setOrientation(Qt::Vertical);
-        mdiAreaFit = new QMdiArea(centralwidget);
+
+        spectrumPlot = new QCustomPlot(centralwidget);
+        spectrumPlot->setObjectName(QStringLiteral("customPlot"));
+        spectrumWindow = new ESsistMe_SpectrumWindow(spectrumPlot, centralwidget);
+        spectrumPlot->resize(500,300);
+ //       spectrumPlot->setGeometry(spectrumWindow->geometry());
+        //mdiAreaFit = new QMdiArea(centralwidget);
         mdiAreaRes = new QMdiArea(centralwidget);
         mdiAreaRes->setObjectName(QStringLiteral("mdiAreaFit"));
         mdiAreaRes->setObjectName(QStringLiteral("mdiAreaRes"));
-        mdisplitter->addWidget(mdiAreaFit);
+    //    mdisplitter->addWidget(mdiAreaFit);
+          mdisplitter->addWidget(spectrumWindow);
+
         mdisplitter->addWidget(mdiAreaRes);
 
         MainWindow->setCentralWidget(centralwidget);
