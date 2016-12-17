@@ -22,35 +22,5 @@ private:
     QCustomPlot* spectrumPlot;
 };
 
-class ESsistMe_ResidualWindow : public QMainWindow
-{
-    Q_OBJECT
-
-public:
-    explicit ESsistMe_ResidualWindow(QCustomPlot *parent);
-    ~ESsistMe_ResidualWindow();
-
-   // void setupSincScatterDemo(QCustomPlot *customPlot);
-
-private:
- //   Ui::ESsistMe_ResidualWindow *ui;
-};
-
-class ESsistMe_NavigatorWindow : public QMainWindow
-{
-    Q_OBJECT
-
-public:
-    explicit ESsistMe_NavigatorWindow(ESsistMe_MainWindow *parent);
-    ~ESsistMe_NavigatorWindow();
-
-  //  void setupSincScatterDemo(QCustomPlot *customPlot);
-
-private:
- //   Ui::ESsistMe_NavigatorWindow *ui;
-};
-
-
-
 
 #endif // ESsistMe_SPECTRUMWINDOW_H
