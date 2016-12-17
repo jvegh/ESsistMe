@@ -37,6 +37,7 @@
 #include <QtWidgets/QSplitter>
 #include "qcustomplot.h"
 #include "ESpectrumWindow.h"
+#include "ENavigatorWindow.h"
 
 QT_BEGIN_NAMESPACE
 
@@ -46,21 +47,14 @@ public:
     QWidget *centralwidget, *spectrumWidget;
 //    QVBoxLayout *vboxLayout;
     ESsistMe_SpectrumWindow* spectrumWindow;
+    ESsistMe_NavigatorWindow* navigatorWindow;
     QMdiArea
-    *mdiAreaRes,*mdiAreaNav;
-    QCustomPlot *spectrumPlot ;
+    *mdiAreaRes;
+    QCustomPlot *spectrumPlot, *navigatorPlot;
 //    QDockWidget *infoDockWidget;
 //    QWidget *dockWidgetContents_2;
 //    QVBoxLayout *vboxLayout1;
     QTextEdit *infoTextEdit;
-//    QDockWidget *d1DockWidget;
-//    QWidget *dockWidgetContents_11;
-//    QVBoxLayout *vboxLayout2;
-//    QVBoxLayout *vboxLayout3;
-//    QDockWidget *procDockWidget;
- //   QWidget *dockWidgetContents_7;
-//    QVBoxLayout *vboxLayout4;
-//    QVBoxLayout *vboxLayout5;
     QTreeView *dirTreeView;
     QDockWidget *filesDockWidget;
 //    QWidget *dockWidgetContents_4;
@@ -68,7 +62,7 @@ public:
     QListWidget *filesListWidget;
     QToolBox *toolBox;
     QHBoxLayout *topLayout;
-    QSplitter *mdisplitter, *mainsplitter, *stacksplitter;
+    QSplitter *spectrumsplitter, *controlsplitter, *mainsplitter;
     
     void setupUi(QMainWindow *MainWindow)
     {
@@ -77,39 +71,46 @@ public:
         MainWindow->resize(1063, 798);
         centralwidget = new QWidget(MainWindow);
         centralwidget->setObjectName(QStringLiteral("centralwidget"));
-
-        MainWindow->setCentralWidget(centralwidget);
-
         topLayout = new QHBoxLayout(centralwidget);
+
+    // Add global layout with two embedded splitters
+        MainWindow->setCentralWidget(centralwidget);
 	mainsplitter = new QSplitter(centralwidget);	
-	toolBox = new QToolBox;
-	toolBox->setSizePolicy(QSizePolicy(QSizePolicy::Maximum, QSizePolicy::Ignored));
-	stacksplitter = new QSplitter(centralwidget);
-	stacksplitter->setOrientation(Qt::Vertical);
-        stacksplitter->addWidget(toolBox);
-	mdisplitter = new QSplitter(centralwidget);
-	mdisplitter->setOrientation(Qt::Vertical);
-  //      spectrumWidget = new QWidget(centralwidget);
-        spectrumPlot = new QCustomPlot(stacksplitter);
+        topLayout->addWidget(mainsplitter);
+     // Create embedded splitters
+        spectrumsplitter = new QSplitter(centralwidget);
+        spectrumsplitter->setOrientation(Qt::Vertical);
+        controlsplitter = new QSplitter(centralwidget);
+        controlsplitter->setOrientation(Qt::Vertical);
+        mainsplitter->addWidget(spectrumsplitter);
+        mainsplitter->addWidget(controlsplitter);
+    // Load embedded splitters
+        // The spectrum splitter: a fit window
+        spectrumPlot = new QCustomPlot(spectrumsplitter);
         spectrumPlot->setObjectName(QStringLiteral("customPlot"));
         spectrumWindow = new ESsistMe_SpectrumWindow(spectrumPlot, centralwidget);
         spectrumPlot->resize(500,300);
- //       spectrumPlot->setGeometry(spectrumWindow->geometry());
-        //mdiAreaFit = new QMdiArea(centralwidget);
+        spectrumsplitter->addWidget(spectrumWindow);
+        // and a residual window
         mdiAreaRes = new QMdiArea(centralwidget);
         mdiAreaRes->setObjectName(QStringLiteral("mdiAreaFit"));
         mdiAreaRes->setObjectName(QStringLiteral("mdiAreaRes"));
     //    mdisplitter->addWidget(mdiAreaFit);
-          mdisplitter->addWidget(spectrumWindow);
+        spectrumsplitter->addWidget(mdiAreaRes);
 
-        mdisplitter->addWidget(mdiAreaRes);
+        // The control splitter
+        toolBox = new QToolBox;
+	toolBox->setSizePolicy(QSizePolicy(QSizePolicy::Maximum, QSizePolicy::Ignored));
+        controlsplitter->addWidget(toolBox);
+ //       spectrumPlot->setGeometry(spectrumWindow->geometry());
+        // The navigator vindow
+        navigatorPlot = new QCustomPlot(controlsplitter);
+        navigatorPlot->setObjectName(QStringLiteral("customPlot"));
+        navigatorWindow = new ESsistMe_NavigatorWindow(navigatorPlot, centralwidget);
+        navigatorPlot->resize(300,200);
+        controlsplitter->addWidget(navigatorWindow);
 
-        mdiAreaNav = new QMdiArea(centralwidget);
-        mdiAreaNav->setObjectName(QStringLiteral("mdiAreaNav"));
-	mainsplitter->addWidget(mdisplitter);
-	mainsplitter->addWidget(stacksplitter);
-	topLayout->addWidget(mainsplitter);
-// Set up now the infoTextEdit
+        // Set up now the infoTextEdit
         infoTextEdit = new QTextEdit(centralwidget);
         infoTextEdit->setObjectName(QStringLiteral("infoTextEdit"));
         QSizePolicy sizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
@@ -120,8 +121,7 @@ public:
         infoTextEdit->setMaximumSize(QSize(99999, 99999));
         infoTextEdit->setUndoRedoEnabled(false);
         infoTextEdit->setReadOnly(true);
-	stacksplitter->addWidget(mdiAreaNav);
-	stacksplitter->addWidget(infoTextEdit);
+        controlsplitter->addWidget(infoTextEdit);
  
         QFont font1;
         font1.setPointSize(8);
