@@ -28,13 +28,28 @@ include_directories(
   # We need add -DQT_WIDGETS_LIB when using QtWidgets in Qt 5.
 add_definitions(${Qt5Widgets_DEFINITIONS} ${Qt5Printer_DEFINITIONS})
 
-file(GLOB_RECURSE QOBJECT_HEADERS
-    "include/*.h"
+set(QOBJECT_HEADERS 
+	include/ENavigatorWindow.h
+	include/EResidualWindow.h
+	include/ESpectrumWindow.h
+	include/ESsistMe_mainwindow.h
+	include/QStuff.h
+)
+#file(GLOB_RECURSE QOBJECT_HEADERS
+#    "include/*.h"
+#)
+
+set(QOBJECT_SOURCES 
+	ENavigatorWindow.cpp
+	EResidualWindow.cpp
+	ESpectrumWindow.cpp
+	ESsistMe_mainwindow.cpp
+	QStuff.cpp
 )
 
-file(GLOB_RECURSE QOBJECT_SOURCES
-    "*.cpp"
-)
+#file(GLOB_RECURSE QOBJECT_SOURCES
+#    "*.cpp"
+#)
 
 file(GLOB_RECURSE QOBJECT_IMAGES
     "images/*.png"
@@ -47,9 +62,18 @@ file(GLOB_RECURSE QOBJECT_UIS
 QT5_WRAP_CPP(hdr_moc ${QOBJECT_HEADERS})
 #qt5_add_resources(mainresource application.qrc)
 
+QT5_WRAP_CPP(qcustomplot_moc include/qcustomplot.h)
+#qt5_add_resources(mainresource application.qrc)
+
   # Executables fail to build with Qt 5 in the default configuration
   # without -fPIE. We add that here.
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${Qt5Widgets_EXECUTABLE_COMPILE_FLAGS}  -std=c++11 -Wall")
+
+ADD_LIBRARY(libQCustomPlot
+    qcustomplot.cpp
+    ${qcustomplot_moc} # The MOC headers, generated
+)
+
 
 ADD_LIBRARY(libQtGUI
     ${QOBJECT_SOURCES}
