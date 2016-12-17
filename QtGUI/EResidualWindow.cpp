@@ -5,12 +5,12 @@
 #include "qcustomplot.h" // the header file of QCustomPlot.
 
 
-ESsistMe_ResidualWindow::ESsistMe_ResidualWindow(QCustomPlot *plotter, QWidget *parent) :
-    QMainWindow(parent)
+ESsistMe_ResidualWindow::ESsistMe_ResidualWindow( QWidget *parent) :
+    QCustomPlot(parent)
 {
-    residualPlot = plotter;
-    resize(1000, 800);
-    setupSincScatterDemo(residualPlot);
+ //   residualPlot = plotter;
+ //   resize(1000, 800);
+    setupSincScatterDemo(this);
 }
 
 ESsistMe_ResidualWindow::~ESsistMe_ResidualWindow()

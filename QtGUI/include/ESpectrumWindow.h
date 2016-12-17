@@ -7,19 +7,20 @@
 
 class ESsistMe_MainWindow;
 
-class ESsistMe_SpectrumWindow : public QMainWindow
+class ESsistMe_SpectrumWindow : public QCustomPlot
+        //QMainWindow
 {
     Q_OBJECT
 
 public:
-    explicit ESsistMe_SpectrumWindow(QCustomPlot *plotter, QWidget *parent);
+    explicit ESsistMe_SpectrumWindow(QWidget *parent);
     ~ESsistMe_SpectrumWindow();
 
     void setupSincScatterDemo(QCustomPlot *customPlot);
 
 private:
 //    Ui::ESsistMe_SpectrumWindow *ui;
-    QCustomPlot* spectrumPlot;
+//    QCustomPlot* spectrumPlot;
 };
 
 

@@ -5,12 +5,12 @@
 #include "qcustomplot.h" // the header file of QCustomPlot.
 
 
-ESsistMe_NavigatorWindow::ESsistMe_NavigatorWindow(QCustomPlot *plotter, QWidget *parent) :
-    QMainWindow(parent)
+ESsistMe_NavigatorWindow::ESsistMe_NavigatorWindow(QWidget *parent) :
+    QCustomPlot(parent)
 {
-    navigatorPlot = plotter;
-    resize(300, 150);
-    setupSincScatterDemo(navigatorPlot);
+//    navigatorPlot = plotter;
+//    resize(300, 150);
+    setupSincScatterDemo(this);
 }
 
 ESsistMe_NavigatorWindow::~ESsistMe_NavigatorWindow()

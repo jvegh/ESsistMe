@@ -7,18 +7,18 @@
 
 class ESsistMe_MainWindow;
 
-class ESsistMe_NavigatorWindow : public QMainWindow
+class ESsistMe_NavigatorWindow : public QCustomPlot
 {
     Q_OBJECT
 
 public:
-    explicit ESsistMe_NavigatorWindow(QCustomPlot *plotter, QWidget *parent);
+    explicit ESsistMe_NavigatorWindow( QWidget *parent);
     ~ESsistMe_NavigatorWindow();
 
     void setupSincScatterDemo(QCustomPlot *customPlot);
 
 private:
-    QCustomPlot* navigatorPlot;
+ //   QCustomPlot* navigatorPlot;
 };
 
 

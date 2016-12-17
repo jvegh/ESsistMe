@@ -38,6 +38,7 @@
 #include "qcustomplot.h"
 #include "ESpectrumWindow.h"
 #include "ENavigatorWindow.h"
+#include "EResidualWindow.h"
 
 QT_BEGIN_NAMESPACE
 
@@ -47,18 +48,13 @@ public:
     QWidget *centralwidget, *spectrumWidget;
 //    QVBoxLayout *vboxLayout;
     ESsistMe_SpectrumWindow* spectrumWindow;
+    ESsistMe_ResidualWindow* residualWindow;
     ESsistMe_NavigatorWindow* navigatorWindow;
-    QMdiArea
-    *mdiAreaRes;
-    QCustomPlot *spectrumPlot, *navigatorPlot;
-//    QDockWidget *infoDockWidget;
-//    QWidget *dockWidgetContents_2;
-//    QVBoxLayout *vboxLayout1;
+
+//    QCustomPlot *spectrumPlot, *navigatorPlot, *residualPlot;
     QTextEdit *infoTextEdit;
     QTreeView *dirTreeView;
     QDockWidget *filesDockWidget;
-//    QWidget *dockWidgetContents_4;
-//    QVBoxLayout *vboxLayout7;
     QListWidget *filesListWidget;
     QToolBox *toolBox;
     QHBoxLayout *topLayout;
@@ -68,7 +64,7 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QStringLiteral("ESsistMe_MainWindow"));
-        MainWindow->resize(1063, 798);
+        MainWindow->resize(800, 500);
         centralwidget = new QWidget(MainWindow);
         centralwidget->setObjectName(QStringLiteral("centralwidget"));
         topLayout = new QHBoxLayout(centralwidget);
@@ -86,28 +82,19 @@ public:
         mainsplitter->addWidget(controlsplitter);
     // Load embedded splitters
         // The spectrum splitter: a fit window
-        spectrumPlot = new QCustomPlot(spectrumsplitter);
-        spectrumPlot->setObjectName(QStringLiteral("customPlot"));
-        spectrumWindow = new ESsistMe_SpectrumWindow(spectrumPlot, centralwidget);
-        spectrumPlot->resize(500,300);
+        spectrumWindow = new ESsistMe_SpectrumWindow(centralwidget);
+        spectrumWindow->resize(500,300);
         spectrumsplitter->addWidget(spectrumWindow);
-        // and a residual window
-        mdiAreaRes = new QMdiArea(centralwidget);
-        mdiAreaRes->setObjectName(QStringLiteral("mdiAreaFit"));
-        mdiAreaRes->setObjectName(QStringLiteral("mdiAreaRes"));
-    //    mdisplitter->addWidget(mdiAreaFit);
-        spectrumsplitter->addWidget(mdiAreaRes);
+        residualWindow = new ESsistMe_ResidualWindow(centralwidget);
+        residualWindow->resize(500,150);
+        spectrumsplitter->addWidget(residualWindow);
 
         // The control splitter
         toolBox = new QToolBox;
 	toolBox->setSizePolicy(QSizePolicy(QSizePolicy::Maximum, QSizePolicy::Ignored));
         controlsplitter->addWidget(toolBox);
- //       spectrumPlot->setGeometry(spectrumWindow->geometry());
-        // The navigator vindow
-        navigatorPlot = new QCustomPlot(controlsplitter);
-        navigatorPlot->setObjectName(QStringLiteral("customPlot"));
-        navigatorWindow = new ESsistMe_NavigatorWindow(navigatorPlot, centralwidget);
-        navigatorPlot->resize(300,200);
+         navigatorWindow = new ESsistMe_NavigatorWindow(centralwidget);
+        navigatorWindow->resize(500,300);
         controlsplitter->addWidget(navigatorWindow);
 
         // Set up now the infoTextEdit
@@ -125,23 +112,13 @@ public:
  
         QFont font1;
         font1.setPointSize(8);
-/*      hboxLayout2 = new QHBoxLayout();
-#ifndef Q_OS_MAC
-        hboxLayout2->setSpacing(6);
-#endif
-        hboxLayout2->setContentsMargins(0, 0, 0, 0);
-        hboxLayout2->setObjectName(QStringLiteral("hboxLayout2"));
-        */
         dirTreeView = new QTreeView(centralwidget);
         dirTreeView->setObjectName(QStringLiteral("dirTreeView"));
+        dirTreeView->resize(500,300);
 
 	toolBox->addItem(dirTreeView, "DirTree");
 
- /*       filesDockWidget = new QDockWidget(MainWindow);
-        filesDockWidget->setObjectName(QStringLiteral("filesDockWidget"));
-        filesDockWidget->setFloating(false);
-        filesDockWidget->setFeatures(QDockWidget::DockWidgetFloatable|QDockWidget::DockWidgetMovable);
- */       filesListWidget = new QListWidget(centralwidget);
+        filesListWidget = new QListWidget(centralwidget);
         filesListWidget->setObjectName(QStringLiteral("filesListWidget"));
         sizePolicy.setHeightForWidth(filesListWidget->sizePolicy().hasHeightForWidth());
         filesListWidget->setSizePolicy(sizePolicy);
@@ -150,8 +127,13 @@ public:
         filesListWidget->setFont(font1);
         filesListWidget->setContextMenuPolicy(Qt::CustomContextMenu);
         filesListWidget->setSelectionMode(QAbstractItemView::ExtendedSelection);
+        filesListWidget->resize(500,300);
+
 
  	toolBox->addItem(filesListWidget, "FileTree");
+        toolBox->resize(500,500);
+        navigatorWindow->resize(500,300);
+        infoTextEdit->resize(500,300);
     } // setupUi
 
 

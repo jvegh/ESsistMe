@@ -7,19 +7,19 @@
 
 class ESsistMe_MainWindow;
 
-class ESsistMe_ResidualWindow : public QMainWindow
+class ESsistMe_ResidualWindow : public QCustomPlot
 {
     Q_OBJECT
 
 public:
-    explicit ESsistMe_ResidualWindow(QCustomPlot *plotter, QWidget *parent);
+    explicit ESsistMe_ResidualWindow(QWidget *parent);
     ~ESsistMe_ResidualWindow();
 
     void setupSincScatterDemo(QCustomPlot *customPlot);
 
 private:
 //    Ui::ESsistMe_SpectrumWindow *ui;
-    QCustomPlot* residualPlot;
+//    QCustomPlot* residualPlot;
 };
 
 

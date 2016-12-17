@@ -7,12 +7,11 @@
 class EResidualWindow;
 class ENavigatorWindow;
 
-ESsistMe_SpectrumWindow::ESsistMe_SpectrumWindow(QCustomPlot *plotter, QWidget *parent) :
-    QMainWindow(parent)
+ESsistMe_SpectrumWindow::ESsistMe_SpectrumWindow(QWidget *parent) :
+    QCustomPlot(parent)
 {
-    spectrumPlot = plotter;
-    resize(1000, 800);
-    setupSincScatterDemo(spectrumPlot);
+ //    resize(1000, 800);
+    setupSincScatterDemo(this);
 }
 
 ESsistMe_SpectrumWindow::~ESsistMe_SpectrumWindow()
@@ -23,8 +22,7 @@ ESsistMe_SpectrumWindow::~ESsistMe_SpectrumWindow()
 
 void ESsistMe_SpectrumWindow::setupSincScatterDemo(QCustomPlot *customPlot)
 {
-//  demoName = "Sinc Scatter Demo";
-  customPlot->legend->setVisible(true);
+    legend->setVisible(true);
   customPlot->legend->setFont(QFont("Helvetica",9));
   // set locale to english, so we get english decimal separator:
   customPlot->setLocale(QLocale(QLocale::English, QLocale::UnitedKingdom));
