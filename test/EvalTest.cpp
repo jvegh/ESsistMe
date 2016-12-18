@@ -20,7 +20,7 @@ public:
 /**
  * Tests some routines of the stuff
  */
-TEST_F(EvalTest, Tools)
+TEST_F(EvalTest, SpectrumBase)
 {
     double myints[]={10.,20.,30.,40.,50.,60.,70.};
     std::vector<double> myvector (7);

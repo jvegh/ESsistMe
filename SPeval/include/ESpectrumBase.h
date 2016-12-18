@@ -12,10 +12,12 @@
 #include <vector>
 using namespace std;
 
+// To provide good locality, variables relating to a data point are kept in a record
 struct ESpectrumPoint {
     double X;   // The independent variable
     double Y;   // The dependent variable
-    double dY;  // Their uncertainty
+    double dYR;  // Their uncertainty
+    double Fit; // The fitted value
 };
 
 /*! @brief Base class for storing spectral data */
@@ -35,7 +37,12 @@ public:
   bool XEnergy_Valid(void){ return mXEnergy>0;}
   int NoOfDataPoints_Get(void){ return mData.size(); }
   double Y_Get(int i) { return mData[i].Y;}
-  double dY_Get(int i) { return mData[i].dY;}
+  double dY_Get(int i) { return 1/mData[i].dYR;}
+  double dYR_Get(int i) { return mData[i].dYR;}
+  double Fit_Get(int i) { return mData[i].Fit;}
+  double Residual_Get(int i){ return (mData[i].Fit-mData[i].Y)*mData[i].dYR;}
+  double ChiSq_Get(int i);
+  void Calibrate(double Intercept, double Slope);
 private:
     void
   InitializeFunctionPointers(void);

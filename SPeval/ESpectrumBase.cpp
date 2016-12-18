@@ -17,39 +17,29 @@ using namespace std;
 
   This class acts as a replacement for QVector2D with the advantage of double precision instead of
   single, and some convenience methods tailored for the QCustomPlot library.
+  The base class really stores the data, i.e. other objects can receive pointers to the data.
 */
-
-/*! \details Base class for storing spectral data
- *  The base class really stores the data, i.e.
-*/
-
   /*! \fn Single-vector constructor for the 2-dim spectrum
     Creates a base spectrum, using the intensity data only.
     The energy data are simple sequence numbers.
     The uncertainties are the square root of the intensity data
     (zero protection provided).
+    The "energy" is simple a sequence number, \see Calibrate
   */
     ESpectrumBase::
 ESpectrumBase(vector<double>* Y)
 {
     mData.resize(Y->size()); double x = 0.L;
-    cerr << NoOfDataPoints_Get() << " points" << endl;
     std::vector<ESpectrumPoint>::iterator Dit = mData.begin();
     for (std::vector<double>::iterator Yit = Y->begin(); Yit!=Y->end(); ++Yit, ++Dit)
     {
-      Dit->Y = *Yit; Dit->X = x; x += 1.L;
-      *Yit >= 1 ? sqrt(*Yit) : 1;   // Protect from zero uncertainty
-      Dit->dY = *Yit;
-      std::cerr << ' ' << *Yit << ' ' << Dit->Y;
+      Dit->Y = *Yit; Dit->X = x; x += 1.L;  // Use a sequence number as "energy"
+      Dit->dYR = Dit->Y >= 1 ? sqrt(Dit->Y) : 1;   // Protect from zero uncertainty
+      Dit->dYR = 1/Dit->dYR;  // For efficiency, stores 1/dY
+      Dit->Fit = 0.L;       // Initialize fitted value to 0
     }
 
     InitializeFunctionPointers();   // Set up function pointers
-/*    cerr << (this->*Ptr_X_Get)(1);
-    ESpectrumBase::Ptr_X_Get = &ESpectrumBase::X_Get_Binding;
-    cerr << (this->*Ptr_X_Get)(2);
-    ESpectrumBase::Ptr_X_Get = &ESpectrumBase::X_Get_Kinetic;
-    cerr << (this->*Ptr_X_Get)(3) << "Again";
-   cerr << "I am here" << endl;*/
 }
 
     /*! \fn Double-vector constructor for the 2-dim spectrum
@@ -61,11 +51,32 @@ ESpectrumBase(vector<double>* Y)
     ESpectrumBase::
 ESpectrumBase(vector<double>*X, vector<double>*Y)
 {
+    mData.resize(X->size());
+    std::vector<ESpectrumPoint>::iterator Dit = mData.begin();
+    std::vector<double>::iterator Xit = X->begin();
+    for (std::vector<double>::iterator Yit = Y->begin(); Yit!=Y->end(); ++Yit, ++Xit, ++Dit)
+        {
+          Dit->Y = *Yit; Dit->X = *Xit;
+          Dit->dYR = Dit->Y >= 1 ? sqrt(Dit->Y) : 1;   // Protect from zero uncertainty
+          Dit->dYR = 1/Dit->dYR;  // For efficiency, stores 1/dY
+          Dit->Fit = 0.L;       // Initialize fitted value to 0
+        }
 }
 
     ESpectrumBase::
 ESpectrumBase(vector<double>*X, vector<double>*Y, vector<double>*dY)
 {
+    mData.resize(X->size());
+    std::vector<ESpectrumPoint>::iterator Dit = mData.begin();
+    std::vector<double>::iterator Xit = X->begin();
+    std::vector<double>::iterator dYit = dY->begin();
+    for (std::vector<double>::iterator Yit = Y->begin(); Yit!=Y->end(); ++Yit, ++Xit, ++dYit, ++Dit)
+        {
+              Dit->Y = *Yit; Dit->X = *Xit; Dit->dYR = *dYit;
+              if(Dit->dYR < 1) Dit->Y = 1;   // Protect from zero uncertainty
+              Dit->dYR = 1/Dit->dYR;  // For efficiency, stores 1/dY
+              Dit->Fit = 0.L;       // Initialize fitted value to 0
+        }
 }
 
  /*! \brief ESpectrumBase::InitializeFunctionPointers*/
@@ -130,6 +141,34 @@ ESpectrumBase::Binding_Scale_Set(bool Binding)
 
     }
 
+    /*! \brief  Makes a simple linear energy calibration */
+    /*!    \fn Calibrate
+     * \param[in] Intercept of the calibrating line
+     * \param[in] Slope of the calibrating line
+     */
+    void ESpectrumBase::
+Calibrate(double Intercept, double Slope)
+{
+    for (std::vector<ESpectrumPoint>::iterator it = mData.begin(); it!=mData.end(); ++it)
+        {
+          it->X =  Intercept + Slope*it->X;
+        }
+}
+
+
+    double ESpectrumBase::
+ChiSq_Get(int i)
+{
+    double chisq = 0.L; double ch; int N = mData.size();
+//    for (std::vector<ESpectrumPoint>::iterator it = mData.begin(); it!=mData.end(); ++it)
+    for(int it = 0; it<N; it++)
+        {
+            ch = Residual_Get(it);
+            chisq += ch*ch;
+        }
+    return chisq;
+    }
+
 /*
      double
 ESpectrumBase::X_Get_Binding(int i)
@@ -173,16 +212,5 @@ QCPVector2D::QCPVector2D(const QPointF &point) :
 {
 }
 
-/*!
-  Normalizes this vector. After this operation, the length of the vector is equal to 1.
-
-  \see normalized, length, lengthSquared
-*/
-void QCPVector2D::normalize()
-{
-  double len = length();
-  mX /= len;
-  mY /= len;
-}
 
 #endif //0
