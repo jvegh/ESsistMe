@@ -5,7 +5,6 @@
  */
 #include <fstream>      // std::ifstream
 #include <stdlib.h>
-#include <string>       // std::string
 #include <iostream>     // std::cout
 #include <sstream>      // std::ostringstream
 #include "Config.h"
