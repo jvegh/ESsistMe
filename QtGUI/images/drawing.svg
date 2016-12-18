@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="744.09448819"
+   height="1052.3622047"
+   id="svg2"
+   sodipodi:version="0.32"
+   inkscape:version="0.45.1"
+   sodipodi:docbase="C:\Documents and Settings\Our home\Desktop"
+   sodipodi:docname="drawing.svg"
+   inkscape:output_extension="org.inkscape.output.svg.inkscape">
+  <defs
+     id="defs4">
+    <linearGradient
+       id="linearGradient3176">
+      <stop
+         style="stop-color:#ff0000;stop-opacity:1;"
+         offset="0"
+         id="stop3178" />
+      <stop
+         id="stop3186"
+         offset="0.1294186"
+         style="stop-color:#ff8900;stop-opacity:1;" />
+      <stop
+         style="stop-color:#fdff00;stop-opacity:1;"
+         offset="0.28678581"
+         id="stop3188" />
+      <stop
+         id="stop3190"
+         offset="0.36580983"
+         style="stop-color:#00ff00;stop-opacity:1;" />
+      <stop
+         style="stop-color:#0096be;stop-opacity:1;"
+         offset="0.50317621"
+         id="stop3192" />
+      <stop
+         id="stop3194"
+         offset="0.61436379"
+         style="stop-color:#0000ff;stop-opacity:1;" />
+      <stop
+         style="stop-color:#ff00ff;stop-opacity:1;"
+         offset="0.77275008"
+         id="stop3196" />
+      <stop
+         id="stop3198"
+         offset="1"
+         style="stop-color:#7f007f;stop-opacity:1;" />
+    </linearGradient>
+    <linearGradient
+       id="linearGradient3168">
+      <stop
+         style="stop-color:#d6b263;stop-opacity:1;"
+         offset="0"
+         id="stop3170" />
+      <stop
+         style="stop-color:#d6b263;stop-opacity:0;"
+         offset="1"
+         id="stop3172" />
+    </linearGradient>
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3168"
+       id="radialGradient3174"
+       cx="150.40041"
+       cy="452.75955"
+       fx="150.40042"
+       fy="452.7597"
+       r="56.890625"
+       gradientTransform="matrix(0.8268882,0.9021789,-1.4478167,1.3758404,707.16832,-313.21958)"
+       gradientUnits="userSpaceOnUse" />
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3176"
+       id="radialGradient3200"
+       cx="163.33185"
+       cy="452.75964"
+       fx="163.33185"
+       fy="452.7598"
+       r="56.890625"
+       gradientTransform="matrix(0.8268884,0.9021785,-1.4478163,1.3758403,696.47536,-324.88605)"
+       gradientUnits="userSpaceOnUse" />
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     gridtolerance="10000"
+     guidetolerance="10"
+     objecttolerance="10"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.49497475"
+     inkscape:cx="375"
+     inkscape:cy="520"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     inkscape:window-width="744"
+     inkscape:window-height="573"
+     inkscape:window-x="110"
+     inkscape:window-y="110" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       style="fill:url(#radialGradient3200);fill-opacity:1;fill-rule:nonzero;stroke:url(#radialGradient3174);stroke-width:0.99108249;stroke-miterlimit:4;stroke-dasharray:2.97324749, 0.9910825;stroke-dashoffset:0;stroke-opacity:1"
+       d="M 210.10915,367.62054 C 151.25717,370.18618 103.71211,418.17611 99.339291,478.59821 L 157.44052,478.59821 C 162.06886,453.4191 183.6297,434.01486 210.10915,432.21948 L 210.10915,367.62054 z "
+       id="path2182"
+       inkscape:export-filename="C:\Documents and Settings\Our home\Desktop\colour.png"
+       inkscape:export-xdpi="25.721462"
+       inkscape:export-ydpi="25.721462" />
+  </g>
+</svg>
