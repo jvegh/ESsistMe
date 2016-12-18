@@ -60,10 +60,8 @@ file(GLOB_RECURSE QOBJECT_UIS
 )
 
 QT5_WRAP_CPP(hdr_moc ${QOBJECT_HEADERS})
-#qt5_add_resources(mainresource application.qrc)
-
 QT5_WRAP_CPP(qcustomplot_moc include/qcustomplot.h)
-#qt5_add_resources(mainresource application.qrc)
+qt5_add_resources(mainresource essistme.qrc)
 
   # Executables fail to build with Qt 5 in the default configuration
   # without -fPIE. We add that here.

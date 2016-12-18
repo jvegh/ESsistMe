@@ -22,7 +22,8 @@
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QListWidget>
 #include <QtWidgets/QMainWindow>
-#include <QtWidgets/QMdiArea>
+#include <QMenu>
+#include <QMenuBar>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QStackedWidget>
@@ -59,7 +60,8 @@ public:
     QToolBox *toolBox;
     QHBoxLayout *topLayout;
     QSplitter *spectrumsplitter, *controlsplitter, *mainsplitter;
-    
+    QMenuBar *menubar;
+       QMenu *fileMenu;
     void setupUi(QMainWindow *MainWindow)
     {
         if (MainWindow->objectName().isEmpty())
@@ -134,7 +136,14 @@ public:
         toolBox->resize(500,500);
         navigatorWindow->resize(500,300);
         infoTextEdit->resize(500,300);
-    } // setupUi
+
+        // menubar
+    menubar = new QMenuBar(MainWindow);
+
+//    fileMenu->addAction(fileNewWindowAction);
+//    fileMenu->addAction(fileOpenAction);
+
+}
 
 
 };

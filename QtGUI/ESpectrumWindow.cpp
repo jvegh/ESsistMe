@@ -19,6 +19,10 @@ ESsistMe_SpectrumWindow::~ESsistMe_SpectrumWindow()
  //   delete ui;
 }
 
+extern  QVector<double> X0, Y0;
+extern QVector<double> YConfUpper, YConfLower;
+extern QVector<double> X1, Y1, Y1err, YResidual;
+
 
 void ESsistMe_SpectrumWindow::setupSincScatterDemo(QCustomPlot *customPlot)
 {
@@ -59,18 +63,17 @@ void ESsistMe_SpectrumWindow::setupSincScatterDemo(QCustomPlot *customPlot)
   errorBars->setPen(QPen(QColor(180,180,180)));
   customPlot->graph(3)->setName("Measurement");
 
+
+
   // generate ideal sinc curve data and some randomly perturbed data for scatter plot:
-  QVector<double> x0(250), y0(250);
-  QVector<double> yConfUpper(250), yConfLower(250);
   for (int i=0; i<250; ++i)
   {
-    x0[i] = (i/249.0-0.5)*30+0.01; // by adding a small offset we make sure not do divide by zero in next code line
-    y0[i] = qSin(x0[i])/x0[i]; // sinc function
-    yConfUpper[i] = y0[i]+0.15;
-    yConfLower[i] = y0[i]-0.15;
-    x0[i] *= 1000;
+    X0[i] = (i/249.0-0.5)*30+0.01; // by adding a small offset we make sure not do divide by zero in next code line
+    Y0[i] = qSin(X0[i])/X0[i]; // sinc function
+    YConfUpper[i] = Y0[i]+0.15;
+    YConfLower[i] = Y0[i]-0.15;
+    X0[i] *= 1000;
   }
-  QVector<double> x1(50), y1(50), y1err(50);
   for (int i=0; i<50; ++i)
   {
     // generate a gaussian distributed random number:
@@ -78,17 +81,19 @@ void ESsistMe_SpectrumWindow::setupSincScatterDemo(QCustomPlot *customPlot)
     double tmp2 = rand()/(double)RAND_MAX;
     double r = qSqrt(-2*qLn(tmp1))*qCos(2*M_PI*tmp2); // box-muller transform for gaussian distribution
     // set y1 to value of y0 plus a random gaussian pertubation:
-    x1[i] = (i/50.0-0.5)*30+0.25;
-    y1[i] = qSin(x1[i])/x1[i]+r*0.15;
-    x1[i] *= 1000;
-    y1err[i] = 0.15;
+    X1[i] = (i/50.0-0.5)*30+0.25;
+    Y1[i] = qSin(X1[i])/X1[i]+r*0.15;
+    X1[i] *= 1000;
+    Y1err[i] = 0.15;
+    YResidual[i] = (Y1[i]-Y0[i])/sqrt(Y1[i]);
   }
+
   // pass data to graphs and let QCustomPlot determine the axes ranges so the whole thing is visible:
-  customPlot->graph(0)->setData(x0, yConfUpper);
-  customPlot->graph(1)->setData(x0, yConfLower);
-  customPlot->graph(2)->setData(x0, y0);
-  customPlot->graph(3)->setData(x1, y1);
-  errorBars->setData(y1err);
+  customPlot->graph(0)->setData(X0, YConfUpper);
+  customPlot->graph(1)->setData(X0, YConfLower);
+  customPlot->graph(2)->setData(X0, Y0);
+  customPlot->graph(3)->setData(X1, Y1);
+  errorBars->setData(Y1err);
   customPlot->graph(2)->rescaleAxes();
   customPlot->graph(3)->rescaleAxes(true);
   // setup look of bottom tick labels:
@@ -99,5 +104,6 @@ void ESsistMe_SpectrumWindow::setupSincScatterDemo(QCustomPlot *customPlot)
   customPlot->xAxis->moveRange(-10);
   // make top right axes clones of bottom left axes. Looks prettier:
   customPlot->axisRect()->setupFullAxesBox();
+  customPlot->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom | QCP::iSelectPlottables);
 }
 

@@ -15,7 +15,7 @@ public:
     explicit ESsistMe_ResidualWindow(QWidget *parent);
     ~ESsistMe_ResidualWindow();
 
-    void setupSincScatterDemo(QCustomPlot *customPlot);
+    void setupSimpleDemo(QCustomPlot *customPlot);
 
 private:
 //    Ui::ESsistMe_SpectrumWindow *ui;
