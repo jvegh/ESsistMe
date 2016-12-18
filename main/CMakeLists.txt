@@ -20,7 +20,7 @@ find_package(Qt5Widgets)
 include_directories(${Qt5Widgets_INCLUDES}
         include
         ${CMAKE_SOURCE_DIR}/SPeval/include 
-        ${CMAKE_SOURCE_DIR}/QtGUI/include 
+        ${CMAKE_SOURCE_DIR}/QtGUI/include
 	${CMAKE_SOURCE_DIR}/Minuit/include
 )
 
