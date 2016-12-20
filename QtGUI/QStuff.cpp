@@ -33,7 +33,9 @@ struct SystemDirectories
     string SystemDocs;    // for documentation
     string UserData; // User-provided data
     string UserOutput; // User-provided data
-    string LogFile; // The log ,essages
+    string LogFile; // The log messages
+    bool SystemDataFound;   // If system data are available
+    bool SystemDocsFound;   // If system docs are available
 } Directories;
 
 // This is the logging facility provided by Qt.
@@ -82,8 +84,8 @@ void MessageHandler(QtMsgType type, const QMessageLogContext &context, const QSt
  * \brief SetupSystemDirectories
  * \param parent the parent widget (usually QMainWindow)
  *
- * This subroutine sets up the subdirectory structure of the tool
  * It verifies whether the system directory structure exists
+ * and sets it up if not
  *
  * @verbatim
  *  |InstallDir
@@ -108,14 +110,26 @@ void MessageHandler(QtMsgType type, const QMessageLogContext &context, const QSt
  * polluting those directories) the tool creates a new subdirectory 'UserHome/PackageName'
  *
  * The tool needs also a temporary directory. It will be created in
- *
  *  @verbatim
  *  |TempDir
  *  |--/PackageName
  *  @endverbatim
- * if the temporary directory is available for the user; otherwise
- * a new subdirectory UserHome/PackageName/temp is created
- *  */
+ * if the temporary directory is available for the user; otherwise in
+ *  @verbatim
+ *  |UserHome
+ *  |--/@PACKAGE_NAME@
+ *  |----/temp
+ *  @endverbatim
+ *
+ * In addition, the application maintains a 'last state' information in
+ * @verbatim
+ *  |UserHome
+ *  |--/.config
+ *  |----/@PACKAGE_NAME@
+ *  |------/@PROJECT_NAME@@PROJECT_VERSION@.ini
+ *  @endverbatim
+
+ */
 void
 SetupSystemDirectories(QWidget* parent)
 {
@@ -135,7 +149,7 @@ SetupSystemDirectories(QWidget* parent)
             WorkDirCreated = true;
             if(!QDir(QString(Directories.Home.c_str())).mkdir(QString(Directories.Work.c_str())) )
             { // Could not create work directory
-                int i = 1;
+                       qFatal("Could not create work directory; exiting");
             }
         }
     }
@@ -150,18 +164,18 @@ SetupSystemDirectories(QWidget* parent)
     qInfo() << GetAppName().c_str() << " successfully started from '" << OldWorkDir.c_str() << "'";
     // Now the logging file and directory is set up, can start logging
     if(WorkDirCreated)
-        qDebug() << "A new work directory '" << Directories.Work.c_str() << "' created";
+        qDebug()  << "Created new work directory " << Directories.Work.c_str();
     if(WorkDirRelocated)
-        qDebug() << "Work directory relocated to '" << Directories.Work.c_str() << "'";
+        qDebug() << "Work directory relocated to " << Directories.Work.c_str();
 
     Directories.SystemData = Directories.Install + "/../" + "data";
     QMessageBox::StandardButton ret;
-     bool SystemDataFound = true;
+    Directories.SystemDataFound = true;
     // Handle system data directory
     if(!QDir(QString(Directories.SystemData.c_str())).exists())
     {
-        qDebug() << "System data directory '" << Directories.SystemData.c_str() << "' not found";
-        SystemDataFound = false;
+        qDebug()  << "Not found system data directory " << Directories.SystemData.c_str();
+        Directories.SystemDataFound = false;
     ret = QMessageBox::warning(parent, "Application",
                      "System data directory not found\n"
                         "Shall I continue?",
@@ -171,22 +185,22 @@ SetupSystemDirectories(QWidget* parent)
                      QMessageBox::Yes  | QMessageBox::Cancel);
         if (ret != QMessageBox::Yes)
      {
-            qFatal("System data directory missing; exiting");
+            qFatal("Missing system data directory; exiting");
      }
     }
     else
     {
-        qDebug() << "System data directory '" << Directories.SystemData.c_str() << "' found";
+        qDebug() << "Found system data directory " << Directories.SystemData.c_str() ;
     }
 
     // Handle system docs directory
     Directories.SystemDocs = Directories.Install + "/../" + "docs";
-    bool SystemDocsFound = true;
+    Directories.SystemDocsFound = true;
     // Handle system docs directory
     if(!QDir(QString(Directories.SystemDocs.c_str())).exists())
         {
-        qDebug() << "System docs directory '" << Directories.SystemDocs.c_str() << "' not found";
-        SystemDocsFound = false;
+        qDebug() << "Not found system docs directory " << Directories.SystemDocs.c_str();
+        Directories.SystemDocsFound = false;
         ret = QMessageBox::warning(parent, "Application",
                          "System docs directory not found\n"
                             "Shall I continue?",
@@ -201,7 +215,7 @@ SetupSystemDirectories(QWidget* parent)
         }
     else
     {
-        qInfo() << "System Docs directory '" << Directories.SystemDocs.c_str() << "' found";
+        qDebug()  << "Found system docs directory '" << Directories.SystemDocs.c_str();
     }
 
     // Handle temporary directory
@@ -223,11 +237,11 @@ SetupSystemDirectories(QWidget* parent)
       }
 
     if(!SystemTempFound)
-        qDebug() << "System-wide 'temp' not found";
+        qDebug() << "Not found system-wide 'temp'";
     if(TempDirCreated)
-        qDebug() << "New temp dir created in " << Directories.Temp.c_str();
+        qDebug() << "Created new temp dir " << Directories.Temp.c_str();
     else
-        qDebug() << "Old temp dir used in " << Directories.Temp.c_str();
+        qDebug() << "Using old temp dir " << Directories.Temp.c_str();
     qDebug() << "The temporary root dir is  " << DirTempRoot.c_str();
     // Handle user data directory
     bool UDataDirFound = false;
@@ -247,11 +261,11 @@ SetupSystemDirectories(QWidget* parent)
     else UDataDirFound = true;
 
     if(!UDataDirFound)
-        qDebug() << "User data directory '" << Directories.UserData.c_str() << "' not found";
+        qDebug() << "Not found user data directory " << Directories.UserData.c_str() ;
     if(UDataDirCreated)
-        qDebug() << "New user data directory created in " << Directories.UserData.c_str();
+        qDebug() << "Created new user data directory " << Directories.UserData.c_str();
     else
-        qDebug() << "Old user data directory used in " << Directories.UserData.c_str();
+        qDebug() << "Using old user data directory " << Directories.UserData.c_str();
 
     // Handle user output directory
     bool UOutputDirFound = false;
@@ -271,34 +285,31 @@ SetupSystemDirectories(QWidget* parent)
     else UOutputDirFound = true;
 
     if(!UOutputDirFound)
-        qDebug() << "User output directory '" << Directories.UserOutput.c_str() << "' not found";
+        qDebug() << "Not found user output directory " << Directories.UserOutput.c_str() ;
     if(UOutputDirCreated)
-        qDebug() << "New user output directory created in " << Directories.UserOutput.c_str();
+        qDebug() << "Created new user output directory" << Directories.UserOutput.c_str();
     else
-        qDebug() << "Old user output directory used in " << Directories.UserOutput.c_str();
+        qDebug() << "Using old user output directory " << Directories.UserOutput.c_str();
 
-    if(!SystemDataFound)
+    if(!Directories.SystemDataFound)
         qWarning() << "Data-dependent services are not available";
-    if(!SystemDocsFound)
+    if(!Directories.SystemDocsFound)
         qWarning() << "System documentation files are not available";
     qInfo() << "Setting of directories of the tool " ;
-    qInfo() << "Install: " << Directories.Install.c_str();
-    qInfo() << "Work:    " << Directories.Work.c_str();
-    qInfo() << "Output:  " << Directories.UserOutput.c_str();
-    qInfo() << "Data:    " << Directories.UserData.c_str();
-    qInfo() << "The generated files go to " << Directories.UserOutput.c_str();
-    qInfo() << "The temporary files reside in " << Directories.Temp.c_str();
+    qInfo() << "  Install:   " << Directories.Install.c_str();
+    qInfo() << "  Work:      " << Directories.Work.c_str();
+    qInfo() << "  Output:    " << Directories.UserOutput.c_str();
+    qInfo() << "  Temporary: " << Directories.Temp.c_str();
+    qInfo() << "  Config:    " << Directories.Home.c_str() <<"/.config/" << PACKAGE_NAME;
 
-/*    qInfo() << "Home " << Directories.Home.c_str();
-    qInfo() << "Temp " << Directories.Temp.c_str();
-    qInfo() << "Work " << Directories.Work.c_str();
-    qInfo() << "Inst " << Directories.Install.c_str();
-    qInfo() << "SDat " << Directories.SystemData.c_str();
-    qInfo() << "UDat " << Directories.UserData.c_str();
-    qDebug() << "Debugging";
-    qInfo() << "Just info";
-    qWarning() << "A warning";
-    qCritical() << "Something serious";
-    qFatal("A fatal error");
-    */
 }
+
+// After this setup, QSettings can be used from different places
+// using the default constructor
+/*void SetupSettings(void)
+{
+    QCoreApplication::setOrganizationName("vjSoft");
+    QCoreApplication::setOrganizationDomain("https://github.com/jvegh/ESsistMe/");
+    QCoreApplication::setApplicationName("ESsistMe");
+}
+*/
