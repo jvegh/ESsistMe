@@ -16,8 +16,18 @@ can be concluded from the repository files.
 
 @subsection Development_History Development history
 	
-			
-    @subsubsection Version_0.0 Version 0.0.1
+  @subsection Version_0_0 Version 0.0
+    @subsubsection Version_0_0_4 Version 0.0.4
+    Implemented handling of settings.
+    Implemented Qt logging. Eliminated QLog.
+    @subsubsection Version_0_0_3 Version 0.0.3
+    Implemented handling of internal directories.
+    Implemented some initial spectrum handling functionality.
+
+    @subsubsection Version_0_0_2 Version 0.0.2
+    Implemented initial graphic windows
+
+    @subsubsection Version_0_0_1 Version 0.0.1
 Just an internal development. Several open-source components are put together.
 The Minuit package has been extended to provide facilities for the spectroscopies,
 especially for electron spectroscopies. 
@@ -27,8 +37,6 @@ especially for electron spectroscopies.
 - QCustomPlot
 - Minuit2 (modified)
 - GTest
-- GLog
-- GFlag
 
 
 	@htmlonly

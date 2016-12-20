@@ -19,22 +19,45 @@ packages.
 
 The program can be downloaded from
 
-http://doc.qt.io/qt-5/
+https://github.com/jvegh/ESsistMe
 
 @section User-Install_directories Directories
 
 The application uses a couple of distinguished directories.
 Since the application is multiplatform, and at least partly the user can configure them,
-in this description the functionality is given, and some hints are made to the concrete names.
+in this description only the functionality is given, and some hints are made to the concrete,
+platform-dependent names.
 
+The application internally uses the directory hierarchy shown below.
+If you install it as described here, your operating system will make the structure.
+If, for some reason, you change it manually, make sure _not_ to change the structure:
+the application presumes this hierarchy during operation. Upon starting,
+the tool verifies/sets/creates/changes things, related to its operation.
+Neither system nor user settings are touched. 
+
+When the tool starts up, 
+it verifies whether the install directory structure exists.
+A single binary executable file is the bare minimum, but
+several other files and directories enhance its functionality.
+It can work even without those other subdirectories and files,
+but the related functionality will not be available.
+The tool makes a self-test at the beginning, and accounts for those
+available enhancements. See section @ref User_Install_System_Bin.
+
+Also part of the initial startup is to set up the user directory and the
+directories and files the application works with. For details see @ref User_Install_UserDir.
+
+ 
+@subsection User_Install_SystemDir Installation directory
+
+When the tool gets installed, the system-related files are organized
+in the directories and subdirectories as shown below. 
 @verbatim
-  system
-  |--/system/bin
-  |--/system/data
-  |--/system/doc
+  InstallDir
+  |--/bin
+  |--/data
+  |--/doc
 @endverbatim
-
-@subsection User_Install_SystemDir System directory
 
 Those directories are read-only, and typically they are touched only during installation.
 Since most of the prospective users are science professionals, rather than system administrators,
@@ -43,47 +66,115 @@ It means that you may install (and also upgrade) the system in your own home dir
 but you may also ask your system administrator to install it for all users of the computer.
 
 @subsubsection User_Install_System_Bin The binaries
-The @verbatim |--/bin @endverbatim directory contains the executable files.
+@verbatim |--InstallDir/bin @endverbatim directory contains the executable files.
 
 @subsubsection User_Install_System_Data The data
-The @verbatim |--/data @endverbatim directory contains the data used by the executable files.
+@verbatim |--InstallDir/data @endverbatim directory contains executable-related  data files.
 
 @subsubsection User_Install_System_Doc The documentation
-The @verbatim |--/bin @endverbatim directory contains the documentation of the system.
+@verbatim |--InstallDir/doc @endverbatim The directory contains the documentation of the system.
+
+@verbatim |--InstallDir/doc/ESsistMe.chm @endverbatim
+This single document comprises all related user information.
+To read it, please install a CHM viewer application on your system.
+The different chapters of the document are targeting different types of users.
+
+@verbatim |--InstallDir/doc/mntutorial.pdf @endverbatim
+This document is available for downloading from http://seal.web.cern.ch/seal/documents/minuit/mntutorial.pdf,
+it is included in the distribution only for comfort.
 
 
 
-@subsection User_Install_UserDir User directories
 
-Of course, the @verbatim |--/work @endverbatim directory can contain any specific files and/or subdirectories.
-It is a good practice to put together all the stuff used in evaluating spectral data.
+@subsection User_Install_UserDir User directory
 
 @verbatim
-  home
-  |--/user
-  |--/user/data
-  |--/user/output
+  |WorkDir
+  |../data
+  |../output
+@endverbatim
+This is the only directory where the program generates files,
+which may be interesting for the typical user.
+The tool is presumed to work in a directory structure shown above. 
+When the application starts up, it verifies whether the required subdirectories exist.
+Of course, the  directory can contain further files and/or subdirectories.
+
+The program can be started from any subdirectory, and the work directory will be
+the directory it was started from. In order to avoid "polluting" the user's directories,
+two directories show up special behavior. The program will not work in the install directory
+and in the user's home directory. In the case the program is invoked from any of those 
+directories, the program relocates the work directory to 
+@verbatim
+  |UserHome/PackageName
 @endverbatim
 
+In any case, if the work directory exists at the time when the program starts up, 
+the already existing directory will be used. If no such directory found, 
+the program creates the needed directory. 
+
+It is a good practice to put together all the stuff used in evaluating spectral data,
+i.e. to make "project" for the different evaluation sessions. The concept of 
+"work directory" serves this goal: you can put in the 'WorkDir/data' subdirectory
+the spectrum files, etc., and generate the results in 'WorkDir/output' subdirectory.
 
 @subsubsection User_Install_User_Data The data
-The @verbatim |--/work/data @endverbatim directory contains the data used by the executable files.
+@verbatim |WorkDir/data @endverbatim directory contains your input data.
 
-@subsubsection User_Install_User_Outpu The output
-The @verbatim |--/work/output @endverbatim directory contains the output files produced during the session.
+@subsubsection User_Install_User_Output The output
+The @verbatim |WorkDir/output @endverbatim directory contains the output files produced during the session.
 
 
 
-@subsection User_Install_UserTemp Temporary directories
+@subsection User_Install_UserTemp Temporary directory
 
-@verbatim
-  temp
-  |--/app
-  |--/app/project
-@endverbatim
 
 The system might need some temporary storage (directory and files).
-The directory @verbatim |--/temp @endverbatim serves this purpose.
+Normally, the system provides a system-wide area for this goal.
+If that can be used, the program creates a separate subdirectory in it,
+i.e. the temporary data will be stored in
+@verbatim
+    TempDir/PackageName
+@endverbatim
+
+If for any reason, that are is not available for the program,
+it creates a subdirectory in the user's home directory, i.e.
+in such a case the temprary files go in subdirectory
+
+@verbatim
+  UserHome/PACKAGE_NAME/temp
+@endverbatim
+
+@subsection User_Install_UserConfigDir Configuration directory
+
+The application also uses a configuration subdirectory,
+where the program settings are stored. To enable using platform independent
+handling of settings, the program uses '.INI' files.
+When starting up, the program creates a subdirectory in it,
+and loads/store program settings from/to directory
+@verbatim
+  UserHome/ConfigDir/PACKAGE_NAME
+@endverbatim
+
+
+@section User-Install_files Files
+
+The program uses and also creates some special files,
+in special subdirectories and with special file names.
+
+@subsection User_Install_UserFileConf Configuration directory
+As mentioned in section @ref User_Install_UserConfigDir, 
+the actual settings are stored in file
+@verbatim
+  UserHome/ConfigDir/PACKAGE_NAME/PACKAGE_NAME PACKAGE_VERSION.ini
+@endverbatim
+
+When the user exits the tool, the actual settings are saved in the file
+and the next time are loaded again. 
+This means that  the user may continue the next session exactly 
+with the same settings used in the past session. 
+Please notice that the file name contains also the version number,
+i.e. you can use different settings for different program versions.
+And of course, you need to copy manually the setting if you start with a new version.
 
 @subsection User_Install_SetupDir Setting up directories
 

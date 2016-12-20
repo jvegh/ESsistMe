@@ -19,7 +19,8 @@ using namespace std;
   single, and some convenience methods tailored for the QCustomPlot library.
   The base class really stores the data, i.e. other objects can receive pointers to the data.
 */
-  /*! \fn Single-vector constructor for the 2-dim spectrum
+  /*! \fn ESpectrumBase::ESpectrumBase(vector<double>* Y)
+   * Single-vector constructor for the 2-dim spectrum
     Creates a base spectrum, using the intensity data only.
     The energy data are simple sequence numbers.
     The uncertainties are the square root of the intensity data
@@ -42,7 +43,8 @@ ESpectrumBase(vector<double>* Y)
     InitializeFunctionPointers();   // Set up function pointers
 }
 
-    /*! \fn Double-vector constructor for the 2-dim spectrum
+    /*! \fn ESpectrumBase::ESpectrumBase(vector<double>*X, vector<double>*Y)
+     * Double-vector constructor for the 2-dim spectrum
       Creates a base spectrum using the provided energy and intensity data
       the uncertainties are the square root of the intensity data
 
@@ -80,7 +82,7 @@ ESpectrumBase(vector<double>*X, vector<double>*Y, vector<double>*dY)
 }
 
  /*! \brief ESpectrumBase::InitializeFunctionPointers*/
- /*!    \fn InitializeFunctionPointers
+ /*!    \fn ESpectrumBase::InitializeFunctionPointers
   * @details The energy can be given as either kinetic or binding energy
   *
   * Using function pointers, the working energy scale can be chosen as either of the two,
@@ -142,7 +144,8 @@ ESpectrumBase::Binding_Scale_Set(bool Binding)
     }
 
     /*! \brief  Makes a simple linear energy calibration */
-    /*!    \fn Calibrate
+    /*!    \fn ESpectrumBase::Calibrate(double Intercept, double Slope)
+{
      * \param[in] Intercept of the calibrating line
      * \param[in] Slope of the calibrating line
      */

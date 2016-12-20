@@ -70,3 +70,5 @@ main/include/Config.h
 
 # QCreator generated files
 *.user
+*.autosave
+

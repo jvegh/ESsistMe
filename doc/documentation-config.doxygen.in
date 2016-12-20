@@ -746,10 +746,15 @@ WARN_LOGFILE           =
 # spaces.
 # Note: If this tag is empty the current directory is searched.
 
+#                         @PROJECT_SOURCE_DIR@/QtGUI \
+#                         @PROJECT_SOURCE_DIR@/QtGUI/include \
 INPUT                  = @PROJECT_SOURCE_DIR@/main \
                          @PROJECT_SOURCE_DIR@/main/include \
+                         @PROJECT_SOURCE_DIR@/SPeval \
+                         @PROJECT_SOURCE_DIR@/SPeval/include \
                          @PROJECT_SOURCE_DIR@/Minuit/include/MinuitParameter.h \
                          @PROJECT_SOURCE_DIR@/Minuit/MinuitParameter.cpp \
+                         @PROJECT_SOURCE_DIR@/Minuit/include/MnUserParameters.h \
                          @PROJECT_SOURCE_DIR@/Minuit/include/MnUserParameters.h \
                          @PROJECT_SOURCE_DIR@/Minuit/MnUserParameters.cpp \
                          @PROJECT_SOURCE_DIR@/doc/welcome.dox \
