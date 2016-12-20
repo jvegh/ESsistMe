@@ -6,6 +6,7 @@
 #define PROJECT_VERSION_PATCH @PROJECT_VERSION_PATCH@
 #define PROJECT_VERSION "@PROJECT_VERSION_MAJOR@.@PROJECT_VERSION_MINOR@.@PROJECT_VERSION_PATCH@"
 #define PROJECT_NAME "@PROJECT_NAME@"
+#define PACKAGE_NAME "@CPACK_PACKAGE_NAME@"
 // Uncomment this to allow asserts
 // Find out if we need asserts to be effective
 #cmakedefine NDEBUG
