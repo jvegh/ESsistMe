@@ -18,10 +18,7 @@ cmake_policy(SET CMP0048 NEW)
 set(CPACK_PACKAGE_NAME "essistme")
 project(ESsistMe VERSION 0.0.03 LANGUAGES C CXX)
 cmake_minimum_required(VERSION 3.0)
-###############################################################
-# Do not edit below this line until you knpw what you are doing! 
-###############################################################
-#  
+
 # ---[ Set up CMake options for ESsistMe
 if(BUILD_TESTS)
   option (BUILD_MINUIT_TESTS "Include Minuit math and unit tests"  OFF)
@@ -36,6 +33,13 @@ option(BUILD_SHARED_LIBS "Build shared libraries" ON)
 # Choose whether you need debugging support for development or making a release 
 option (DEBUG_MODE "Include debug support for the program"  ON)
 
+###############################################################
+# Do not edit below this line until you know what you are doing!
+###############################################################
+# Choose whether you need internal information to docs
+option (DOXY_INTERNAL "Include internal info in the docs"  YES)
+# ${DOXY_INPUT}
+# @GENERATETREEVIEW@
 
 include(cmake/Colorize.cmake)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
@@ -53,6 +57,8 @@ else(DEBUG_MODE)
   set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
   set(CMAKE_RUNTIME_WORK_DIRECTORY "${CMAKE_BINARY_DIR}")
   message(HIGHLIGHTED "Configuring ${PROJECT_NAME} V${PROJECT_VERSION} release version")
+  set(CMAKE_CXX_FLAGS "-DQT_NO_DEBUG_OUTPUT")
+  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}")
 endif(DEBUG_MODE)
 
 set(CMAKE_INSTALL_PREFIX "${CMAKE_BINARY_DIR}/${CPACK_PACKAGE_NAME}")
