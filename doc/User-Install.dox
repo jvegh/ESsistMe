@@ -5,7 +5,7 @@
 
 @section User-Install_General Introduction
 
-@section User-Install_Distrib Distribution kits
+@section User-Install_Distrib Installing from distribution kits
 
 The program is fully open source, so if you do not like some of its services,
 you may fix or enhance it. The development is available from the repository 
@@ -20,5 +20,106 @@ packages.
 The program can be downloaded from
 
 http://doc.qt.io/qt-5/
+
+@section User-Install_directories Directories
+
+The application uses a couple of distinguished directories.
+Since the application is multiplatform, and at least partly the user can configure them,
+in this description the functionality is given, and some hints are made to the concrete names.
+
+@verbatim
+  system
+  |--/system/bin
+  |--/system/data
+  |--/system/doc
+@endverbatim
+
+@subsection User_Install_SystemDir System directory
+
+Those directories are read-only, and typically they are touched only during installation.
+Since most of the prospective users are science professionals, rather than system administrators,
+the distribution kit is designed to be installed in the user's home directory.
+It means that you may install (and also upgrade) the system in your own home directory,
+but you may also ask your system administrator to install it for all users of the computer.
+
+@subsubsection User_Install_System_Bin The binaries
+The @verbatim |--/bin @endverbatim directory contains the executable files.
+
+@subsubsection User_Install_System_Data The data
+The @verbatim |--/data @endverbatim directory contains the data used by the executable files.
+
+@subsubsection User_Install_System_Doc The documentation
+The @verbatim |--/bin @endverbatim directory contains the documentation of the system.
+
+
+
+@subsection User_Install_UserDir User directories
+
+Of course, the @verbatim |--/work @endverbatim directory can contain any specific files and/or subdirectories.
+It is a good practice to put together all the stuff used in evaluating spectral data.
+
+@verbatim
+  home
+  |--/user
+  |--/user/data
+  |--/user/output
+@endverbatim
+
+
+@subsubsection User_Install_User_Data The data
+The @verbatim |--/work/data @endverbatim directory contains the data used by the executable files.
+
+@subsubsection User_Install_User_Outpu The output
+The @verbatim |--/work/output @endverbatim directory contains the output files produced during the session.
+
+
+
+@subsection User_Install_UserTemp Temporary directories
+
+@verbatim
+  temp
+  |--/app
+  |--/app/project
+@endverbatim
+
+The system might need some temporary storage (directory and files).
+The directory @verbatim |--/temp @endverbatim serves this purpose.
+
+@subsection User_Install_SetupDir Setting up directories
+
+The directories are set up as part of the initialization.
+
+@subsubsection UserInstallSetupSystem
+
+To set up system directory is part of the installation, see \ref User_Install_SystemDir.
+The only thing you need to remember is the access path to invode the system.
+This can be enlightened by using a link icon on the desktop or the toolbar,
+or adding the system subdirectory to the user's PATH variable.
+
+@subsubsection UserInstallSetupWork
+
+One distinguished directory is surely the working directory where the application lives.
+It is where the program is invoked from.
+
+The tool attempts NOT to "pollute" both the system directory (where the binary file is stored)
+and the user home directory (where all valuable files and subdirectories of the user are located).
+If the tool is invoked from these two subdirectories,
+the tool creates a work directory (using the name and version of the tool) in the user's home directory,
+otherwise uses the current directory (where the tool was invoked from).
+
+In that (maybe newly created) subdirectory it creates the needed subdirectories.
+This policy keeps the tool-generated data together.
+
+It is, in general, a good practice to use the concept of "project subdirectory", i.e. to keep all the files
+related to evaluation of a certain spectrum in a separate subdirectory.  The best policy is
+to create a new subdirectory for a new project, which initially contains your data and settings files,
+then cange to that subdirectory and invoke the tool from that subdirectory.
+This is where your output files will be written, too.
+
+@subsubsection UserInstallSetupTemp
+The system might need temporary storage place, too. This area is normally transparent for the user.
+For the normal operation, however, the user needs the corresponding access rights and storage quota
+on that device. The system sets it up automatically, asking for the system-wide temporary subdirectory
+and prepares a subdirectory (using the name and version of the tool) in it.
 
 */
