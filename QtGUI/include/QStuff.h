@@ -19,6 +19,6 @@
 using namespace std;
 
 void
-SetupSystemDirectories(void);
+SetupSystemDirectories(QWidget* parent);
 
 #endif //  ESsistMe_QSTUFF_H
