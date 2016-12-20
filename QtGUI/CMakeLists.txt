@@ -1,4 +1,4 @@
-# This is the CMakeLists file generating Qt5-related stuff for the ESsistMe toolt
+# This is the CMakeLists file generating Qt5-related stuff for the ESsistMe tool
 # The directory structure (and other docs) can be found in cmake/Docs
 #
 # @author János Végh
@@ -21,6 +21,7 @@ include_directories(
       ${Qt5Widgets_INCLUDE_DIRS}
       ${Qt5Printer_INCLUDE_DIRS}
       include
+      ${CMAKE_SOURCE_DIR}/QCustomPlot/include
       ${CMAKE_SOURCE_DIR}/main/include
       ${CMAKE_SOURCE_DIR}/Minuit/include
       )
@@ -35,9 +36,6 @@ set(QOBJECT_HEADERS
 	include/ESsistMe_mainwindow.h
 	include/QStuff.h
 )
-#file(GLOB_RECURSE QOBJECT_HEADERS
-#    "include/*.h"
-#)
 
 set(QOBJECT_SOURCES 
 	ENavigatorWindow.cpp
@@ -47,9 +45,6 @@ set(QOBJECT_SOURCES
 	QStuff.cpp
 )
 
-#file(GLOB_RECURSE QOBJECT_SOURCES
-#    "*.cpp"
-#)
 
 file(GLOB_RECURSE QOBJECT_IMAGES
     "images/*.png"
@@ -60,17 +55,11 @@ file(GLOB_RECURSE QOBJECT_UIS
 )
 
 QT5_WRAP_CPP(hdr_moc ${QOBJECT_HEADERS})
-QT5_WRAP_CPP(qcustomplot_moc include/qcustomplot.h)
 qt5_add_resources(mainresource essistme.qrc)
 
   # Executables fail to build with Qt 5 in the default configuration
   # without -fPIE. We add that here.
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${Qt5Widgets_EXECUTABLE_COMPILE_FLAGS}  -std=c++11 -Wall")
-
-ADD_LIBRARY(libQCustomPlot
-    qcustomplot.cpp
-    ${qcustomplot_moc} # The MOC headers, generated
-)
 
 
 ADD_LIBRARY(libQtGUI
@@ -80,7 +69,7 @@ ADD_LIBRARY(libQtGUI
 )
 
 # Use the Widgets module from Qt 5.
-target_link_libraries(libQtGUI #libEMPA
+target_link_libraries(libQtGUI 
 Qt5::Widgets Qt5::PrintSupport)
 
 set_target_properties(libQtGUI

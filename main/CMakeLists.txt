@@ -40,7 +40,6 @@ add_executable(${PROJECT_NAME}
 # Use the Widgets module from Qt 5.
 target_link_libraries(${PROJECT_NAME}
 	Qt5::Widgets libQtGUI libQCustomPlot libMain libSPeval
-	${GTEST_LIBRARIES}
 	libMinuit
 	${Caffe_LINKER_LIBS}
 	${Pthread}
