@@ -48,6 +48,8 @@ struct SystemDirectories
 void MessageHandler(QtMsgType type, const QMessageLogContext &context, const QString &msg)
 {
     QFile outfile(Directories.LogFile.c_str());
+    QString SourceFile = context.file; int spos = SourceFile.lastIndexOf('/')+1;
+    SourceFile.remove(0,spos);
     if(outfile.open(QIODevice::WriteOnly | QIODevice::Append))
     {
     QTextStream ts(&outfile);
@@ -67,7 +69,7 @@ void MessageHandler(QtMsgType type, const QMessageLogContext &context, const QSt
         ts << "Fatal: ";
     }
     ts <<  QTime::currentTime().toString("hh:mm:ss ");
-    ts << "> " << msg << '\n';
+    ts << "> " << msg << " #>" << SourceFile << ':' << context.line <<'\n';
     cerr << msg.toStdString().c_str() << '\n';
       ts.flush();
     }
