@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 //#include "filefilters.h"
+#include "FitDialog.h"
 
 namespace Ui {
 class ESsistMe_MainWindow;
@@ -18,12 +19,11 @@ public:
     QToolBar *toolBar;
     QToolBar * plotToolBar;
     QToolBar * procToolBar;
-    QAction* fileNewWindowAction;
-    QAction* fileOpenAction;
-    QAction* fileExitAction;
+    QAction *fileNewWindowAction, *fileOpenAction, *fileExitAction;
+    QAction *processFitAction;
 //    QAction* fileSaveAction;
     QMenuBar *menubar;
-    QMenu *fileMenu;
+    QMenu *fileMenu, *processMenu;
 //    QList<BaseFileFilter* > fileFilterList;
 //    void initFileFilterList();
      void readSettings();
@@ -36,13 +36,15 @@ private slots:
     void fileNewWindow();
     void fileOpenDialog();
     virtual void fileExit();
-
+    virtual void processFit();
 private:
     Ui::ESsistMe_MainWindow *ui;
     void SetFileMenu(void);
+    void SetProcessMenu(void);
     void fileOpen(QString name,  QString filter, int flags);
     QString working_directory; //contains working directory
     bool maybeClose();
+    FitDialog *ESsistMe_FitDialog;
 
 };
 

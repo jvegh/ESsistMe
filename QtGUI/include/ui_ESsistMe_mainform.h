@@ -61,7 +61,7 @@ public:
     QHBoxLayout *topLayout;
     QSplitter *spectrumsplitter, *controlsplitter, *mainsplitter;
     QMenuBar *menubar;
-       QMenu *fileMenu;
+       QMenu *fileMenu, *processMenu;
     void setupUi(QMainWindow *MainWindow)
     {
         if (MainWindow->objectName().isEmpty())

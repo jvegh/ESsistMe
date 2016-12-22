@@ -5,6 +5,7 @@
 #include "qcustomplot.h" // the header file of QCustomPlot.
 #include "QStuff.h"
 #include "Stuff.h"
+#include "FitDialog.h"
 
 QVector<double> X0(250), Y0(250);
 QVector<double> YConfUpper(250), YConfLower(250);
@@ -20,14 +21,17 @@ ESsistMe_MainWindow::ESsistMe_MainWindow(QWidget *parent) :
     setIconSize(QSize(24,24));
     setWindowIcon( QPixmap( ":/images/ESlogo.png" ) );
     SetFileMenu();
+    SetProcessMenu();
 //    initFileFilterList();
     readSettings(); // Read window-related settings
+    ESsistMe_FitDialog = new FitDialog();
 
 }
 
 ESsistMe_MainWindow::~ESsistMe_MainWindow()
 {
     delete ui;
+    delete ESsistMe_FitDialog;
 }
 
 void ESsistMe_MainWindow::SetFileMenu(void)
@@ -59,10 +63,26 @@ ui->fileMenu->addAction(fileExitAction);
 
 }
 
+void ESsistMe_MainWindow::SetProcessMenu(void)
+{
+processFitAction = new QAction( this);
+processFitAction->setText( tr( "&Fit" ) );
+processFitAction->setIcon( QIcon( ":/images/window_new.png") );
+//processFitAction->setShortcut(QKeySequence::New);
+//processFitAction->setShortcuts(QKeySequence::New);
+processFitAction->setStatusTip(tr("Fit the spectrum"));
+connect( processFitAction, SIGNAL( triggered() ), this, SLOT( ESsistMe_MainWindow::processFit() ) );
+
+ui->processMenu = ui->menubar->addMenu(tr("&Process"));
+ui->processMenu->addAction(processFitAction);
+ui->processMenu->addSeparator();
+}
+
 
 
 void ESsistMe_MainWindow::fileNewWindow()
 {
+    ESsistMe_FitDialog->show();
  /*   static int wcounter=1;
     PlotArea* temparea=new PlotArea(this);
     QMdiSubWindow* subWindow=mdiArea->addSubWindow(temparea);
@@ -136,6 +156,13 @@ void ESsistMe_MainWindow::fileOpenDialog()
 
 }
 
+void ESsistMe_MainWindow::processFit()
+{
+    qDebug() << "Fit process invoked";
+    FitDialog w;
+    w.show();
+    qDebug() << "Fit process returned";
+}
 
 void ESsistMe_MainWindow::closeEvent(QCloseEvent *event)
 {
