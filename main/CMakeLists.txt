@@ -14,10 +14,14 @@ message(HIGHLIGHTED "Configuring ${PROJECT_NAME} GUI tool")
 
 ## Deal with the GUI version
 find_package(Qt5Widgets)
-
+find_package(Qt5 COMPONENTS
+      Core Widgets Concurrent PrintSupport LinguistTools REQUIRED)
 # The Qt5Widgets_INCLUDES also includes the include directories for
   # dependencies QtCore and QtGui
 include_directories(${Qt5Widgets_INCLUDES}
+        ${Qt5Concurrent_INCLUDES}
+        ${Qt5Printer_INCLUDE_DIRS}
+        ${Qt5Concurrent_INCLUDE_DIRS}
         include
         ${CMAKE_SOURCE_DIR}/SPeval/include 
         ${CMAKE_SOURCE_DIR}/QtGUI/include
@@ -39,8 +43,9 @@ add_executable(${PROJECT_NAME}
 	)
 # Use the Widgets module from Qt 5.
 target_link_libraries(${PROJECT_NAME}
-	Qt5::Widgets libQtGUI libQCustomPlot libMain libSPeval
-	libMinuit
+	libMinuit libQCustomPlot
+        libQtGUI libMain libSPeval
+	Qt5::Widgets Qt5::Concurrent Qt5::PrintSupport
 	${Caffe_LINKER_LIBS}
 	${Pthread}
 )

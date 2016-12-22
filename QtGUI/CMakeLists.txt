@@ -18,22 +18,24 @@ find_package(Qt5 COMPONENTS
   # The Qt5Widgets_INCLUDES also includes the include directories for
   # dependencies QtCore and QtGui
 include_directories(
-      ${Qt5Widgets_INCLUDE_DIRS}
-      ${Qt5Printer_INCLUDE_DIRS}
       include
       ${CMAKE_SOURCE_DIR}/QCustomPlot/include
       ${CMAKE_SOURCE_DIR}/main/include
       ${CMAKE_SOURCE_DIR}/Minuit/include
+      ${Qt5Widgets_INCLUDE_DIRS}
+      ${Qt5Printer_INCLUDE_DIRS}
+      ${Qt5Concurrent_INCLUDE_DIRS}
       )
 
   # We need add -DQT_WIDGETS_LIB when using QtWidgets in Qt 5.
-add_definitions(${Qt5Widgets_DEFINITIONS} ${Qt5Printer_DEFINITIONS})
+add_definitions(${Qt5Widgets_DEFINITIONS} ${Qt5Printer_DEFINITIONS} ${Qt5Concurrent_DEFINITIONS})
 
 set(QOBJECT_HEADERS 
 	include/ENavigatorWindow.h
 	include/EResidualWindow.h
 	include/ESpectrumWindow.h
 	include/ESsistMe_mainwindow.h
+	include/FitDialog.h
 	include/QStuff.h
 )
 
@@ -42,6 +44,7 @@ set(QOBJECT_SOURCES
 	EResidualWindow.cpp
 	ESpectrumWindow.cpp
 	ESsistMe_mainwindow.cpp
+        FitDialog.cpp
 	QStuff.cpp
 )
 
@@ -69,14 +72,18 @@ ADD_LIBRARY(libQtGUI
 )
 
 # Use the Widgets module from Qt 5.
-target_link_libraries(libQtGUI 
-Qt5::Widgets Qt5::PrintSupport)
+target_link_libraries(libQtGUI  libQCustomPlot
+Qt5::Widgets Qt5::PrintSupport Qt5::Concurrent)
 
-set_target_properties(libQtGUI
+set_target_properties(libQtGUI 
                       PROPERTIES OUTPUT_NAME QtGUI
                       )
 
 target_include_directories(libQtGUI PUBLIC
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+)
+
+target_include_directories(libQCustomPlot PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
 )
 

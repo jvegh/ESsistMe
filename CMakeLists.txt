@@ -90,10 +90,10 @@ endif()
 
 # Copy the version and other configuration info to the source
 configure_file(${CMAKE_SOURCE_DIR}/main/Config.h.in ${CMAKE_SOURCE_DIR}/main/include/Config.h)
+add_subdirectory(QCustomPlot)	# The Qt-based QCustomPlot library
+add_subdirectory(QtGUI)	# The Qt-based graphics routines
 add_subdirectory(Minuit) # The Minuit minimization library
 add_subdirectory(SPeval) # The SPeval spectrum evaluation library
-add_subdirectory(QtGUI)	# The Qt-based graphics routines
-add_subdirectory(QCustomPlot)	# The Qt-based QCustomPlot library
 ###add_subdirectory(GSim) # The GSim spectrum evaluation library
 add_subdirectory(main)	# The main executables of the ES tool gui
 if (BUILD_TESTS)
