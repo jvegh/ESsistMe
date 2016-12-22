@@ -52,25 +52,27 @@ void MessageHandler(QtMsgType type, const QMessageLogContext &context, const QSt
     SourceFile.remove(0,spos);
     if(outfile.open(QIODevice::WriteOnly | QIODevice::Append))
     {
-    QTextStream ts(&outfile);
+    QTextStream ts(&outfile); string LogType;
     switch (type) {
     case QtDebugMsg:
-        ts << "Debug: ";
+        LogType += "D> ";
+        ts << SourceFile << ':' << context.line << "> ";
         break;
-    case QtInfoMsg:
-        break;
-    case QtWarningMsg:
-        ts << "Warning: ";
-    break;
     case QtCriticalMsg:
-        ts << "Critical: ";
-    break;
+        LogType += 'C';
+        ts << "CRITICAL ";
+    case QtWarningMsg:
+        LogType += 'W';
+        ts << "Warning: ";
+    case QtInfoMsg:
+        LogType += "I> ";
+        break;
     case QtFatalMsg:
-        ts << "Fatal: ";
+        ts << "Fatal: " << endl;
     }
-    ts <<  QTime::currentTime().toString("hh:mm:ss ");
-    ts << "> " << msg << " #>" << SourceFile << ':' << context.line <<'\n';
-    cerr << msg.toStdString().c_str() << '\n';
+    ts << msg << " @" << QTime::currentTime().toString("hh:mm:ss\n");
+    cerr << LogType.c_str() << msg.toStdString().c_str() << " |>" << SourceFile.toStdString().c_str() << ':' << context.line
+            << " @" << QTime::currentTime().toString("hh:mm:ss\n").toStdString();
       ts.flush();
     }
     else
