@@ -26,6 +26,8 @@ include_directories(${Qt5Widgets_INCLUDES}
         ${CMAKE_SOURCE_DIR}/SPeval/include 
         ${CMAKE_SOURCE_DIR}/QtGUI/include
 	${CMAKE_SOURCE_DIR}/Minuit/include
+        ${CMAKE_SOURCE_DIR}/QCustomPlot/include
+
 )
 
   # We need add -DQT_WIDGETS_LIB when using QtWidgets in Qt 5.
