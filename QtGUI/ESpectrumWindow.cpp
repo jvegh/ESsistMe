@@ -69,7 +69,7 @@ void ESsistMe_SpectrumWindow::setupSincScatterDemo(QCustomPlot *customPlot)
   for (int i=0; i<250; ++i)
   {
     X0[i] = (i/249.0-0.5)*30+0.01; // by adding a small offset we make sure not do divide by zero in next code line
-    Y0[i] = qSin(X0[i])/X0[i]; // sinc function
+    Y0[i] = qSin(X0[i])/X0[i] +.6; // sinc function
     YConfUpper[i] = Y0[i]+0.15;
     YConfLower[i] = Y0[i]-0.15;
     X0[i] *= 1000;
@@ -82,7 +82,7 @@ void ESsistMe_SpectrumWindow::setupSincScatterDemo(QCustomPlot *customPlot)
     double r = qSqrt(-2*qLn(tmp1))*qCos(2*M_PI*tmp2); // box-muller transform for gaussian distribution
     // set y1 to value of y0 plus a random gaussian pertubation:
     X1[i] = (i/50.0-0.5)*30+0.25;
-    Y1[i] = qSin(X1[i])/X1[i]+r*0.15;
+    Y1[i] = qSin(X1[i])/X1[i]+r*0.15 +.6;
     X1[i] *= 1000;
     Y1err[i] = 0.15;
     YResidual[i] = (Y1[i]-Y0[i])/sqrt(Y1[i]);

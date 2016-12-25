@@ -25,7 +25,6 @@ void ESsistMe_ResidualWindow::setupSimpleDemo(QCustomPlot *customPlot)
   customPlot->setLocale(QLocale(QLocale::English, QLocale::UnitedKingdom));
   customPlot->addGraph();
   customPlot->graph(0)->setLineStyle(QCPGraph::lsLine);
-  customPlot->graph()->setScatterStyle(QCPScatterStyle::ssDiamond);
   customPlot->graph(0)->setPen(QPen(Qt::blue));
   customPlot->graph(0)->setBrush(QBrush(QColor(0, 0, 255, 20))); // first graph will be filled with translucent blue
   customPlot->graph(0)->setData(X1,  YResidual);
