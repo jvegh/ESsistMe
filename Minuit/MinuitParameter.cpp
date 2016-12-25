@@ -4,6 +4,108 @@
 #include    <algorithm>
 #include    <cassert>
 #include    <iostream>
+
+std::ostream& operator << (std::ostream &oss, const MinuitParameter &t) {
+    oss << t.theNum << ' ';
+    oss << t.theName << ' ';
+    oss << t.theValue << ' ';
+    oss << t.theError << ' ';
+    oss << t.theConst << ' ';
+    oss << t.theFix << ' ';
+    oss << t.theLoLimit << ' ';
+    oss << t.theUpLimit << ' ';
+    oss << t.theLoLimValid << ' ';
+    oss << t.theUpLimValid << ' ';
+#if MINUIT_EXTENDED
+    oss << t.theWidth << ' ';
+    oss << t.theDecimals << ' ';
+//    oss << t.LinkMode << ' ';
+//    m_MySet = par.m_MySet;
+//    MasterPtr = par.MasterPtr;
+//    oss << t.MasterParameterNo;
+    oss << t.m_UserIndex << ' ';
+#endif // MINUIT_EXTENDED
+    return oss;
+}
+
+std::istream& operator>> (std::istream &in, MinuitParameter &t)
+{
+    in >> t.theNum;
+    in >>  t.theName;
+    in >>  t.theValue;
+    in >>  t.theError;
+    in >>  t.theConst;
+    in >>  t.theFix;
+    in >>  t.theLoLimit;
+    in >>  t.theUpLimit;
+    in >>  t.theLoLimValid;
+    in >>  t.theUpLimValid;
+#if MINUIT_EXTENDED
+    in >>  t.theWidth;
+    in >>  t.theDecimals;
+//    in >>  t.LinkMode;
+//    m_MySet = par.m_MySet;
+//    MasterPtr = par.MasterPtr;
+//    oss << t.MasterParameterNo;
+    in >>  t.m_UserIndex ;
+#endif // MINUIT_EXTENDED
+     return in;
+}
+
+std::ostream& operator << (std::ostream &oss, const MinuitParameterSet &t) {
+    oss << t.Parameters.size() << ' ';
+    oss << t.theName << ' ';
+    oss << t.Label << std::endl;
+    for(int i = 0; i< t.Parameters.size(); i++)
+        oss << t.Parameters[i] << std::endl;
+/*    oss << t.theNum << ' ';
+    oss << t.theName << ' ';
+    oss << t.theValue << ' ';
+    oss << t.theError << ' ';
+    oss << t.theConst << ' ';
+    oss << t.theFix << ' ';
+    oss << t.theLoLimit << ' ';
+    oss << t.theUpLimit << ' ';
+    oss << t.theLoLimValid << ' ';
+    oss << t.theUpLimValid << ' ';
+#if MINUIT_EXTENDED
+    oss << t.theWidth << ' ';
+    oss << t.theDecimals << ' ';
+//    oss << t.LinkMode << ' ';
+//    m_MySet = par.m_MySet;
+//    MasterPtr = par.MasterPtr;
+//    oss << t.MasterParameterNo;
+    oss << t.m_UserIndex << ' ';
+#endif // MINUIT_EXTENDED
+    */
+    return oss;
+}
+
+std::istream& operator>> (std::istream &in, MinuitParameterSet &t)
+{
+/*    in >> t.theNum;
+    in >>  t.theName;
+    in >>  t.theValue;
+    in >>  t.theError;
+    in >>  t.theConst;
+    in >>  t.theFix;
+    in >>  t.theLoLimit;
+    in >>  t.theUpLimit;
+    in >>  t.theLoLimValid;
+    in >>  t.theUpLimValid;
+#if MINUIT_EXTENDED
+    in >>  t.theWidth;
+    in >>  t.theDecimals;
+//    in >>  t.LinkMode;
+//    m_MySet = par.m_MySet;
+//    MasterPtr = par.MasterPtr;
+//    oss << t.MasterParameterNo;
+    in >>  t.m_UserIndex ;
+#endif // MINUIT_EXTENDED
+*/
+     return in;
+}
+
 // Return link mode corresponding to Ch
 MinuitParameter::pmLinkMode MinuitParameter::Char2LinkMode( const char Ch)
 {   switch(Ch)

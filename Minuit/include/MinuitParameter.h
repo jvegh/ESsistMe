@@ -13,6 +13,8 @@
 class MinuitParameterSet;   // forward declaration
 #include <vector>
 #include    <cmath>
+#include <iostream>
+//#include <sstream>
 
 #define ASSERT_MSG(what,msg) if(!(what)) {printf("debug : Parameter : %s\n",msg);::exit(0);} 
 /*  as wxCHECK2 but with a message explaining why we fail */
@@ -54,6 +56,9 @@ class MinuitParameter {
 
 public:
 #if MINUIT_EXTENDED
+
+    friend std::ostream& operator << (std::ostream &oss, const MinuitParameter &t);
+    friend std::istream& operator>> (std::istream &in, MinuitParameter &t);
   ///  pm attribute indices
     enum pmAttributeIndex{ pmLimLow = 0, pmValue, pmLimHigh, pmError, pmWidth, pmPrecision, pmIntegerForm };
   /// Parameter record link modes
@@ -76,7 +81,7 @@ public:
 #define    pm2LinearLinkChar        'L'
 #define    pm2FWHMLinearLinkChar    'W'
 #endif // MINUIT_EXTENDED
-char pmLinkChars[4] = {pmNoLinkChar,pmReplaceLinkChar,pmAddLinkChar,pmMultiplyLinkChar}; 
+char pmLinkChars[4] = {pmNoLinkChar,pmReplaceLinkChar,pmAddLinkChar,pmMultiplyLinkChar};
 std::string pmLinkStrings[4] = {("No link"), ("Replace"), ("Add"), ("Multiply") };
 
     /*!
@@ -201,6 +206,7 @@ std::string pmLinkStrings[4] = {("No link"), ("Replace"), ("Add"), ("Multiply") 
 #endif // MINUIT_EXTENDED
    return *this;
   }
+
 
   //access methods
   unsigned int number() const {return theNum;}
@@ -382,6 +388,8 @@ private:
 /// The "parameter set" structure: set of parameters
 class MinuitParameterSet 
 {
+    friend std::ostream& operator << (std::ostream &oss, const MinuitParameterSet &t);
+    friend std::istream& operator>> (std::istream &in, MinuitParameterSet &t);
 protected:
     long        UniqueID;               ///< Component application-unique ID
     std::string    Label;              ///< The label for the parameter set
