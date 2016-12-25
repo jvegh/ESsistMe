@@ -2,6 +2,7 @@
 #define ESsistMe_MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QTreeWidgetItem>
 //#include "filefilters.h"
 #include "FitDialog.h"
 
@@ -28,6 +29,7 @@ public:
 //    void initFileFilterList();
      void readSettings();
      void writeSettings();
+     void setupToolBoxes(void);
 
 protected:
         void closeEvent(QCloseEvent *event) Q_DECL_OVERRIDE;
@@ -45,6 +47,10 @@ private:
     QString working_directory; //contains working directory
     bool maybeClose();
     FitDialog *ESsistMe_FitDialog;
+
+    void addTreeRoot(QString name, QString description);
+    void addTreeChild(QTreeWidgetItem *parent,
+                      QString name, QString description);
 
 };
 
