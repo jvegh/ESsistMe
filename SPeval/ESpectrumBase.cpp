@@ -91,7 +91,7 @@ ESpectrumBase(vector<double>*X, vector<double>*Y, vector<double>*dY)
 void ESpectrumBase::
 InitializeFunctionPointers(void)
 {
-    //
+    //http://stackoverflow.com/questions/30228452/function-pointer-within-class
     ESpectrumBase::Ptr_X_Get = &ESpectrumBase::X_Get_Kinetic;   // Anyhow, be sure that XGet pointers have a value
     ESpectrumBase::Ptr_X_Get_Kinetic = &ESpectrumBase::X_Get_Kinetic;   //
     ESpectrumBase::Ptr_X_Get_Binding = &ESpectrumBase::X_Get_Kinetic;   // Until we know X value, use kinetic scale
