@@ -2,6 +2,7 @@
 #include "GaussDataGen.h"
 #include "FCNMonitorBase.h"
 #include "FunctionMinimum.h"
+#include "MinuitParameter.h"
 #include "MnUserParameterState.h"
 #include "MnPrint.h"
 #include "MnMigrad.h"
@@ -14,13 +15,15 @@
 //#include <cassert>
 #include	<stdio.h>
 #include	<iostream>
+#include <sstream>
+#include    <string>
 void	DumpParameterSet(MinuitParameterSet &S, std::string prefix = "");
 void	DumpParameter(MinuitParameter &P, std::string prefix = "");
 void TestLinkingStatic();
 void TestLinkingDynamic();
 #include <gtest/gtest.h>
 #include <glog/logging.h>
-extern std::string pmLinkStrings[];
+//extern std::string pmLinkStrings[];
 
 // Making Core tests for the simulator
 class MinuitLinkTest  : public testing::Test
@@ -53,6 +56,20 @@ public:
 	Gaussian->Add("Width",GaussW, GaussW/500);
 	(*Gaussian)[2].setUpperLimit(GaussW*3);
 	Gaussian->Add("Alpha",GaussA);
+/*  std::ostringstream oss;
+    oss <<  (*Gaussian)[0];
+  std::string osss = oss.str();
+  std::istringstream iss(osss);
+  MinuitParameter MyPar(0,"None",0);
+  iss >>  MyPar;*/
+
+    std::ostringstream oss;
+       oss <<  (*Gaussian);
+     std::string osss = oss.str();
+     std::istringstream iss(osss);
+ //    MinuitParameter MyPar(0,"None",0);
+ //    iss >>  MyPar;
+
   LorentzE=104.0;
   LorentzY=2000.0;
   LorentzW=5.0;
@@ -90,10 +107,10 @@ TEST_F(MinuitLinkTest, Initialize)
   EXPECT_FALSE(MyPar1.hasLowerLimit());
   EXPECT_FALSE(MyPar1.hasUpperLimit());
   EXPECT_EQ(pmNoLinkChar, MyPar1.GetLinkModeChar());
-//  EXPECT_STREQ(pmLinkStrings[0].c_str(),MyPar1.GetLinkModeString().c_str());
+  EXPECT_STREQ(MyPar1.GetLinkModeString().c_str(),MyPar1.GetLinkModeString().c_str());
   EXPECT_STREQ(std::string("100.00").c_str(),MyPar1.GetFormattedItem(MinuitParameter::pmValue ).c_str());
   EXPECT_STREQ(std::string("100.00").c_str(),MyPar1.GetFormattedItem(MinuitParameter::pmValue, true ).c_str());
- // !! EXPECT_STREQ(std::string("100.00").c_str(),MyPar1.GetFormattedItem(MinuitParameter::pmError ).c_str());
+  EXPECT_STREQ(std::string("0").c_str(),MyPar1.GetFormattedItem(MinuitParameter::pmError ).c_str());
 }
 #endif
 
@@ -180,8 +197,10 @@ TEST_F(MinuitLinkTest, Extract)
         // Gaussian[0].setLimits(-1,1); 
         Gaussian[0].setValue(1);
         upar.extract(Gaussian);
-        printf("value = %f\n", Gaussian[0].value());
-         printf("error = %f\n", Gaussian[0].error());
+        EXPECT_EQ(1.0, Gaussian[0].value());
+        EXPECT_EQ(0.1, Gaussian[0].error());
+//        printf("value = %f\n", Gaussian[0].value());
+//         printf("error = %f\n", Gaussian[0].error());
   // !! EXPECT_EQ( Gaussian[0].value(), mean );
 
   EXPECT_EQ( Gaussian[0].lowerLimit(), -60. );
