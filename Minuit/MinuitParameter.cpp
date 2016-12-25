@@ -56,7 +56,7 @@ std::ostream& operator << (std::ostream &oss, const MinuitParameterSet &t) {
     oss << t.Parameters.size() << ' ';
     oss << t.theName << ' ';
     oss << t.Label << std::endl;
-    for(int i = 0; i< t.Parameters.size(); i++)
+    for(unsigned int i = 0; i< t.Parameters.size(); i++)
         oss << t.Parameters[i] << std::endl;
 /*    oss << t.theNum << ' ';
     oss << t.theName << ' ';
