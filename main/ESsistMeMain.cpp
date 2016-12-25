@@ -20,7 +20,6 @@ int main(int argc, char *argv[])
   app.setApplicationName(appname.str().c_str());
   appname << "[*]";
   mainWin.setWindowTitle(appname.str().c_str());
-  SetupSystemDirectories(&mainWin); // Establish system and user directories
 //  SetupSettings();  // Set up for using QSettings from different places
   mainWin.show();
   return app.exec();
