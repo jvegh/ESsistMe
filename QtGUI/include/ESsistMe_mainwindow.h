@@ -4,11 +4,42 @@
 #include <QMainWindow>
 #include <QTreeWidgetItem>
 //#include "filefilters.h"
+#include "qcustomplot.h"
 #include "FitDialog.h"
 
 namespace Ui {
 class ESsistMe_MainWindow;
 }
+
+/*!
+ * \brief The Overall plot sytyle structure, as used by QCustomPlot
+ *
+ * All subwindows have their own plot styles, only the structure is the same
+ */
+struct PlotStyle
+{
+    bool ConfidenceBands_Present;   // If to draw component in question
+    bool Legend_Present;
+    bool TheoryCurve_Present;
+    bool MeasurementData_Present;
+    bool MeasurementError_Present;
+    Qt::PenStyle ConfidenceBands_PenStyle; // The style of line drawing
+    Qt::PenStyle TheoryCurve_PenStyle;
+    QColor ConfidenceBands_PenColor;
+    QColor MeasurementData_PenColor;
+    QColor TheoryCurve_PenColor;
+    QCPGraph::LineStyle MeasurementData_LineStyle;
+    QCPScatterStyle  TheoryCurve_ScatterShape;
+    QCPScatterStyle  MeasurementData_ScatterShape;
+
+    QColor ConfidenceBands_BrushColor;
+    short int ConfidenceBands_LineWidth; // The width of the line
+    short int TheoryCurve_LineWidth;
+
+    Qt::PenStyle Theory_LineStyle; // The style of line drawing
+
+};
+
 
 class ESsistMe_MainWindow : public QMainWindow
 {
