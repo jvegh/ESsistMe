@@ -19,6 +19,7 @@ public:
     void setupSincScatterDemo(QCustomPlot *customPlot);
 
 private:
+    PlotStyle *mPlotStyle;
 //    Ui::ESsistMe_SpectrumWindow *ui;
 //    QCustomPlot* spectrumPlot;
 };
