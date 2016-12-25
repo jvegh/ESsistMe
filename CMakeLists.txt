@@ -96,6 +96,8 @@ add_subdirectory(Minuit) # The Minuit minimization library
 add_subdirectory(SPeval) # The SPeval spectrum evaluation library
 ###add_subdirectory(GSim) # The GSim spectrum evaluation library
 add_subdirectory(main)	# The main executables of the ES tool gui
+file(MAKE_DIRECTORY "${CMAKE_BINARY_DIR}/data")
+file(MAKE_DIRECTORY "${CMAKE_BINARY_DIR}/docs")
 if (BUILD_TESTS)
   add_subdirectory(test)	# Tests for the tool library
   add_subdirectory(test/Minuit)	# Tests for the Minuit library
