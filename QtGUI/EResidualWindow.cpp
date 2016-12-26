@@ -38,24 +38,30 @@ void ESsistMe_ResidualWindow::setupSimpleDemo(QCustomPlot *customPlot)
   customPlot->graph(0)->setBrush(QBrush(QColor(0, 0, 255, 20))); // first graph will be filled with translucent blue
   customPlot->graph(0)->setData(X1,  YResidual);
   customPlot->graph(0)->rescaleAxes();
+  QCPRange MyRange = customPlot->xAxis->range();
   customPlot->yAxis->setRange(MRange-Rounding, Range+Rounding);
   customPlot->yAxis2->setRange(MRange-Rounding, Range+Rounding);
   // Here we have two scales
   // for the two graphs
 //  customPlot->graph(0)->rescaleAxes();
-  double MyMax = 0;
   double CellWidth = 2*Range/NDist;
     for(int i = 0; i<NDist+2; i++)
     {
         RGraphX[i] = MRange + (i-1)*CellWidth;
-        if(RGraphX[i] > MyMax) MyMax = RGraphX[i];
     }
-    MyMax = 2*MyMax;
+    double MyMax = 0;
   for (int i=0; i<50; ++i)
   {
 
     int j =  MyIndex(YResidual[i]);
     RGraph[j] += 500.0L;
+    if(RGraph[j] > MyMax) MyMax = RGraph[j];
+  }
+  double norm = (MyRange.upper-MyRange.lower)/MyMax/2;
+  for (int i=0; i<NDist+2; ++i)
+  {
+
+    RGraph[i] = MyRange.lower+RGraph[i]*norm;
   }
 
   customPlot->addGraph(yAxis,xAxis);
