@@ -5,7 +5,7 @@
 
 @section User-Install_General Introduction
 
-@section User-Install_Distrib Installing from distribution kits
+@section User-Install_Distrib Installing from distribution packages
 
 The program is fully open source, so if you do not like some of its services,
 you may fix or enhance it. The development is available from the repository 
@@ -46,28 +46,29 @@ This library is available from CERN
 @section User-Install_directories Directories
 
 The application uses a couple of distinguished directories.
-Since the application is multiplatform, and at least partly the user can configure them,
-in this description only the functionality is given, and some hints are made to the concrete,
+Since the application is multiplatform, and also (at least partly) the user can configure the directories,
+in this description only the utilization of the directories is given, and some hints are made to the concrete,
 platform-dependent names.
 
 The application internally uses the directory hierarchy shown below.
 If you install it as described here, your operating system will make the structure.
 If, for some reason, you change it manually, make sure _not_ to change the structure:
-the application presumes this hierarchy during operation. Upon starting,
-the tool verifies/sets/creates/changes things, related to its operation.
-Neither system nor user settings are touched. 
+the application presumes this hierarchy during operation.
+Upon starting, the tool verifies/sets/creates/changes things, related to its operation, but
+neither system nor user settings are touched.
 
-When the tool starts up, 
+Also part of the initial startup is to set up the user directory and the
+directories and files the application works with; for details see @ref User_Install_WorkDir.
+When the tool starts up,
 it verifies whether the install directory structure exists.
 A single binary executable file is the bare minimum, but
 several other files and directories enhance its functionality.
-It can work even without those other subdirectories and files,
-but the related functionality will not be available.
 The tool makes a self-test at the beginning, and accounts for those
 available enhancements. See section @ref User_Install_System_Bin.
+If some component is not found during startup, the related functionality will not be available:
+you receive a warning message and
+some buttons and menu items will be disabled (i.e. the functionality will be restricted).
 
-Also part of the initial startup is to set up the user directory and the
-directories and files the application works with. For details see @ref User_Install_UserDir.
 
  
 @subsection User_Install_SystemDir Installation directory
@@ -78,7 +79,7 @@ in the directories and subdirectories as shown below.
   InstallDir
   |--/bin
   |--/data
-  |--/doc
+  |--/docs
 @endverbatim
 
 Those directories are read-only, and typically they are touched only during installation.
@@ -94,21 +95,21 @@ but you may also ask your system administrator to install it for all users of th
 @verbatim |--InstallDir/data @endverbatim directory contains executable-related  data files.
 
 @subsubsection User_Install_System_Doc The documentation
-@verbatim |--InstallDir/doc @endverbatim The directory contains the documentation of the system.
+@verbatim |--InstallDir/docs @endverbatim The directory contains the documentation of the system.
 
-@verbatim |--InstallDir/doc/ESsistMe.chm @endverbatim
+@verbatim |--InstallDir/docs/ESsistMe.chm @endverbatim
 This single document comprises all related user information.
 To read it, please install a CHM viewer application on your system.
 The different chapters of the document are targeting different types of users.
 
-@verbatim |--InstallDir/doc/mntutorial.pdf @endverbatim
+@verbatim |--InstallDir/docs/mntutorial.pdf @endverbatim
 This document is available for downloading from http://seal.web.cern.ch/seal/documents/minuit/mntutorial.pdf,
 it is included in the distribution only for comfort.
 
 
 
 
-@subsection User_Install_UserDir User directory
+@subsection User_Install_WorkDir User work directory
 
 @verbatim
   |WorkDir
@@ -117,32 +118,28 @@ it is included in the distribution only for comfort.
 @endverbatim
 This is the only directory where the program generates files,
 which may be interesting for the typical user.
-The tool is presumed to work in a directory structure shown above. 
+The tool is presumed to work in a directory structure shown above, see section @ref User-Work_Project,
 When the application starts up, it verifies whether the required subdirectories exist.
 Of course, the  directory can contain further files and/or subdirectories.
 
 The program can be started from any subdirectory, and the work directory will be
-the directory it was started from. In order to avoid "polluting" the user's directories,
-two directories show up special behavior. The program will not work in the install directory
-and in the user's home directory. In the case the program is invoked from any of those 
+that subdirectory it was started from. In order to avoid "polluting" the user's directories,
+two directories show up special behavior. The program will not work in the *install directory*
+and in the *user's home directory*. In the case the program is invoked from any of those two
 directories, the program relocates the work directory to 
 @verbatim
   |UserHome/PackageName
 @endverbatim
-
+(if needed, creates it).
 In any case, if the work directory exists at the time when the program starts up, 
 the already existing directory will be used. If no such directory found, 
-the program creates the needed directory. 
+the program creates the needed directory. For details of opeation, see section @ref  User-Work_Project.
 
-It is a good practice to put together all the stuff used in evaluating spectral data,
-i.e. to make "project" for the different evaluation sessions. The concept of 
-"work directory" serves this goal: you can put in the 'WorkDir/data' subdirectory
-the spectrum files, etc., and generate the results in 'WorkDir/output' subdirectory.
 
-@subsubsection User_Install_User_Data The data
+@subsubsection User_Install_Work_Data The data
 @verbatim |WorkDir/data @endverbatim directory contains your input data.
 
-@subsubsection User_Install_User_Output The output
+@subsubsection User_Install_Work_Output The output
 The @verbatim |WorkDir/output @endverbatim directory contains the output files produced during the session.
 
 
@@ -150,9 +147,9 @@ The @verbatim |WorkDir/output @endverbatim directory contains the output files p
 @subsection User_Install_UserTemp Temporary directory
 
 
-The system might need some temporary storage (directory and files).
+The system may need some temporary storage (directory and files).
 Normally, the system provides a system-wide area for this goal.
-If that can be used, the program creates a separate subdirectory in it,
+If that area can be used, the program creates a separate subdirectory in it,
 i.e. the temporary data will be stored in
 @verbatim
     TempDir/PackageName
@@ -160,7 +157,7 @@ i.e. the temporary data will be stored in
 
 If for any reason, that are is not available for the program,
 it creates a subdirectory in the user's home directory, i.e.
-in such a case the temprary files go in subdirectory
+in such a case the temporary files go in subdirectory
 
 @verbatim
   UserHome/PACKAGE_NAME/temp
@@ -187,20 +184,27 @@ in special subdirectories and with special file names.
 As mentioned in section @ref User_Install_UserConfigDir, 
 the actual settings are stored in file
 @verbatim
-  UserHome/ConfigDir/PACKAGE_NAME/PACKAGE_NAME PACKAGE_VERSION.ini
+  UserHome/ConfigDir/PACKAGE_NAME/PROJECT_NAME PROJECT_VERSION.ini
 @endverbatim
+For details see section @ref User-Work_Settings.
 
-When the user exits the tool, the actual settings are saved in the file
-and the next time are loaded again. 
-This means that  the user may continue the next session exactly 
-with the same settings used in the past session. 
-Please notice that the file name contains also the version number,
-i.e. you can use different settings for different program versions.
-And of course, you need to copy manually the setting if you start with a new version.
+
+
+@subsection User_Install_UserFileLog Logging user activity
+
+The evaluation activity is recorded in a log file.
+It means that messages from the program are written in a file.
+The messages describe the actions, parameters, etc. Normally,
+the log file is not needed for the user. However, the file remembers
+which action, in which order, using which parameter values was executed,
+so it can serve also as an evaluation diary. The file is written into the
+work directory. For details see section @ref User-Work_Logging.
 
 @subsection User_Install_SetupDir Setting up directories
 
 The directories are set up as part of the initialization.
+Part of this activity takes place when intalling the application,
+the rest upon starting the application.
 
 @subsubsection UserInstallSetupSystem
 
@@ -221,13 +225,7 @@ the tool creates a work directory (using the name and version of the tool) in th
 otherwise uses the current directory (where the tool was invoked from).
 
 In that (maybe newly created) subdirectory it creates the needed subdirectories.
-This policy keeps the tool-generated data together.
-
-It is, in general, a good practice to use the concept of "project subdirectory", i.e. to keep all the files
-related to evaluation of a certain spectrum in a separate subdirectory.  The best policy is
-to create a new subdirectory for a new project, which initially contains your data and settings files,
-then cange to that subdirectory and invoke the tool from that subdirectory.
-This is where your output files will be written, too.
+This policy keeps the tool-generated data together. For details see section @ref User-Work_Project.
 
 @subsubsection UserInstallSetupTemp
 The system might need temporary storage place, too. This area is normally transparent for the user.

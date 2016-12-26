@@ -1,0 +1,19 @@
+/**
+@page User-Windows Windows used in the evaluation
+
+\tableofcontents
+
+@section User-Windows_General Introduction
+
+@section User-windows_Main The main window of the program
+
+
+@subsection User-windows_spectrum The spectrum window
+
+@subsection User-windows_residual The residual window
+
+@subsection User-windows_navigator The navigator window
+
+
+
+*/

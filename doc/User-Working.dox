@@ -1,0 +1,91 @@
+/**
+@page User-Working How to work with ESsistMe
+
+\tableofcontents
+
+@section User-Work_General Introduction
+
+@section User-Work_Project Using "projects" during the evaluation
+
+
+
+It is, in general, a good practice to use the concept of "project subdirectory",
+i.e. to keep all the files related to evaluation of a certain spectrum in a separate subdirectory.
+The concept of
+"work directory" (see section @ref User_Install_WorkDir) serves this goal:
+you can put the spectrum files, calibration and spectroscopic data, etc.  in the 'WorkDir/data' subdirectory,
+and generate the results in 'WorkDir/output' subdirectory.
+
+The best policy is
+to create a new subdirectory for a new project (evaluation session),
+and start the program from that directory. The program will create data and output directories
+as described in section @ref User_Install_WorkDir.
+After that you may copy your files needed for the evaluation in the *data* subdirectory.
+Of course you can create the *data* subdirectory in advance, and in that case
+the program will use that directory as data directory.
+You may also want to write your per project settings file to the *data* directory, see
+section @ref User-Work_Settings.
+
+
+The results will be written in the *output* subdirectory.
+The log file (see section @ref User-Work_Logging)  goes in the work directory
+
+
+@section User-Work_Settings Using settings of the program
+
+The program sets up, utilizes and changes dynamically numerous settings,
+both relating the apperance of the program and its operation.
+Normally, users expect to provide the facility that when entering the application next time,
+it will continue where the previous time the user exited. This goal is reached through using 'Settings'.
+This operation is transparent for the user.
+
+The settigs are well-defined key-value pairs, which can be made persistent between evaluation sessions.
+When the user exits the tool, the actual settings are saved in a file
+and next time they are loaded again.
+This means that  the user may continue the next session exactly
+with the same settings that were used in the past session.
+ The file used for this goal is
+@verbatim
+  UserHome/ConfigDir/PACKAGE_NAME/PROJECT_NAME PROJECT_VERSION.ini
+@endverbatim
+Please notice that the file name contains also the version number,
+i.e. you can use different settings for different program versions.
+And of course, you may need to copy manually the settings if you start with a new version.
+This file is application-wide, but is different per user and per program version.
+Since the aforementioned settings file is application wide, the settings changed
+in the next project session will overwrite it.
+
+You may want to work  with several projects, each having their own settings,
+so  a project-wide settings may also be necessary.
+ There is a way to make your settings persistent. If the project work directory contains the file
+
+@verbatim |WorkDir/data/PROJECT_NAME PROJECT_VERSION.ini @endverbatim
+
+the program will read the settings from that file
+(i.e. the file name is the same, but it is located in the user's data directory,
+rather that in the configuration directory).
+
+Altogether, four actions may change the settings. First, there are settings used
+when compiling and/or starting the program, these are the default values.
+Second, if the program finds the application-wide settings, it reads them
+and sets the corresponding values, actually overwriting the default values.
+Third, if the project-wide settings file exists,
+reads the settings and sets the corresponding values (actually overwrites
+the application-wide settings).
+Fourth, during utilization, the user can change any of the settings,
+actually overwiting any former value.
+
+When exiting the program, the recent settings are saved in the application-wide
+settings file. When starting the application next time, those application-wide
+settings will be loaded.
+
+The user may save this application-wide settings file as project-wide settings file,
+by simply copying that file into its own 'data' subdirectory in the work directory.
+The settings file can be edited. Take care, however, to not to change the syntax.
+If reading the key-value pair fails, the default value will be used.
+
+@section User-Work_Logging Logging the evaluation activity
+
+
+
+*/

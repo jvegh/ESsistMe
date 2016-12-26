@@ -761,6 +761,8 @@ INPUT                  = @PROJECT_SOURCE_DIR@/main \
                          @PROJECT_SOURCE_DIR@/doc/User-contents.dox \
                          @PROJECT_SOURCE_DIR@/doc/User-Intro.dox \
                          @PROJECT_SOURCE_DIR@/doc/User-Install.dox \
+                         @PROJECT_SOURCE_DIR@/doc/User-Working.dox \
+                         @PROJECT_SOURCE_DIR@/doc/User-Windows.dox \
                          @PROJECT_SOURCE_DIR@/doc/Visualization-contents.dox \
                          @PROJECT_SOURCE_DIR@/doc/Visualization-Intro.dox \
                          @PROJECT_SOURCE_DIR@/doc/Visualization-CustomPlot.dox \

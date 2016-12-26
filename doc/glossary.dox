@@ -2,8 +2,6 @@
 /** @page APPENDIX
 
 @section Glossary
-@subsection GLOSSARY_CPU CPU
-Central Processing Unit
 
 @subsection GLOSSARY_XPS XPS
 <b>X</b>-Ray <b>P</b>hotoelectron <b>S</b>pectroscopy
@@ -11,14 +9,8 @@ Central Processing Unit
 @subsection GLOSSARY_GPGPU GPGPU
 General Purpose Graphic Processing Unit
 
-@subsection GLOSSARY_HW HW
-hardware
-
 @subsection GLOSSARY_ID ID
 identity
-
-@subsection GLOSSARY_ISA ISA
-Instruction Set Architecture
 
 
 @subsection GLOSSARY_OS OS
@@ -27,19 +19,8 @@ Operating system
 @subsection GLOSSARY_PC PC
 Program Counter
 
-@subsection GLOSSARY_PU PU
-Processing Unit
-
-@subsection GLOSSARY_QT QT
-quasi-thread
-
-@subsection GLOSSARY_SV SV
-supervisor (Supervisor)
 
 @subsection GLOSSARY_SW SW
 software
-
-@subsection GLOSSARY_TLP TLP
-Thread-Level Parallelism
 
 */
