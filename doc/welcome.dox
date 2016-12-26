@@ -2,17 +2,79 @@
 @mainpage Welcome to the ESsistMe tool, for electron spectroscopy
 
 In sciences, we are working with "invisible" objects, like photons, electrons, voltage, ect.
-One can visualise the experiences with those objects using computer programs, like this.
+To find out the secrets of the nature, "raw experimental data" are provided be the experimentalist,
+"parametrized theoretical curves" are provided by the theoreticians, and
+also "pseudo-measurement data" are provided through simulations.
+Through studying  data from those sources, valuable conclusions can be derived.
 
 
+Making conclusions from the available data is called "data evaluation",
+which is a science on its own right.  As the complexity of the phenomena increases,
+computer programs receive more and more role in the game.
+
+Specialized computer applications carry out the task, and a lot of programs are available,
+ranging from proprietary programs targeting industrial consumers making serial
+quantitative determinations to single task scientific applications.
+The documentation of those programs also ranges from the slightly documented,
+but rich functionality program to the open source, but otherwise not documented single-task programs.
+This situation makes practically impossible to compare those tools, as well as
+the results derived by using these tools,
+and the users must make tradoffs when having some evaluation task.
+Unfortunately, the programs are made "fool-proof", i.e. they provide in any situation,
+for any operator intervention some numbers, with interpretation.
+It is a big question, however, how good the given data is and how realistic
+its interpretation is.
+
+This tool attempts to provide a facility for the research community,
+to standardize the methods and offer several solutions in the same application;
+also pointing to the requirements of their applicability. The solution is completely
+open source, i.e. you may exeactly know what and how you are doing, and also
+attempts to provide hints for the range of the applicability of the offered methods.
+To create an application satisfying those requirements, is a real challenge.
+
+The quick development and large variety of computing platforms (computers and
+their of operating systems) requires the availability of preparing the
+data evaluation application (practically) to any platform, with minimum efforts.
+For this goal the application is delivered in frame of a source package, which enables
+to generate the application on your favourite platform as discribed in @ref User-Install_source.
+From the source, using the provided documentation, you might customize the application
+and add your own private changes and/or extensions.
+Since the typical user of such applications is a typically not a computer expert,
+for the most frequent platforms ready-made executable binaries can also be downloaded,
+as discribed in @ref User-Install_Distrib.
+
+@section WelcomeFeatures Features
+
+In order to see those "invisible" things, one needs to visualise them by using computer programs, like this.
+Today, people are used to high quality graphics, so the @ref Visualization is very demanding
+for such an evaluation program. To display the evaluation-related data,
+Qt C++ widget for plotting and data visualization library *QCustomPlot* @cite QCustomPlot:2016
+is utilized. It enables to display very attractive, rich functionality diagrams.
+
+In the recent "presentation age", it is an elementary expectation against
+such a data evaluation program to provide publication-quality figures.
+You may prepare portable document format  (.PDF) figures from your data evaluation.
+
+To extract as much quantitative information as possible, some parameter
+extraction procedures are also implemented.
 In order to provide as much professional solution as possible,
-some high quality, open source sof @ref Minimization is done by using 
+some high quality, open source sof @ref Minimization is done by using
 a fitting routine, which is one of the most frequently used fitting routines,
-but some unusual extensions increase its usability in spectroscopy.
+but some (home made) unusual extensions increase its usability in spectroscopy.
+These extensions enable to feed information known (from other sources)
+into the evaluation process. In this way expert users can insert their knowledge
+into the program.
 
-Today, people are used to high quality graphics, soe the @ref Visualization is very demanding.
 
 
+@section WelcomeContributed Contributed 3-rd party components
+
+The overall framework of the application is based on the Qt full development framework @cite QtDoc:2016,
+and also several, well-established and well-tested software packages are used, see section @ref User-Install_3rdParty.
+This widely used and strongly tested packages give stability to the application.
+
+
+@section WelcomeRemarks Remarks
 The name of the tool come from the Electron Spectroscopy, and -- hopefully --
 all researchers on the field will call it to assist their work. Which sounds (nearly)
 like Assist Me!
