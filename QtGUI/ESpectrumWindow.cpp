@@ -126,8 +126,8 @@ void ESsistMe_SpectrumWindow::setupSincScatterDemo(QCustomPlot *customPlot)
     X1[i] = (i/50.0-0.5)*30+0.25;
     Y1[i] = qSin(X1[i])/X1[i]+r*0.15 +.6;
     X1[i] *= 1000;
-    Y1err[i] = 0.15;
-    YResidual[i] = (Y1[i]-Y0[i*5])/sqrt(Y1[i]);
+    Y1err[i] = 0.25;
+    YResidual[i] = (Y1[i]-Y0[i*5])/Y1err[i];//sqrt(Y1[i]);
   }
 
 
