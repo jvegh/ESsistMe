@@ -43,7 +43,9 @@ set(QOBJECT_SOURCES
 	ENavigatorWindow.cpp
 	EResidualWindow.cpp
 	ESpectrumWindow.cpp
-	ESsistMe_mainwindow.cpp
+	ESsistMe_MainWindow.cpp
+	ESsistMe_MainSettings.cpp
+	ESsistMe_MainMenus.cpp
         FitDialog.cpp
 	QStuff.cpp
 )

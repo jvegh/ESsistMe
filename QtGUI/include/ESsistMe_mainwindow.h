@@ -3,9 +3,12 @@
 
 #include <QMainWindow>
 #include <QTreeWidgetItem>
+#include <QSettings>
 //#include "filefilters.h"
 #include "qcustomplot.h"
 #include "FitDialog.h"
+
+extern struct SystemDirectories Directories;
 
 namespace Ui {
 class ESsistMe_MainWindow;
@@ -59,6 +62,7 @@ public:
 //    QList<BaseFileFilter* > fileFilterList;
 //    void initFileFilterList();
      void readSettings();
+     void readSettings(QSettings* settings);
      void writeSettings();
      void setupToolBoxes(void);
 
