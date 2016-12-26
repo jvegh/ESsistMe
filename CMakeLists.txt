@@ -16,7 +16,7 @@ endif()
 cmake_policy(SET CMP0048 NEW)
 # Set the name of your project here
 set(CPACK_PACKAGE_NAME "essistme")
-project(ESsistMe VERSION 0.0.04 LANGUAGES C CXX)
+project(ESsistMe VERSION 0.0.05 LANGUAGES C CXX)
 cmake_minimum_required(VERSION 3.0)
 
 # ---[ Set up CMake options for ESsistMe
