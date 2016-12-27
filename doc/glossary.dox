@@ -19,6 +19,9 @@ Operating system
 @subsection GLOSSARY_PC PC
 Program Counter
 
+@subsection GLOSSARY_splitter splitter
+A window divided by a horizontal or vertical bar into two segments.
+The share between the two segmens can be changed by dragging the separating bar.
 
 @subsection GLOSSARY_SW SW
 software
