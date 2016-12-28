@@ -18,6 +18,10 @@ ESsistMe_MainWindow::ESsistMe_MainWindow(QWidget *parent) :
     ui(new Ui::ESsistMe_MainWindow)
 {
     ui->setupUi(this);
+    // This provides synchronization between spectrum window and residual window
+    connect( ui->spectrumWindow->xAxis, SIGNAL( rangeChanged(QCPRange) ), ui->residualWindow, SLOT( setRange(QCPRange) ) );
+    connect( ui->spectrumWindow->xAxis, SIGNAL( rangeChanged(QCPRange) ), ui->navigatorWindow, SLOT( setLupe(QCPRange) ) );
+    connect( ui->spectrumWindow->yAxis, SIGNAL( rangeChanged(QCPRange) ), ui->navigatorWindow, SLOT( setLupe(QCPRange) ) );
     (void)statusBar();
     setWindowTitle( "ESsistMe" );
     setIconSize(QSize(24,24));
@@ -29,7 +33,6 @@ ESsistMe_MainWindow::ESsistMe_MainWindow(QWidget *parent) :
     readSettings(); // Read window-related settings
     setupToolBoxes();   // Set up the tool box contents
     ESsistMe_FitDialog = new FitDialog();
-
 }
 
 ESsistMe_MainWindow::~ESsistMe_MainWindow()

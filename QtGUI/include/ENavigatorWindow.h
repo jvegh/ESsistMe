@@ -16,6 +16,8 @@ public:
     ~ESsistMe_NavigatorWindow();
 
     void setupSincScatterDemo(QCustomPlot *customPlot);
+public slots:
+    void setLupe(const QCPRange &range);
 
 private:
  //   QCustomPlot* navigatorPlot;

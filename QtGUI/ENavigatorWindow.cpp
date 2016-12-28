@@ -22,6 +22,11 @@ ESsistMe_NavigatorWindow::~ESsistMe_NavigatorWindow()
  //   delete ui;
 }
 
+void ESsistMe_NavigatorWindow::
+setLupe(const QCPRange &range)
+{
+xAxis->setRange(range); replot();
+}
 
 void ESsistMe_NavigatorWindow::setupSincScatterDemo(QCustomPlot *customPlot)
 {

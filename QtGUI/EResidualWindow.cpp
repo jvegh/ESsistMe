@@ -8,16 +8,26 @@ extern  QVector<double> X0, Y0;
 extern QVector<double> YConfUpper, YConfLower;
 extern QVector<double> X1, Y1, Y1err, YResidual;
 
-ESsistMe_ResidualWindow::ESsistMe_ResidualWindow( QWidget *parent) :
+    ESsistMe_ResidualWindow::
+ESsistMe_ResidualWindow( QWidget *parent) :
     QCustomPlot(parent)
 {
     setupSimpleDemo(this);
 }
 
-ESsistMe_ResidualWindow::~ESsistMe_ResidualWindow()
+    ESsistMe_ResidualWindow::
+~ESsistMe_ResidualWindow()
 {
  //   delete ui;
 }
+
+
+    void ESsistMe_ResidualWindow::
+setRange(const QCPRange &range)
+{
+    xAxis->setRange(range); replot();
+}
+
 int NDist = 22; double Range = 2.5; double DRange = NDist/2./Range; double MRange = -Range;
 double Rounding = Range/NDist;
 
@@ -30,7 +40,8 @@ int MyIndex(double Val)
     return Val < MRange ? 0 : Val>Range ? NDist+1 : (Val-MRange)*DRange + .99999;
 }
 
-void ESsistMe_ResidualWindow::setupSimpleDemo(QCustomPlot *customPlot)
+    void ESsistMe_ResidualWindow::
+setupSimpleDemo(QCustomPlot *customPlot)
 {
   customPlot->setLocale(QLocale(QLocale::English, QLocale::UnitedKingdom));
   customPlot->addGraph();

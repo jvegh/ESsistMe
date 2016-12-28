@@ -16,7 +16,8 @@ public:
     ~ESsistMe_ResidualWindow();
 
     void setupSimpleDemo(QCustomPlot *customPlot);
-
+public slots:
+    void setRange(const QCPRange &range);
 private:
 //    Ui::ESsistMe_SpectrumWindow *ui;
 //    QCustomPlot* residualPlot;
