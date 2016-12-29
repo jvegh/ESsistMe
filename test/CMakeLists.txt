@@ -17,6 +17,7 @@ set(TEST_SOURCES
     testESsistMe_Units.cpp	# The main program
     StuffTest.cpp
     EvalTest.cpp
+    SpectrumTest.cpp
 )
 		
 ADD_EXECUTABLE(

@@ -73,7 +73,7 @@ i.e. the difference of the corresponding measured and fitted value at the _i_-th
 by the estimated uncertainty at that point. (For the latter, usually the square root of the
 measured yield is used, as the less wrong available estimation.)
 
-The residual is displayed on a fixed scale covering the interval \f$(-2.5\sigma, +2.5\sigma),
+The residual is displayed on a fixed scale covering the interval \f$(-2.5\sigma, +2.5\sigma)\f$,
 and the area under tha dislayed broken blue line is filled with translucent blue,
 so the "thickness" of the filled area carries important information on the goodness of the
 agreement between the measured and fitted values.

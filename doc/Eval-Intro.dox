@@ -1,0 +1,19 @@
+/**
+@page Eval-Intro Evaluation of electron spectra
+
+\tableofcontents
+
+@section Eval_Intro_General Introduction
+This _is not_, _can not_, and _does not want_ to be an all-in-one textbook on electron spectroscopy.
+There are many good textbooks for that goal. Even, some of them deal with spectral data evaluation
+in great details. Unfortunately, however, those chapters are typically case studies,
+rather than a systematic introduction of the terms and methodology used in the spectroscopic data evaluation.
+
+The primary goal of this document is to provide a context *what* you are doing and *how* you are doing it,
+when evaluating spectra by using this tool. During this, however, it is attempted to present and compare
+different methods, their background, naming and technologies used in that context.
+Sometimes the controversial interpretations are also discussed, as well as the *best* and *worst* practices.
+
+
+
+*/

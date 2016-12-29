@@ -4,6 +4,7 @@
  *  @bug No known bugs.
  */
 #include <math.h>
+#include <algorithm>
 #include "ESpectrumBase.h"
 bool UNIT_TESTING;
 using namespace std;
@@ -63,6 +64,7 @@ ESpectrumBase(vector<double>*X, vector<double>*Y)
           Dit->dYR = 1/Dit->dYR;  // For efficiency, stores 1/dY
           Dit->Fit = 0.L;       // Initialize fitted value to 0
         }
+    InitializeFunctionPointers();   // Set up function pointers
 }
 
     ESpectrumBase::
@@ -79,6 +81,7 @@ ESpectrumBase(vector<double>*X, vector<double>*Y, vector<double>*dY)
               Dit->dYR = 1/Dit->dYR;  // For efficiency, stores 1/dY
               Dit->Fit = 0.L;       // Initialize fitted value to 0
         }
+    InitializeFunctionPointers();   // Set up function pointers
 }
 
  /*! \brief ESpectrumBase::InitializeFunctionPointers*/
@@ -87,21 +90,27 @@ ESpectrumBase(vector<double>*X, vector<double>*Y, vector<double>*dY)
   *
   * Using function pointers, the working energy scale can be chosen as either of the two,
   * provided that the excitation energy is known
+  * 
+  * Initially, kinetic energy scale is assumed. If the excitation energy is not known,
+  * only the type of energy is changed, but not the calculation mode
   */
 void ESpectrumBase::
 InitializeFunctionPointers(void)
 {
     //http://stackoverflow.com/questions/30228452/function-pointer-within-class
-    ESpectrumBase::Ptr_X_Get = &ESpectrumBase::X_Get_Kinetic;   // Anyhow, be sure that XGet pointers have a value
-    ESpectrumBase::Ptr_X_Get_Kinetic = &ESpectrumBase::X_Get_Kinetic;   //
-    ESpectrumBase::Ptr_X_Get_Binding = &ESpectrumBase::X_Get_Kinetic;   // Until we know X value, use kinetic scale
+    ESpectrumBase::Ptr_X_Get = &ESpectrumBase::X_Get_Direct;   // Anyhow, be sure that XGet pointers have a value
+    ESpectrumBase::Ptr_X_Get_Direct = &ESpectrumBase::X_Get_Direct;   //
+    ESpectrumBase::Ptr_X_Get_Indirect = &ESpectrumBase::X_Get_Indirect;   // Until we know X value, use kinetic scale
+    ESpectrumBase::Ptr_X_Get_Kinetic = &ESpectrumBase::X_Get_Direct;   //
+    ESpectrumBase::Ptr_X_Get_Binding = &ESpectrumBase::X_Get_Direct;   // Until we know X value, use kinetic scale
     //
     mBinding = false;   // Initially, there is no binding scale
     mXEnergy = -1;      // Initially, there is no excitation energy
+    mEFermi = 0;    // The work function is assumed to be 0
 }
 
 /*!
-     * \brief ESpectrumBase::X_Get_Kinetic
+     * \brief ESpectrumBase::X_Get_Direct
      * \param[in] i kinetic energy at measured point i
      * \return
      */
@@ -112,14 +121,14 @@ InitializeFunctionPointers(void)
 \f$ E_k = h*\nu - E_b - E_F \f$
 */
     double ESpectrumBase::
-   X_Get_Kinetic(int i){ // if(i < 0) i = 0; if (i>= mNoOfPoints ) i = mNoOfPoints;
+X_Get_Direct(int i){ // if(i < 0) i = 0; if (i>= mNoOfPoints ) i = mNoOfPoints;
         return mData[i].X;
 //        std::cout << "Kinetic" << std::endl; double di; di = i+5;
 //        return di;
     };
     double ESpectrumBase::
-   X_Get_Binding(int i){
-        return mXEnergy- mData[i].X;
+X_Get_Indirect(int i){
+        return mXEnergy- mData[i].X -mEFermi;
 //        std::cout << "Binding" << std::endl; double di; di = i; return di;
     };
 
@@ -131,16 +140,77 @@ ESpectrumBase::X_Get(int i)
     }
 
 
-    bool
-ESpectrumBase::Binding_Scale_Get(void)
+    double ESpectrumBase::
+X_Get_Binding(int i)
+   {
+        return (this->*Ptr_X_Get_Binding)(i);
+   }
+   // Return X on binding scale
+   double ESpectrumBase::
+X_Get_Kinetic(int i)
+   {
+       return (this->*Ptr_X_Get_Kinetic)(i);
+   }
+
+   void ESpectrumBase::
+XEnergy_Set(double XE)
+{   mXEnergy = XE;
+   Binding_Scale_Set(mBinding);
+}
+
+    bool ESpectrumBase::
+Binding_Scale_Get(void)
     {
-        return true;
+        return mBinding;
     }
 
+    /*!
+     * \brief ESpectrumBase::Binding_Scale_Set
+     * \param Binding if to set to data base energy scale to binding
+     * 
+     * If the X energy is not valid, only the scale type is changed.
+     * If the X energy is known, the energy values are calculated to the other energy type using 
+     * 
+     *  \f$ E_b = h*\nu - E_k - E_F \f$ or \f$ E_k = h*\nu - E_b - E_F \f$
+     * 
+     * Anyhow, the energy values will stay increasing
+     */    
     void
-ESpectrumBase::Binding_Scale_Set(bool Binding)
+    ESpectrumBase::
+Binding_Scale_Set(bool Binding)
     {
+        if(XEnergy_Valid())
+        {// check if we need to change the scale type
+            if(Binding ^ mBinding)
+            {// we really need to change the scale type
+                // The calculation is the same:
+                int NP = mData.size()-1;
+                int NPoints = (NP+3)/2; double Low, High;
+                for(int i =0; i<NPoints; i++)
+                {
+                    Low = mXEnergy - mData[i].X - mEFermi; High =  mXEnergy - mData[NP-i].X- mEFermi;
+                    mData[i].X = High; mData[NP-i].X = Low;
+                }
+                mBinding = Binding;
+            }
+            if(mBinding)
+            {
+                ESpectrumBase::Ptr_X_Get_Kinetic = &ESpectrumBase::X_Get_Indirect;
+                ESpectrumBase::Ptr_X_Get_Binding = &ESpectrumBase::X_Get_Direct;
+            }
+            else
+            {
+                ESpectrumBase::Ptr_X_Get_Kinetic = &ESpectrumBase::X_Get_Direct;
+                ESpectrumBase::Ptr_X_Get_Binding = &ESpectrumBase::X_Get_Indirect;
+            }
 
+        }
+        else
+        {// Only the type is changed, nothing to calculate
+            ESpectrumBase::Ptr_X_Get_Kinetic = &ESpectrumBase::X_Get_Direct;
+            ESpectrumBase::Ptr_X_Get_Binding = &ESpectrumBase::X_Get_Direct;
+
+        }
     }
 
     /*! \brief  Makes a simple linear energy calibration */
@@ -171,49 +241,21 @@ ChiSq_Get(int i)
         }
     return chisq;
     }
+bool CompareEnergies (ESpectrumPoint i,ESpectrumPoint j) { return (i.X<j.X); }
+    /*!
+     * \brief ESpectrumBase::EnergyToPoint
+     * \param E the energy we are looking for
+     * \return the index of the point searched
+     */
 
-/*
-     double
-ESpectrumBase::X_Get_Binding(int i)
+    int ESpectrumBase::
+EnergyToPoint(double E)
     {
-        }
-    // Return X on binding scale
-    double
-ESpectrumBase::X_Get_Kinetic(int i)
-    {
+        if(E<mData[0].X) return 0;
+        if(E>mData[mData.size()]) return mData.size();
     }
-*/
 
-#if 0
-/*!
-  Creates a QCPVector2D object and initializes the \a x and \a y coordinates with the specified
-  values.
-*/
-ESpectrumBase::ESpectrumBase(double x, double y) :
-  mX(x),
-  mY(y)
-{
-}
-
-/*!
-  Creates a QCPVector2D object and initializes the x and y coordinates respective coordinates of
-  the specified \a point.
-*/
-ESpectrumBase::ESpectrumBase(const QPoint &point) :
-  mX(point.x()),
-  mY(point.y())
-{
-}
-
-/*!
-  Creates a QCPVector2D object and initializes the x and y coordinates respective coordinates of
-  the specified \a point.
-*/
-QCPVector2D::QCPVector2D(const QPointF &point) :
-  mX(point.x()),
-  mY(point.y())
-{
-}
-
-
-#endif //0
+    int ESpectrumBase::
+KineticEnergyToPoint(double E);
+    int ESpectrumBase::
+BindingEnergyToPoint(double E);

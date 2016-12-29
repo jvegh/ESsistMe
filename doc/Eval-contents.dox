@@ -1,0 +1,18 @@
+
+/**
+@page EvalGuide Evaluation Guide
+
+(for those who want to learn basic terms of spectrum evaluation)
+
+@htmlonly
+<hr>
+@endhtmlonly		
+
+        @section Eval_TABLE_OF_CONTENTS Table of contents
+        -# @subpage Eval-Intro
+        -# @subpage Eval-Energy
+
+@htmlonly
+<hr>
+@endhtmlonly		
+*/

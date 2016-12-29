@@ -1,0 +1,46 @@
+/**
+@page Eval-Energy Energy handling
+
+\tableofcontents
+
+@section Eval-Energy_Intro Introduction
+
+
+@section Eval-Energy_Principle Principle of excitation
+
+Electrons and other components enjoy their well-deserved rest inside atoms.
+Voluntarily, they do not want to leave. The atoms usually suffer a collision
+before some particle exits the atom.
+
+@subsection Eval-Energy_XPSPrinciple Principle of XPS
+
+In the photoelectron spectroscopy this collision occurs with a primary
+X-Ray photon from the environment, see the figure below, from @cite HistoryOfXPS:2012
+\image html XPSprinciple.png
+
+In the atom, the electrons are in rest and have a so called \f$E_b\f$
+binding energy, which must be received during the collision to let the electron
+to be free.
+As shown, one single photon, which carries energy  \f$h\nu\f$,
+can eject an electron from an atomic shell if \f$h\nu>E_b\f$.
+The difference (the excess energy) will be the kinetic energy \f$E_k\f$ of the electron,
+this energy can be measured in the different electron spectrometers.
+A little correction to the energy balance above: there is a little difference
+between the Fermi-level and the vacuum level, it is called the *work function* \f$\phi\f$
+and the complete energy balance is expressed as
+
+\f$E_b = h\nu - E_k - \phi\f$
+
+\f$E_k = h\nu - E_b - \phi\f$
+
+Using these simple equations, both the kinetic and binding energies can be expressed,
+provided the other terms in the equation are known.
+
+These energies represent different sides of the same thing:
+as long as the electron is inside the atom, the binding energy is a better tool
+to describe its behavior, when with the rest of the energy the electron enters
+the electron specrometer, its kinetic energy determines its behavior.
+
+As shown above, one can be easily calculated from the other, and typically both of them
+are used during evaluating specroscopic data.
+*/

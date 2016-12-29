@@ -32,7 +32,7 @@ public:
   double X_Get_Kinetic(int i);     // Return X on
   bool Binding_Scale_Get(void);
   void Binding_Scale_Set(bool Binding=false);
-  void XEnergy_Set(double XE){ mXEnergy = XE;}
+  void XEnergy_Set(double XE);
   double XEnergy_Get(void){ return mXEnergy;}
   bool XEnergy_Valid(void){ return mXEnergy>0;}
   int NoOfDataPoints_Get(void){ return mData.size(); }
@@ -43,15 +43,23 @@ public:
   double Residual_Get(int i){ return (mData[i].Fit-mData[i].Y)*mData[i].dYR;}
   double ChiSq_Get(int i);
   void Calibrate(double Intercept, double Slope);
+  int FindPointToEnergy(double E);
+  int FindPointToKineticEnergy(double E);
+  int FindPointToBindingEnergy(double E);
 private:
     void
   InitializeFunctionPointers(void);
   vector<ESpectrumPoint> mData;   //< Store energy, intensity and uncertainty
   bool mBinding;    // If the energy values are in binding scale
   double mXEnergy;
+  double mEFermi;
+  double X_Get_Direct(int i);     // Return X without calculation
+  double X_Get_Indirect(int i);     // Return X with calculation
   double (ESpectrumBase::*Ptr_X_Get)(int i);
-  double (ESpectrumBase::*Ptr_X_Get_Binding)(int i);
+  double (ESpectrumBase::*Ptr_X_Get_Direct)(int i);
+  double (ESpectrumBase::*Ptr_X_Get_Indirect)(int i);
   double (ESpectrumBase::*Ptr_X_Get_Kinetic)(int i);
+  double (ESpectrumBase::*Ptr_X_Get_Binding)(int i);
 };
 
 

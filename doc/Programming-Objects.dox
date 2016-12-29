@@ -1,5 +1,5 @@
 /**
-@page Programming-Objects How to use the minimization
+@page Programming-Objects How to program
 
 \tableofcontents
 
@@ -11,6 +11,80 @@ This is
 
 
 @section Programming_Objects_Steps Steps of execution
+
+@section Programming_Energy_Handling Energy value handling
+
+As discussed in section @ref Eval-Energy_XPSPrinciple,
+in photoelectron spectroscopies the electrons are excited by photons,
+and two kinds of energy are commonly used. Depending on the context,
+it is more comfortable to use the binding energy or the kinetic energy.
+The program allows to use either of the two, or both, simultanously.
+
+@subsection Programming_Energy_Excitation Energy of excitation
+
+The energy of the exciting photon is denoted by \f$ h\nu\f$
+(or sometimes \f$ E_X\f$) and is known from external source.
+It may be the same in the individual collisons (monochromatized)
+or limited to some (narrow) energy range or not monochromatized at all.
+In the latter cases the value of some characteristic (typically the most intensive)
+spectral line is used as excitation energy.
+Of course the features of the generated spectra largely differ,
+but for our purposes in the equation
+\f$E_b = h\nu - E_k - \phi\f$
+a well-defined energy is used by the program.
+
+
+@subsection Programming_Energy_Scale Energy scale types
+As discussed in section @ref Eval-Energy_XPSPrinciple,
+using either the binding or the kinetic energy can be more comfortable
+for a given operation. When evaluating a spectrum with several components,
+it might occur, that the energy of Auger electrons are known on the kinetic
+energy scale and that of the photoelectrons on the binding energy scale.
+Because of this, the program enables to use a per component energy scale type.
+
+In @ref User-Windows_spectrum either of the two or both can be displayed,
+a primary scale type can be defined. The primary scale type is determined
+by the experimenter: the recorded intensity data are measured at energy values
+given on one of the two scales.
+The user can change both the scale type by void
+ESpectrumBase::Binding_Scale_Set(bool Binding)
+and the excitation energy by void ESpectrumBase::XEnergy_Set(double XE).
+
+
+
+@subsection Programming_Energy_Values Energy values
+
+The measurement data are provided at discrete energies, independently of the scale type.
+The energy values at the *i*th point can be accessed using three functions.
+
+ - double ESpectrumBase::X_Get(int i) returns the energy value, whatever the scale is
+ - double ESpectrumBase::X_Get_Kinetic(int i) returns always the kinetic energy
+ - double ESpectrumBase::X_Get_Binding(int i) returns always the binding energy
+
+Of course, if \f$ E_X\f$ is not known, all the three functions return the value
+stored with the data point.
+
+The energy values are ordered and always ascending (in order to allow binary searching).
+If the stored scale type is changed by ESpectrumBase::Binding_Scale_Set(bool Binding),
+the internal order is also changed to make the energy values ascending again, i.e.
+a function call *before* and *after* changing the stored scale type results in different
+returned values if you call ESpectrumBase::X_Get(int i), but remains the same for the
+other two functions.
+
+Note that the functions are implemented as pointers, i.e. no conditional processing
+slows down the operation.
+
+@subsection Programming_Energy_ECalibr Energy calibration
+
+Because of measurement conditions, it may happen that at some later time in the evaluation
+a slight change in the calibration is necessary. It can be carried out using
+void ESpectrumBase::Calibrate(double Intercept, double Slope)
+
+@subsection Programming_Energy_Search Searching for data at a given energy
+
+The energy values are stored  always in ascending order, i.e. data can be searched using
+(the analogous of) ESpectrumBase::X_Get(int i). The provided energy value is transformed
+to the scale of the raw stored data, and the search is started thereafter.
 
 
 */
