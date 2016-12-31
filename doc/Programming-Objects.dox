@@ -71,6 +71,25 @@ a function call *before* and *after* changing the stored scale type results in d
 returned values if you call ESpectrumBase::X_Get(int i), but remains the same for the
 other two functions.
 
+Function ESpectrumBase::EnergyOnOtherScale(double E) enables to get the energy on the
+other scale. The function considers if excitation energy is known and on which scale the
+energy data are stored.
+
+In many situations is necessary to find out the index of the data point corresponding
+to a certain energy. ESpectrumBase::IndexOfEnergy(double E, int low, int high) returns
+that index, assuming that energy *E* corresponds to the actually used energy scale type.
+It will search between values *low* and *high*, which default to 0 and the number
+of data points, respectively. If *E* cannot be found between those limits, *-1* will be returned.
+Functions ESpectrumBase::IndexOfKineticEnergy(double E, int low, int high) and
+ESpectrumBase::IndexOfBindingEnergy(double E, int low, int high) assumes that
+the energy *E* is given on the scale of type given in the function name.
+Attention, when changing the energy scale type, the data points are reordered,
+to be again in ascending order. It means, that what energy belongs to index *i*
+on one scale, belongs to index *Spectrum.Size_Get()-i*, \see ESpectrumBase::Size_Get(void).
+Do not confuse this with the option that on the display you can see the data
+in either descending or ascending order.
+
+
 Note that the functions are implemented as pointers, i.e. no conditional processing
 slows down the operation.
 

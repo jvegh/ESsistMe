@@ -121,15 +121,12 @@ InitializeFunctionPointers(void)
 \f$ E_k = h*\nu - E_b - E_F \f$
 */
     double ESpectrumBase::
-X_Get_Direct(int i){ // if(i < 0) i = 0; if (i>= mNoOfPoints ) i = mNoOfPoints;
+X_Get_Direct(int i){
         return mData[i].X;
-//        std::cout << "Kinetic" << std::endl; double di; di = i+5;
-//        return di;
     };
     double ESpectrumBase::
 X_Get_Indirect(int i){
         return mXEnergy- mData[i].X -mEFermi;
-//        std::cout << "Binding" << std::endl; double di; di = i; return di;
     };
 
 
@@ -185,11 +182,12 @@ Binding_Scale_Set(bool Binding)
             {// we really need to change the scale type
                 // The calculation is the same:
                 int NP = mData.size()-1;
-                int NPoints = (NP+3)/2; double Low, High;
+                int NPoints = (NP+3)/2; ESpectrumPoint DLow, DHigh;
                 for(int i =0; i<NPoints; i++)
-                {
-                    Low = mXEnergy - mData[i].X - mEFermi; High =  mXEnergy - mData[NP-i].X- mEFermi;
-                    mData[i].X = High; mData[NP-i].X = Low;
+                {   // Calculate the new energy and replace element physically
+                    DLow = mData[i]; DHigh = mData[NP-i];
+                    DLow.X = EnergyOnOtherScale(DLow.X); DHigh.X = EnergyOnOtherScale(DHigh.X);
+                    mData[i] = DHigh; mData[NP-i] = DLow;
                 }
                 mBinding = Binding;
             }
@@ -241,21 +239,51 @@ ChiSq_Get(int i)
         }
     return chisq;
     }
-bool CompareEnergies (ESpectrumPoint i,ESpectrumPoint j) { return (i.X<j.X); }
     /*!
      * \brief ESpectrumBase::EnergyToPoint
      * \param E the energy we are looking for
+     * \param low the lower index
+     * \param high the higher index
      * \return the index of the point searched
+     *
+     * Makes a binary search for the energy value E, returns the idex of the nearest value
      */
 
     int ESpectrumBase::
-EnergyToPoint(double E)
+IndexOfEnergy(double E, int low, int high)
     {
-        if(E<mData[0].X) return 0;
-        if(E>mData[mData.size()]) return mData.size();
+        int first = 0; int last= high ? high : mData.size()-1;
+        if(E<mData[first].X) return -1; // Too small value
+        if(E>mData[last].X) return -1; // Too large value
+        int step = 1; int it;
+        while (step>0)
+        {
+          step = (last-first)/2; it = first + step;
+          if (mData[it].X>E)
+              last=it;
+          else
+             first= it;
+        }
+        return (abs(mData[last].X-E) < abs(mData[first].X-E)) ? last : first;
+    }
+
+    double ESpectrumBase::
+EnergyOnOtherScale(double E)
+        {return mXEnergy<0 ? E : mXEnergy- E -mEFermi;}
+
+    int ESpectrumBase::
+IndexOfKineticEnergy(double E, int low, int high)
+    {
+        if(mBinding)
+            E = EnergyOnOtherScale(E);
+        return IndexOfEnergy(E, low, high);
     }
 
     int ESpectrumBase::
-KineticEnergyToPoint(double E);
-    int ESpectrumBase::
-BindingEnergyToPoint(double E);
+IndexOfBindingEnergy(double E, int low, int high)
+    {
+        if(!mBinding)
+            E = EnergyOnOtherScale(E);
+        return IndexOfEnergy(E, low, high);
+    }
+

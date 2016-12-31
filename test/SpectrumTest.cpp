@@ -41,8 +41,8 @@ TEST_F(SpectrumTest, Base_ScaleTest)
     EXPECT_TRUE(SP.XEnergy_Valid());
     // now change the data to binding scale
     SP.Binding_Scale_Set(true); // Change the scale type (and so reverse data order)
+    EXPECT_EQ(20,SP.Y_Get(MaxIndex-1));
     EXPECT_EQ(AlK-1,SP.X_Get(MaxIndex-1));
-    EXPECT_EQ(20,SP.Y_Get(1));  // Data not changed
     EXPECT_EQ(1,SP.X_Get_Kinetic(MaxIndex-1));
     EXPECT_EQ(AlK-1,SP.X_Get_Binding(MaxIndex-1));
     // Now change back to kinetic scale
@@ -54,12 +54,12 @@ TEST_F(SpectrumTest, Base_ScaleTest)
     // Now change to binding scale then invalidate
     SP.Binding_Scale_Set(true); // Change the scale type (and so reverse data order)
     SP.XEnergy_Set(-1);
-    EXPECT_EQ(20,SP.Y_Get(1));  // Data not changed
+    EXPECT_EQ(20,SP.Y_Get(MaxIndex-1));  // Data not changed
     EXPECT_EQ(AlK-1,SP.X_Get(MaxIndex-1));
     EXPECT_EQ(AlK-1,SP.X_Get_Kinetic(MaxIndex-1));
     EXPECT_EQ(AlK-1,SP.X_Get_Binding(MaxIndex-1));
     SP.Binding_Scale_Set(false); // Change the scale type (and so reverse data order)
-    EXPECT_EQ(20,SP.Y_Get(1));  // Data not changed
+    EXPECT_EQ(20,SP.Y_Get(MaxIndex-1));  // Data not changed
     EXPECT_EQ(AlK-1,SP.X_Get(MaxIndex-1));
     EXPECT_EQ(AlK-1,SP.X_Get_Kinetic(MaxIndex-1));
     EXPECT_EQ(AlK-1,SP.X_Get_Binding(MaxIndex-1));
@@ -73,4 +73,24 @@ TEST_F(SpectrumTest, Base_ScaleTest)
     EXPECT_EQ(1,SP.X_Get(1));
     EXPECT_EQ(1,SP.X_Get_Kinetic(1));
     EXPECT_EQ(1,SP.X_Get_Binding(1));   // BE is not yet set
+    // Now check if the energy is found correctly
+    EXPECT_EQ(3,SP.IndexOfEnergy(3.1));
+    EXPECT_EQ(-1,SP.IndexOfEnergy(-2.)); // out of range
+    EXPECT_EQ(-1,SP.IndexOfEnergy(50.)); // out of range
+    EXPECT_EQ(0,SP.IndexOfEnergy(0.49)); // round down
+    EXPECT_EQ(1,SP.IndexOfEnergy(0.51)); // round up
+    EXPECT_EQ(2,SP.IndexOfEnergy(2.00)); // no rounding
+    EXPECT_EQ(6,SP.IndexOfEnergy(5.99)); // Near to max
+    EXPECT_EQ(6,SP.IndexOfEnergy(6.00)); // Max
+    EXPECT_EQ(0,SP.IndexOfEnergy(0.00)); // Min
+    // No excitation energy, so the binding and kinetic energies must be the same
+    EXPECT_EQ(2,SP.IndexOfBindingEnergy(2.00)); // no rounding
+    EXPECT_EQ(2,SP.IndexOfKineticEnergy(2.00)); // no rounding
+    SP.XEnergy_Set(AlK);
+    EXPECT_EQ(2,SP.IndexOfKineticEnergy(2.00)); // no rounding
+    EXPECT_EQ(2,SP.IndexOfBindingEnergy(AlK - 2.00)); // no rounding
+    SP.Binding_Scale_Set(true); // The binding scale reverses order!
+    EXPECT_EQ(MaxIndex-2,SP.IndexOfKineticEnergy(2.00)); // no rounding
+    EXPECT_EQ(MaxIndex-2,SP.IndexOfBindingEnergy(AlK - 2.00)); // no rounding
+    EXPECT_EQ(MaxIndex-2,SP.IndexOfEnergy(AlK - 2.00));
 }
