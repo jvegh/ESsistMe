@@ -42,10 +42,12 @@ public:
   double Fit_Get(int i) { return mData[i].Fit;}
   double Residual_Get(int i){ return (mData[i].Fit-mData[i].Y)*mData[i].dYR;}
   double ChiSq_Get(int i);
+  double EnergyOnOtherScale(double E);
   void Calibrate(double Intercept, double Slope);
-  int FindPointToEnergy(double E);
-  int FindPointToKineticEnergy(double E);
-  int FindPointToBindingEnergy(double E);
+  int IndexOfEnergy(double E, int low=0, int high=0);
+  int IndexOfKineticEnergy(double E, int low=0, int high=0);
+  int IndexOfBindingEnergy(double E, int low=0, int high=0);
+  int Size_Get(void){ return mData.size();}
 private:
     void
   InitializeFunctionPointers(void);
