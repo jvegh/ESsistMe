@@ -6,16 +6,7 @@
 @section Minimization_Minuit_General General
 
 
-@section Minimization_Minuit_Program  The program
-
-
-@section Minimization_Minuit_Steps Steps of execution
-
-@page Minimization_Extensions Parameter linking for Minuit
-
-\tableofcontents
-
-@section Programming-Minuit_Linking Parameter linking options for MINUIT
+@section Programming-Minuit_Linking Parameter linking options
 
 
 This description comprises the items<br>

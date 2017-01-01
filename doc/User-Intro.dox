@@ -4,8 +4,11 @@
 \tableofcontents
 
 @section User_Intro_General General
-This is 
-
+This chapter comprises technical handling information of the tool.
+The @ref EvalGuide contains the evaluation-related principial information,
+while those wanting to contribute with develioping program fragments,
+the @ref Programming_Guide is the best friend. Many details are left to the cited references,
+which are also just a click away.
 
 
 */

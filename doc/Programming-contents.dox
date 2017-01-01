@@ -1,6 +1,6 @@
 
 /**
-@page Programming Programming
+@page Programming_Guide Programming Guide
 
 (for those who want to develop the tool, using facilities provided)
 
@@ -12,7 +12,7 @@
         -# @subpage Programming-Intro
         -# @subpage Programming-Objects
         -# @subpage Programming-Minuit
-        -# @subpage Programming-Extensions
+        -# @subpage Programming-Visual
 		
 @htmlonly
 <hr>

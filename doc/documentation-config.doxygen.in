@@ -767,16 +767,11 @@ INPUT                  = @PROJECT_SOURCE_DIR@/main \
                          @PROJECT_SOURCE_DIR@/doc/Eval-Intro.dox \
                          @PROJECT_SOURCE_DIR@/doc/Eval-Energy.dox \
                          @PROJECT_SOURCE_DIR@/doc/Eval-Curve.dox \
-                         @PROJECT_SOURCE_DIR@/doc/Visualization-contents.dox \
-                         @PROJECT_SOURCE_DIR@/doc/Visualization-Intro.dox \
-                         @PROJECT_SOURCE_DIR@/doc/Visualization-CustomPlot.dox \
-                         @PROJECT_SOURCE_DIR@/doc/Visualization-Extensions.dox \
-                         @PROJECT_SOURCE_DIR@/doc/Visualization-Usage.dox \
-                         @PROJECT_SOURCE_DIR@/doc/Programming-contents.dox \
+                          @PROJECT_SOURCE_DIR@/doc/Programming-contents.dox \
                          @PROJECT_SOURCE_DIR@/doc/Programming-Intro.dox \
                          @PROJECT_SOURCE_DIR@/doc/Programming-Objects.dox \
                          @PROJECT_SOURCE_DIR@/doc/Programming-Minuit.dox \
-                         @PROJECT_SOURCE_DIR@/doc/Programming-Extensions.dox \
+                         @PROJECT_SOURCE_DIR@/doc/Programming-Visual.dox \
                          @PROJECT_SOURCE_DIR@/doc/glossary.dox \
                          @PROJECT_SOURCE_DIR@/doc/release-notes.dox
 

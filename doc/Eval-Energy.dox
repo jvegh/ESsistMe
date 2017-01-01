@@ -5,11 +5,17 @@
 
 @section Eval-Energy_Intro Introduction
 
+As will be discussed, the energy of the electrons carry a wealth of information
+on the originating environment, so the precise interpretation of the structure
+they manifest in the experimental spectra and the precise determination
+of the energy-related quatitative characteristics is a key question in
+all kinds of electron spectroscopies.
+
 
 @section Eval-Energy_Principle Principle of excitation
 
-Electrons and other components enjoy their well-deserved rest inside atoms.
-Voluntarily, they do not want to leave. The atoms usually suffer a collision
+Electrons as well as the other components of an atom enjoy their well-deserved rest inside atoms.
+Voluntarily, they do not want to leave the atom. The atoms usually need to suffer a collision
 before some particle exits the atom.
 
 @subsection Eval-Energy_XPSPrinciple Principle of XPS
@@ -43,4 +49,19 @@ the electron specrometer, its kinetic energy determines its behavior.
 
 As shown above, one can be easily calculated from the other, and typically both of them
 are used during evaluating specroscopic data.
+
+@subsection Eval-Energy_Principle_OtherExcitation Other types of excitation
+
+With electrons, ions, atoms, et.
+
+@subsection Eval-Energy_Principle_Secondary Secondary processes
+
+Due to the primary process, the atom remains in an unstable state, and the
+relaxation processes my contribute
+
+
+@section Eval-Energy_Structures Structures in the measured spectrum
+
+@section Eval-Energy_MeasPrinciple Principle of the measurement
+
 */
