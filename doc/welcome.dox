@@ -2,7 +2,7 @@
 @mainpage Welcome to the ESsistMe tool, for electron spectroscopy
 
 In sciences, we are working with "invisible" objects, like photons, electrons, voltage, ect.
-To find out the secrets of the nature, "raw experimental data" are provided be the experimentalist,
+To find out the secrets of the nature, "raw experimental data" are provided by the experimentalist,
 "parametrized theoretical curves" are provided by the theoreticians, and
 also "pseudo-measurement data" are provided through simulations.
 Through studying  data from those sources, valuable conclusions can be derived.
@@ -13,9 +13,9 @@ which is a science on its own right.  As the complexity of the phenomena increas
 specialized computer programs receive more and more role in the game.
 A wealth of such programs is available,
 ranging from proprietary programs targeting industrial consumers making serial
-quantitative determinations to single task scientific applications.
+quantitative determinations to single-task scientific applications.
 The documentation of those programs also ranges from the slightly documented,
-but rich functionality program to the open source, but otherwise not documented single-task programs.
+but rich functionality closed source program to the open source, but otherwise not documented single-task programs.
 This situation makes practically impossible to compare those tools, as well as
 the results derived by using these tools.
 Users must make tradoffs when having some evaluation task.
@@ -38,46 +38,55 @@ For this goal the application is delivered in frame of a source package, which e
 to generate the application on your favourite platform as discribed in section @ref User-Install_source.
 By using the source and the provided documentation, you might customize the application
 and add your own private changes and/or extensions.
-Since the typical user of such applications is typically not a computer expert,
+Since the typical user of such applications is not a computing expert,
 for the most frequent platforms ready-made executable binaries can also be downloaded,
 as discribed in @ref User-Install_Distrib.
 
 @section WelcomeFeatures Features
 
 In order to see those "invisible" things, one needs to visualise them by using computer programs, like this.
-Today, people are used to high quality graphics, so the @ref Visualization is very demanding
-for such an evaluation program. To display the evaluation-related data,
+Today, people are used to high quality graphics, so the @ref Programming-Visual is very demanding
+for such an evaluation program.
+The overall framework of the application is based on the Qt full development framework @cite QtDoc:2016.
+To display the evaluation-related data,
 *Qt C++ widget for plotting and data visualization library QCustomPlot* @cite QCustomPlot:2016
-is utilized. It enables to display very attractive diagram and manipulate them with rich functionality.
+is utilized. It enables to display very attractive diagrams and manipulate them with rich functionality.
 
 In the recent "presentation age", it is an elementary expectation against
 such a data evaluation program to provide publication-quality figures.
-You may prepare portable document format  (.PDF) figures from your data evaluation.
+You may prepare portable document format  (.PDF) figures easily from your data evaluation.
 
-To extract as much quantitative information as possible, some parameter
-extraction procedures are also implemented.
-In order to provide as much professional solution as possible,
-high quality, open source software is used for @ref Eval-Curve.
-This package applies mathematical procedures to the condition usual in extracting
+To extract as much quantitative information as possible, the tool enables using
+a proper combination of visuallly assisted interactive evaluation and automatic parameter
+extraction procedures. For interactive evaluation, in @ref User-Windows_Main
+several graphical windows, statistical information, etc. are provided.
+For @ref Eval-Curve, in order to provide as much professional solution as possible,
+high quality, open source software is used.
+This package applies mathematical procedures to the conditions usual in extracting
 _best_ combination of parameters from measurement data.
 It is one of the most frequently used fitting routines,
 but some (home made) unusual extensions increase its usability for spectroscopic goals.
 These extensions enable to feed information known (from other sources)
-into the evaluation process. In this way expert users can insert their knowledge
-into the program.
+into the evaluation process, and so enable to produce scientifically reasonable results.
+In this way expert users can insert their knowledge into the program.
 
 
-The overall framework of the application is based on the Qt full development framework @cite QtDoc:2016,
-and also several, well-established and well-tested software packages are used, see section @ref User-Install_3rdParty.
+In addition, also several, well-established and well-tested software packages are used, see section @ref User-Install_3rdParty.
 This widely used and strongly tested packages give stability to the application.
+To support the community features of the tool, a multiplatform build package and
+a good unit and functionality testing framework is provided.
+The documentation comprises hints to the internal working of the program,
+making user constributions easier.
 
 
 @section WelcomeRemarks Remarks
-The name of the tool come from the *E*lectron *S*pectroscopy, and -- hopefully --
+The name of the tool comes from the *E*lectron *S*pectroscopy, and -- hopefully --
 all researchers on the field will call it to assist their work. Which sounds (nearly)
 like *Assist Me*!
 
-<b>An important note: this is a one-man project, and -- although intensively developed --
-it is not yet completed, neither the software nor the documentation. 
-Come back after a couple of days and pick up a new version.</b>
+<b>An important note: this is presently a one-man project, and -- although intensively developed --
+it is not yet completed, neither the software nor the documentation. You can join to help to complete it,
+through offering your ideas/program fragments for community utilization, enhancing the program or its documentation,
+suggest new features, find bugs, etc.
+or, at least come back after a couple of days and pick up a new version.</b>
 */

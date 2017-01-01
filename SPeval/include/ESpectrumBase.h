@@ -13,6 +13,10 @@
 using namespace std;
 
 // To provide good locality, variables relating to a data point are kept in a record
+/*!
+ * \brief The ESpectrumPoint struct
+ * This is the basic structure for evaluation
+ */
 struct ESpectrumPoint {
     double X;   // The independent variable
     double Y;   // The dependent variable
