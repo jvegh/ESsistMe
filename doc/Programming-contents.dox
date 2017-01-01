@@ -11,6 +11,7 @@
         @section Programming_TABLE_OF_CONTENTS Table of contents
         -# @subpage Programming-Intro
         -# @subpage Programming-Objects
+        -# @subpage Programming-Minuit
         -# @subpage Programming-Extensions
 		
 @htmlonly

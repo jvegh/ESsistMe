@@ -57,7 +57,7 @@ You may prepare portable document format  (.PDF) figures from your data evaluati
 To extract as much quantitative information as possible, some parameter
 extraction procedures are also implemented.
 In order to provide as much professional solution as possible,
-high quality, open source softwareis used for @ref Minimization.
+high quality, open source software is used for @ref Eval-Curve.
 This package applies mathematical procedures to the condition usual in extracting
 _best_ combination of parameters from measurement data.
 It is one of the most frequently used fitting routines,
