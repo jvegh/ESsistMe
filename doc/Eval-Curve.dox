@@ -1,24 +1,25 @@
 /**
-@page Minimization_Intro Minimization: What and Why
+@page Eval-Curve Curve fitting
 
 \tableofcontents
 
-@section Minimization_Intro_General Introduction
+@section Eval-Curve_Introl Introduction
+
 In scientific research, the typical scenario is to have a theory,
 which can derive a parametrized description of the phenomenon in question,
-and a measurement which can derive experimental data. 
+and a measurement which can derive experimental data.
 The task is then to find out what parameters shall be used to <b>best</b>
-describe the experimental results. As detailed by @cite Minuit:2004, 
+describe the experimental results. As detailed by @cite Minuit:2004,
 neither the terminology nor the mathematical algorithm to determine
 what <b>best</b> means, is not unique. In the following, we will use the word
-"minimization" for this activity. 
+"minimization" for this activity.
 
 In general, it means that a function is derived somehow, which describes the "goodness",
 and a mathematical algorithm is applied to to find out the minimum value.
 The parameters producing that minimum value are considered as the <b>best</b>
-combination. 
+combination.
 The task is not easy at all: those functions may show quite extraordinary behavior:
-no "smooth" behavior, multiple minimums, out-of range minimum, 
+no "smooth" behavior, multiple minimums, out-of range minimum,
 non-existing derivatives, et.
 
 Minuit @cite Minuit:2004 is one of the most widely used packages. It is mathematically well established,
@@ -29,18 +30,16 @@ from @cite Minuit2:2004. For the mathematical algoritms, operational details see
 
 @cite Minuit:2004 also provides some facilities like limiting the value of the parameters
 or fixing them for a while. In the spectroscopies, however, different other needs might arise,
-like putting some external information into the model for for testing purposes, or helping the 
-In the spectroscopy 
+like putting some external information into the model for for testing purposes, or helping the
+In the spectroscopy
 
-@section Minimization_Intro_Parameter  Parameter
+
+@section Eval-Curve_Parameter  Parameter
 
 In Minuit, the parameters are not just a value. MinuitParameter has in additition lower and upper bound,
 uncertainty, different flags, string label, format hints, etc. This allows to fix the parameter value
 (and so it cannot be changed by the minimization routine), upper and lower bounds (which, if they are active,
-the parameter cannot take the values excluded by the bounds. 
-
-
-@section MinimizationIntro_Steps Steps of execution
+the parameter cannot take the values excluded by the bounds.
 
 
 */

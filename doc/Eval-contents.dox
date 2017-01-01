@@ -11,6 +11,7 @@
         @section Eval_TABLE_OF_CONTENTS Table of contents
         -# @subpage Eval-Intro
         -# @subpage Eval-Energy
+        -# @subpage Eval-Curve
 
 @htmlonly
 <hr>

@@ -1,16 +1,21 @@
 /**
+@page Programming-Minuit The minimization subsystem
+
+\tableofcontents
+
+@section Minimization_Minuit_General General
+
+
+@section Minimization_Minuit_Program  The program
+
+
+@section Minimization_Minuit_Steps Steps of execution
+
 @page Minimization_Extensions Parameter linking for Minuit
 
 \tableofcontents
 
-@section Minimization_Extensions_General General
-This is 
-
-    \author   (c) János Végh, Debrecen, Hungary (veghj@users.sf.net)
-
-    
-    
-/*	\page page_MinuitLinking Parameter linking options for MINUIT
+@section Programming-Minuit_Linking Parameter linking options for MINUIT
 
 
 This description comprises the items<br>
@@ -41,7 +46,7 @@ in the spectrum, but is sure that they have the same value;
 or one might know that the intensity of the second is twice
 of that of the first.
 Similarly, one might know that the contribution of the detector
-electronics to the width of the peak depends linearly on the 
+electronics to the width of the peak depends linearly on the
 energy of the peak, etc.
 
 Of course, the fitting parameters can be configured to describe
@@ -52,8 +57,8 @@ one can change these these constraints "on the fly".
 
 
 \section sec_ParameterSets Grouping parameters: parameter sets
-When modeling for example experimental spectra, the calculated 
-model comprises components, like Gaussians, Lorentzians or 
+When modeling for example experimental spectra, the calculated
+model comprises components, like Gaussians, Lorentzians or
 polynomial background.
 These components are described by closely related parameters,
 which are worth to group into one set of parameters MinuitParameterSet,
