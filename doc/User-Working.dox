@@ -28,7 +28,7 @@ section @ref User-Work_Settings.
 
 
 The results will be written in the *output* subdirectory.
-The log file (see section @ref User-Work_Logging)  goes in the work directory
+The log file (see section @ref User-Work_Logging)  goes in the work directory.
 
 
 @section User-Work_Settings Using settings of the program
@@ -70,7 +70,7 @@ when compiling and/or starting the program, these are the default values.
 Second, if the program finds the application-wide settings, it reads them
 and sets the corresponding values, actually overwriting the default values.
 Third, if the project-wide settings file exists,
-reads the settings and sets the corresponding values (actually overwrites
+the program reads the settings and sets the corresponding values (actually overwrites
 the application-wide settings).
 Fourth, during utilization, the user can change any of the settings,
 actually overwiting any former value.
@@ -86,6 +86,17 @@ If reading the key-value pair fails, the default value will be used.
 
 @section User-Work_Logging Logging the evaluation activity
 
+The tool records your actions, parameters, their sequence, and other information
+in a file "PROJECT_NAME_PROJECT_VERSION_date_time.log" file in directory @ref User_Install_WorkDir.
+The file contains different messages, of which you shall consider the information messages,
+and maybe warnings and errors.
 
+If everything goes OK, you do not need that file at all.
+However, if you are in doubt *what* operations you executed already,
+*which* order of operations you used or actually *which* parameters used
+at an operation, you are free to use that file. If you suspect an error
+in the operation of the tool, just send the log file to the maintainer.
+It is also a good idea to consult the file where the different files and directories
+are actually located.
 
 */

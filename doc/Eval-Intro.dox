@@ -4,7 +4,7 @@
 \tableofcontents
 
 @section Eval_Intro_General Introduction
-This _is not_, _can not_, and _does not want_ to be an all-in-one textbook on electron spectroscopy.
+This _is not_, _can not_ and _does not want_ to be an all-in-one textbook on electron spectroscopy.
 There are many good textbooks for that goal. Even, some of them deal with spectral data evaluation
 in great details. Unfortunately, however, those chapters are typically case studies,
 rather than a systematic introduction of the terms and methodology used in the spectroscopic data evaluation.
@@ -19,5 +19,11 @@ information about its former atomic/molecular/structural/electronic environment,
 of excitation, the interactions experienced between the atom and the electron spectrometer,
 the sample handling and even the artifacts the experimenter makes during the measurements.
 
+Extracting parameters from the data is the *last step* of the experiment. Usually, you cannot correct
+for the artifacts and mistakes, done in the previous stages of experimentation. The tool enables you
+at least to verify if they are present. Even, you can add on top of those your own artifacts and mistakes
+if use not the right tool or not in the right context. Take care: it is <b>only you</b> who knows
+what and how to to, this tool only assists you doing in, both the correct and the incorrect way.
+Only you (and not the tool) are responsible for producing right data evaluation results.
 
 */

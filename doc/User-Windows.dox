@@ -5,10 +5,16 @@
 
 @section User-Windows_General Introduction
 
+Though the program can work with several spectra simultanously, is utilizes
+one single main evaluation window with several subprograms. You may, however,
+select from several spectra a second operand for certain operations.
+
+
 @section User-Windows_Main The main window of the program
 
 The overwhelming part of the data evaluation work occurs in the main window.
-It has menu bar, too bar, several subwindows, etc.
+It has menu bar, too bar, several subwindows, etc., in the same way
+as the other applications on your platform do.
 
 The main window is organized in a horizontal \gls{splitter}. The left column of
 the splitter contains a vertical \gls{splitter} with two evaluation displays, the @ref User-Windows_spectrum
@@ -24,26 +30,34 @@ the mapping of the displayed area on the total measured data area.
 
 The size of the main window can be changed by dragging the corners of the main window.
 The size of the subwindows in the splitters can be changed by dragging the splitter bar.
-In both cases the sizes all subwindows canges proportionally.
+In both cases the sizes all subwindows changes proportionally.
 The size of any splitter in any dimension can be reduced to zero (i.e. all comprised
 windows become invisible). The splitter bar remains, however, visible and
-by dragging it, you may make it visible again.
+by dragging it, you may make it visible again. This means that you can have a full-screen view
+of any of the subwindows mentioned.
 
 \image html ESmainWindow.png
 
-The 2-dimensional data span a rectangle, and in the spectrum window some another rectangle
-is displayed. By default, the display window is mapped to the measured area,
+The 2-dimensional data span a data rectangle, and the range of the displayed windows span a display rectangle.
+By default, the display rectangle is mapped to the data rectangle, i.e. initially
 the displayed area matches the data area.
 By using the mouse, the user can change both the magnification and the position of the
 visible data window on the data window. The display window can be dragged to another position
-on the data window, and the mouse wheel changes the magnification.
-
+on the data window, and the mouse wheel changes the magnification of the displayed area.
 
 The style, width, color, etc. of the lines can be freely chosen by the user, here
-the default settings are presented. The actual work is independent of the selected componenents
-and styles.
+the default settings are presented. The actual work is independent of the selected components and styles.
+When you exit the program, the actual settings are saved and next time restored, as described in section
+@ref User-Work_Settings.
 
 @subsection User-Windows_left The left splitter column
+
+These two windows are most closely related to the interactive evaluation, their contents show
+the bit different side of the same thing. They are sychronized: if you move/magnify @ref
+User-Windows_spectrum, the contents shown in @ref User-Windows_residual are automatically
+synhronized to it.
+
+
 
 @subsubsection User-Windows_spectrum The spectrum window
 
@@ -54,7 +68,8 @@ except the measured raw data.
 \image html ESspectrumWindow.png
 
 This figure shows the measured data with error bars, and above the fitted (theory) curve,
-two confidence bands are also plotted.
+two confidence bands are also plotted. Presently calculating confidence bars is a low priority task,
+it is just prepared.
 
 @subsubsection User-Windows_residual The residual window
 
@@ -72,32 +87,24 @@ The normalized residual is defined as
 i.e. the difference of the corresponding measured and fitted value at the _i_-th point is divided
 by the estimated uncertainty at that point. (For the latter, usually the square root of the
 measured yield is used, as the less wrong available estimation.)
+The residual window deserves your attention, it carries a lot of information
+about the parameter extraction procedure you are doing during the evaluation.
+Its interpretation is discussed in section @ref Eval-Curve_Interactive_Residual.
+The residual is a sensitive tool closely related to the measured data,
+so the horizontal scale is always synchronized to the horizontal scale of the spectrum window.
+Because of this, this window is not sensitive for mouse dragging or mouse wheeling.
+
 
 The residual is displayed on a fixed scale covering the interval \f$(-2.5\sigma, +2.5\sigma)\f$,
-and the area under tha dislayed broken blue line is filled with translucent blue,
+and the area under the dislayed broken blue line is filled with translucent blue,
 so the "thickness" of the filled area carries important information on the goodness of the
 agreement between the measured and fitted values.
 The deviations are expected to be positioned in a "random" way, i.e. they should fluctuate
 around the zero level.
 
-At the left axis a histogram formed from the deviations is shown, with read outline.
-it should be not far from the ideal, expected distribution, shown in green.
+At the left axis a histogram formed from the deviations is shown, with red outline.
+it should be not far from the expected ideal distribution, shown in green.
 
-The residual window deserves your attention, it carries a lot of information
-about the parameter extraction procedure you are doing during the evaluation.
-If the deviation are systematically grouped on one side of zero level in a region,
-it usually points to a lacking component, or if you use fixed parameters,
-that a parameter fixed at a wron value. If the normalized deviations systematically
-increase towards one end of your spectrum, it might occur due to wrong background
-slope or wrong efficieny calibration.
-If the width of the distribution of the residuals is much wider than the ideal,
-it typically means than your assumed experimental uncertainties deviate from the
-real one, or you are using too many or to few parameters (fitted components).
-Just to mention a few. Anyhow, it is worth to look carefully at the residual.
-
-The residual is a sensitive tool closely related to the measured data,
-so the horizontal scale is always synchronized to the horizontal scale of the spectrum window.
-Because of this, this window is not sensitive for mouse dragging or mouse wheeling.
 
 
 @subsection User-Windows_right The right splitter column
@@ -116,6 +123,8 @@ according to the dragged position.
 
 
 @subsubsection User-Windows_information The information window
+
+This part of the main window comprises service information and tools.
 
 @subsubsection User-Windows_toolbox The evaluation toolbox
 

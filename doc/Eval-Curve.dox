@@ -33,6 +33,22 @@ or fixing them for a while. In the spectroscopies, however, different other need
 like putting some external information into the model for for testing purposes, or helping the
 In the spectroscopy
 
+@section Eval-Curve_Interactive Interactive evaluation
+
+@subsection Eval-Curve_Interactive_Residual Using the residuals
+As displayed in section @ref User-Windows_residual
+
+
+If the deviation are systematically grouped on one side of zero level in a region,
+it usually points to a lacking component, or if you use fixed parameters,
+that a parameter fixed at a wron value. If the normalized deviations systematically
+increase towards one end of your spectrum, it might occur due to wrong background
+slope or wrong efficieny calibration.
+If the width of the distribution of the residuals is much wider than the ideal,
+it typically means than your assumed experimental uncertainties deviate from the
+real one, or you are using too many or to few parameters (fitted components).
+Just to mention a few. Anyhow, it is worth to look carefully at the residual.
+
 
 @section Eval-Curve_Parameter  Parameter
 
