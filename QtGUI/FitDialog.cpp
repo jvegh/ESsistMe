@@ -56,5 +56,3 @@ void FitDialog::on_doFitButton_clicked()
     // Query the future to check if was canceled.
     qDebug() << "Canceled?" << futureWatcher.future().isCanceled();
 }
-
-#include "FitDialog.moc"

@@ -85,10 +85,6 @@ target_include_directories(libQtGUI PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
 )
 
-target_include_directories(libQCustomPlot PUBLIC
-  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-)
-
 INSTALL(FILES  ${QOBJECT_SOURCES} application.qrc CMakeLists.txt
 	DESTINATION QtGUI
 	COMPONENT srcs)
