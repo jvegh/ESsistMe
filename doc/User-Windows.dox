@@ -5,6 +5,8 @@
 
 @section User-Windows_General Introduction
 
+The evaluation work takes place in some specialized rectangular parts of the screen
+in so called "windows".
 Though the program can work with several spectra simultanously, is utilizes
 one single main evaluation window with several subprograms. You may, however,
 select from several spectra a second operand for certain operations.
@@ -17,7 +19,7 @@ It has menu bar, too bar, several subwindows, etc., in the same way
 as the other applications on your platform do.
 
 The main window is organized in a horizontal \gls{splitter}. The left column of
-the splitter contains a vertical \gls{splitter} with two evaluation displays, the @ref User-Windows_spectrum
+the splitter contains a vertical \gls{splitter} with two evaluation windows, the @ref User-Windows_spectrum
 and @ref User-Windows_residual. These two windows provide the visual information
 the user needs in the data evaluation process.
 
@@ -30,8 +32,8 @@ the mapping of the displayed area on the total measured data area.
 
 The size of the main window can be changed by dragging the corners of the main window.
 The size of the subwindows in the splitters can be changed by dragging the splitter bar.
-In both cases the sizes all subwindows changes proportionally.
-The size of any splitter in any dimension can be reduced to zero (i.e. all comprised
+In both cases the sizes of all subwindows changes proportionally.
+The size of any splitter in any dimension can be reduced to zero (i.e. comprised
 windows become invisible). The splitter bar remains, however, visible and
 by dragging it, you may make it visible again. This means that you can have a full-screen view
 of any of the subwindows mentioned.
@@ -67,13 +69,13 @@ except the measured raw data.
 
 \image html ESspectrumWindow.png
 
-This figure shows the measured data with error bars, and above the fitted (theory) curve,
+This figure shows the measured data with error bars, below and above the fitted (theory) curve,
 two confidence bands are also plotted. Presently calculating confidence bars is a low priority task,
 it is just prepared.
 
 @subsubsection User-Windows_residual The residual window
 
-A typical task is to check how closely the model (the theoretical curve) matches
+A typical task is to check how closely the model (the theoretical curve) values match
 the measures values. The residual window presents this information in a special form:
 a so called "normalized residual" is displayed on the same scale as in the window above it.
 
@@ -84,7 +86,7 @@ The normalized residual is defined as
 
 \f$  R_i = \frac{Y^{meas}_i-Y^{fit}_i}{\sigma_i} \f$
 
-i.e. the difference of the corresponding measured and fitted value at the _i_-th point is divided
+i.e. the difference of the corresponding measured and fitted values at the _i_-th point is divided
 by the estimated uncertainty at that point. (For the latter, usually the square root of the
 measured yield is used, as the less wrong available estimation.)
 The residual window deserves your attention, it carries a lot of information
@@ -100,11 +102,27 @@ and the area under the dislayed broken blue line is filled with translucent blue
 so the "thickness" of the filled area carries important information on the goodness of the
 agreement between the measured and fitted values.
 The deviations are expected to be positioned in a "random" way, i.e. they should fluctuate
-around the zero level.
+around  zero level.
 
 At the left axis a histogram formed from the deviations is shown, with red outline.
-it should be not far from the expected ideal distribution, shown in green.
+It should be not far from the ideal, expected distribution, shown in green.
 
+The residual window deserves your attention, it carries a lot of information
+about the parameter extraction procedure you are doing during the evaluation.
+If the deviations are systematically grouped on one side of zero level in a region,
+it usually points to a lacking component, or if you use fixed parameters,
+that a parameter fixed at a wrong value. If the normalized deviations systematically
+increase towards one end of your spectrum, it might occur due to wrong background
+slope or wrong efficiency calibration.
+If the width of the distribution of the residuals is much wider than the ideal,
+it typically means than your assumed experimental uncertainties deviate from the
+real one, or you are using too many or too few parameters (fitted components).
+Just to mention a few. Anyhow, it is worth to look carefully at the residual.
+
+The residual is  closely related to the measured data,
+so the horizontal scale is always synchronized to the horizontal scale of the spectrum window.
+Because of this, this window is not sensitive for mouse dragging or mouse wheeling;
+it will only react to changes you make in the spectrum window.
 
 
 @subsection User-Windows_right The right splitter column

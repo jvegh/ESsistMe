@@ -5,8 +5,9 @@
  */
 #include <math.h>
 #include <algorithm>
+#include <string>
 #include "ESpectrumBase.h"
-bool UNIT_TESTING;
+extern bool UNIT_TESTING;
 using namespace std;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -16,10 +17,39 @@ using namespace std;
 /*! \class ESpectrumBase
   \brief Represents 2-dim measured data in form of double-precision vectors
 
-  This class acts as a replacement for QVector2D with the advantage of double precision instead of
-  single, and some convenience methods tailored for the QCustomPlot library.
   The base class really stores the data, i.e. other objects can receive pointers to the data.
 */
+ ESpectrumBase::
+ESpectrumBase(void)
+{
+/*mData.resize(Y->size()); double x = 0.L;
+std::vector<ESpectrumPoint>::iterator Dit = mData.begin();
+for (std::vector<double>::iterator Yit = Y->begin(); Yit!=Y->end(); ++Yit, ++Dit)
+{
+  Dit->Y = *Yit; Dit->X = x; x += 1.L;  // Use a sequence number as "energy"
+  Dit->dYR = Dit->Y >= 1 ? sqrt(Dit->Y) : 1;   // Protect from zero uncertainty
+  Dit->dYR = 1/Dit->dYR;  // For efficiency, stores 1/dY
+  Dit->Fit = 0.L;       // Initialize fitted value to 0
+  */
+}
+
+/*! \fn ESpectrumBase::ESpectrumBase(void)
+ *File constructor for the 2-dim spectrum: data will be read from the file*/
+    ESpectrumBase::
+ESpectrumBase(const std::string& FileName)
+{
+/*mData.resize(Y->size()); double x = 0.L;
+std::vector<ESpectrumPoint>::iterator Dit = mData.begin();
+for (std::vector<double>::iterator Yit = Y->begin(); Yit!=Y->end(); ++Yit, ++Dit)
+{
+  Dit->Y = *Yit; Dit->X = x; x += 1.L;  // Use a sequence number as "energy"
+  Dit->dYR = Dit->Y >= 1 ? sqrt(Dit->Y) : 1;   // Protect from zero uncertainty
+  Dit->dYR = 1/Dit->dYR;  // For efficiency, stores 1/dY
+  Dit->Fit = 0.L;       // Initialize fitted value to 0
+}
+*/
+    InitializeFunctionPointers();   // Set up function pointers
+}
   /*! \fn ESpectrumBase::ESpectrumBase(vector<double>* Y)
    * Single-vector constructor for the 2-dim spectrum
     Creates a base spectrum, using the intensity data only.
@@ -287,3 +317,44 @@ IndexOfBindingEnergy(double E, int low, int high)
         return IndexOfEnergy(E, low, high);
     }
 
+
+/*    /// This function should return true if some specific spectrum data format is detected
+    bool    SpectrumTemplate::FileMatchesTemplate(const wxString& path)
+    {
+        if(!wxFile::Exists(path))
+            return false;   // Do not try if does not exist ...
+        bool    Found = false;
+        for (size_t i = 0; i<EWAFileFormats.GetCount(); i++)
+        {   TheSpectrum = (SpectrumBase*)EWAFileFormats.Item(i)->Data();
+            if (m_docClassInfo)
+            {   SpectrumDocument *doc = (SpectrumDocument *)m_docClassInfo->CreateObject();
+                doc->SetFilename(path);
+                doc->SetDocumentName(GetDocumentName());
+                EWADocManager *M = (EWADocManager *)GetDocumentManager();
+                wxNode *N = M->GetTemplates()->GetFirst();
+                int TempIndex = 0;
+                while(N)
+                {   // We have more templates
+                    M->SetTemplateIndex(TempIndex++);   // Save template index for view creation
+                    SpectrumTemplate* T = (SpectrumTemplate*)N->GetData();
+                    doc->SetDocumentTemplate(T);
+                    doc->SetCommandProcessor(NULL);
+                    TheSpectrum->SetDocument( doc);
+    //                LogMessage("Checking template (base)"+TheSpectrum->GetClassName(),false);
+                    if(TheSpectrum->FileMatchesTemplate(path,T->GetViewClassInfo()))
+                        { Found = true; break; }
+    //                LogMessage(" failed");
+                    N = N->GetNext(); // Get next template
+                }
+                delete  doc;
+                if(Found) break;
+    / *      stream.seekg(0,ios::beg);
+            if(thisdoc->FormatDetected((istream)wxZlibInputStream(stream)))
+             {   Found = true; break; }
+    * /
+            }
+        }
+        return Found;
+    }//SpectrumTemplate::FileMatchesTemplate
+
+*/

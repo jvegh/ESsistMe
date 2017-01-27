@@ -78,6 +78,8 @@ include(cmake/Utils.cmake)
 # ---[ Dependencies 
 include(cmake/Dependencies.cmake)
 
+# Find the QtWidgets library
+find_package(Qt5Widgets)
 # ---[ Flags
 if(UNIX OR APPLE)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC -Wall")

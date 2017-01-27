@@ -17,11 +17,11 @@ quantitative determinations to single-task scientific applications.
 The documentation of those programs also ranges from the slightly documented,
 but rich functionality closed source program to the open source, but otherwise not documented single-task programs.
 This situation makes practically impossible to compare those tools, as well as
-the results derived by using these tools.
+the results derived by using thesem.
 Users must make tradoffs when having some evaluation task.
 Unfortunately, the programs are made "fool-proof", i.e. they provide in any situation,
 for any operator intervention some numbers, with interpretation.
-It is a big question, however, how good the given data is and how realistic
+It is a big question, however, how good the given number is and how realistic
 its interpretation is.
 
 This tool attempts to provide a facility for the research community,
@@ -38,8 +38,8 @@ For this goal the application is delivered in frame of a source package, which e
 to generate the application on your favourite platform as discribed in section @ref User-Install_source.
 By using the source and the provided documentation, you might customize the application
 and add your own private changes and/or extensions.
-Since the typical user of such applications is not a computing expert,
-for the most frequent platforms ready-made executable binaries can also be downloaded,
+Since the typical user of such applications is scientist rather computing expert,
+for the most frequently used platforms ready-made executable binaries can also be downloaded,
 as discribed in @ref User-Install_Distrib.
 
 @section WelcomeFeatures Features
@@ -49,7 +49,7 @@ Today, people are used to high quality graphics, so the @ref Programming-Visual 
 for such an evaluation program.
 The overall framework of the application is based on the Qt full development framework @cite QtDoc:2016.
 To display the evaluation-related data,
-*Qt C++ widget for plotting and data visualization library QCustomPlot* @cite QCustomPlot:2016
+<i>C++ widget for plotting and data visualization library QCustomPlot</i> @cite QCustomPlot:2016
 is utilized. It enables to display very attractive diagrams and manipulate them with rich functionality.
 
 In the recent "presentation age", it is an elementary expectation against
@@ -62,13 +62,13 @@ extraction procedures. For interactive evaluation, in @ref User-Windows_Main
 several graphical windows, statistical information, etc. are provided.
 For @ref Eval-Curve, in order to provide as much professional solution as possible,
 high quality, open source software is used.
-This package applies mathematical procedures to the conditions usual in extracting
+This package utilizes mathematical procedures to the conditions usual in extracting
 _best_ combination of parameters from measurement data.
 It is one of the most frequently used fitting routines,
 but some (home made) unusual extensions increase its usability for spectroscopic goals.
 These extensions enable to feed information known (from other sources)
 into the evaluation process, and so enable to produce scientifically reasonable results.
-In this way expert users can insert their knowledge into the program.
+In this way expert users can insert their knowledge into the evaluation program.
 
 
 In addition, also several, well-established and well-tested software packages are used, see section @ref User-Install_3rdParty.
@@ -80,8 +80,8 @@ making user constributions easier.
 
 
 @section WelcomeRemarks Remarks
-The name of the tool comes from the *E*lectron *S*pectroscopy, and -- hopefully --
-all researchers on the field will call it to assist their work. Which sounds (nearly)
+The name of the tool comes from the <b>E</b>lectron <b>S</b>pectroscopy, and -- hopefully --
+all researchers on the field will call it to as<b>sist</b> their work. Which sounds (nearly)
 like *Assist Me*!
 
 <b>An important note: this is presently a one-man project, and -- although intensively developed --

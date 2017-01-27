@@ -11,7 +11,7 @@ and a measurement which can derive experimental data.
 The task is then to find out what parameters shall be used to <b>best</b>
 describe the experimental results. As detailed by @cite Minuit:2004,
 neither the terminology nor the mathematical algorithm to determine
-what <b>best</b> means, is not unique. In the following, we will use the word
+what <b>best</b> means, is  unique. In the followings, we will use the word
 "minimization" for this activity.
 
 In general, it means that a function is derived somehow, which describes the "goodness",
@@ -20,7 +20,7 @@ The parameters producing that minimum value are considered as the <b>best</b>
 combination.
 The task is not easy at all: those functions may show quite extraordinary behavior:
 no "smooth" behavior, multiple minimums, out-of range minimum,
-non-existing derivatives, et.
+non-existing derivatives, etc.
 
 Minuit @cite Minuit:2004 is one of the most widely used packages. It is mathematically well established,
 using several minimization algoritms, well tested and well documented; stable and roboust;
@@ -29,26 +29,19 @@ It has been reimplemented in 2004 (from FORTRAN to C++) and it can be downloaded
 from @cite Minuit2:2004. For the mathematical algoritms, operational details see @cite Minuit:2004.
 
 @cite Minuit:2004 also provides some facilities like limiting the value of the parameters
-or fixing them for a while. In the spectroscopies, however, different other needs might arise,
-like putting some external information into the model for for testing purposes, or helping the
-In the spectroscopy
+or fixing them. Its typical use at CERN is looking for a minimum in some well-defined problem,
+where all parameters belong to the same phenomenon.
 
-@section Eval-Curve_Interactive Interactive evaluation
+In the spectroscopies, however, different other needs might arise.
+Several segregated components appear side-by-side, the components are transformed during their interactions,
+certain relations are known from other sources, a paremeter of several components has the same
+(but otherwise unknown) value, some parameter depends of the independent variable, etc.
+That means that some exterbal information must be feed into the model, and during
+the evaluation several such models shall be tested and validated.
 
-@subsection Eval-Curve_Interactive_Residual Using the residuals
-As displayed in section @ref User-Windows_residual
-
-
-If the deviation are systematically grouped on one side of zero level in a region,
-it usually points to a lacking component, or if you use fixed parameters,
-that a parameter fixed at a wron value. If the normalized deviations systematically
-increase towards one end of your spectrum, it might occur due to wrong background
-slope or wrong efficieny calibration.
-If the width of the distribution of the residuals is much wider than the ideal,
-it typically means than your assumed experimental uncertainties deviate from the
-real one, or you are using too many or to few parameters (fitted components).
-Just to mention a few. Anyhow, it is worth to look carefully at the residual.
-
+To consider a new model, a new theoretical model is necessary. Although in principle
+it is possible to prepare several theoretical functions, in practice it is much more desirable
+to provide a flexible model, which can be changed 'on the fly'.
 
 @section Eval-Curve_Parameter  Parameter
 
