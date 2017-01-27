@@ -28,6 +28,8 @@ struct ESpectrumPoint {
 class ESpectrumBase
 {
 public:
+  ESpectrumBase(void);
+  ESpectrumBase(const std::string& FileName);
   ESpectrumBase(vector<double> *Y);
   ESpectrumBase(vector<double> *X, vector<double> *Y);
   ESpectrumBase(vector<double> *X, vector<double> *Y, vector<double> *dY);

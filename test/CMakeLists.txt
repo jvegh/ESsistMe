@@ -29,7 +29,7 @@ ADD_EXECUTABLE(
 )
 
 target_link_libraries(
-    ${PROJECT_NAME}_TEST libMain libMinuit libSPeval libMain
+    ${PROJECT_NAME}_TEST libMain libMinuit libSPeval
     ${GTEST_LIBRARIES}
     ${Caffe_LINKER_LIBS}
     ${Pthread}

@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
 #include "Stuff.h"
 #include "ESpectrumBase.h"
+#include "DataIO.h"
 
 #include <sstream>
 
@@ -19,54 +20,38 @@ public:
  * Tests some routines of the stuff
  */
 
-/*
-struct DataPoint {
-    double X;
-    double Y;
-    bool operator()(DataPoint D1, DataPoint D2)
-      { return D1.X < D2.X; }
-    bool operator()( int x, const DataPoint& d ) const
-    {
-       return x < MyPoints.X;
-    }
-};
-bool operator()(const double lhs, const UINT32& rhs) {
-  return (_v.at(rhs).bookCount < lhs));
-}
+std::string SP1271("1271,1\n"
+                   "0,44248,8,45040,20,1,0,100\n"
+                   "545,590,603,564,566,598,569,585,586,578\n"
+                   "585,605,630,615,681,676,632,630,603,633\n"
+                   "693,611,688,690,732,774,872,915,1071,1189\n"
+                   "1386,1675,2107,2452,2970,3210,2990,2892,2256,1760\n"
+                   "1283,1070,849,760,707,716,640,654,641,583\n"
+                   "571,478,563,482,490,545,604,633,655,772\n"
+                   "889,1114,1371,1687,2204,2699,3467,3937,4099,3973\n"
+                   "3332,2739,1849,1425,883,782,562,477,390,350\n"
+                   "293,338,313,323,301,310,359,370,417,384\n"
+                   "350,333,306,280,265,264,253,216,296,288\n");
 
-bool compareValue(const double lhs, const double rhs)
-{
-    return lhs < rhs;
-}
-double myvals[]={10.,20.,30.,40.,50.,60.,70.};
-std::vector<double> myvector (7);
-std::vector<DataPoint> MyPoints(7);
-
-
-//bool CompareDouble (DataPoint i,DataPoint j) {  return (i.X<j.X); }
-//bool CompareDouble (int i,int j) {  return (MyPoints[i].X<MyPoints[j].X); }
-bool CompareDoubles (int i,int j) {  return (myvector[i]<myvector[j]); }
-// used for lower_bound, upper_bound, etc...
-
-int IndexAt(const double E)
-    {
-        DataPoint M;
-        M.X = E;
-//        std::vector<DataPoint>::iterator MyPoint = std::lower_bound (MyPoints.begin(), MyPoints.end(), M.X, CompareDoubles);
-        std::vector<DataPoint>::iterator MyPoint = std::lower_bound (MyPoints.begin(), MyPoints.end(), E );
-        return MyPoint - MyPoints.begin();
-    }
-*/
-
+std::string BADFORMAT(".6,-.3,\n"
+                   );
 TEST_F(EvalTest, Empty)
 {
-/*     std::copy ( myvals, myvals+7, myvector.begin() );
-     for(int i=0; i<7; i++)
-         MyPoints[i].X = myvector[i];
-    std::cerr << "at 31 " << MyPoints.IndexAt(31) << std::endl;
-    std::cerr << "at -20 " << MyPoints.IndexAt(-20) << std::endl;
-    std::cerr << "at 500 " << MyPoints.IndexAt(500) << std::endl;
-    std::cerr << "at 20 " << MyPoints.IndexAt(20) << std::endl;
-*/
+    // The first way is to provide a steam, like
+//    ifstream* MyStream = new ifstream("/home/jvegh/DEVEL/cpp/old/wx/ewa/FFORMS/ESA_11/SP1271.DAT");
+//    DataIO IO(MyStream);
+    // The second way is to provide the text string directly
+     DataIO IO(SP1271);
+//    DataIO IO("/home/jvegh/DEVEL/cpp/old/wx/ewa/FFORMS/ESA_11/SP1271.DAT");
+    EXPECT_EQ(1271,IO.GetASCIIFloat());
+    EXPECT_EQ(1,IO.GetASCIIFloat());
+    EXPECT_EQ(0,IO.GetASCIIFloat());
+    EXPECT_EQ(44248,IO.GetASCIIFloat());
 }
 
+TEST_F(EvalTest, FormatBugs)
+{
+    DataIO IO(BADFORMAT);
+    EXPECT_EQ(.6,IO.GetASCIIFloat());
+    EXPECT_EQ(-.3,IO.GetASCIIFloat());
+}
