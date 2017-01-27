@@ -13,7 +13,7 @@ It is, in general, a good practice to use the concept of "project subdirectory",
 i.e. to keep all the files related to evaluation of a certain spectrum in a separate subdirectory.
 The concept of
 "work directory" (see section @ref User_Install_WorkDir) serves this goal:
-you can put the spectrum files, calibration and spectroscopic data, etc.  in the 'WorkDir/data' subdirectory,
+you can put the spectrum files, calibration and spectroscopic data, etc.  in the 'WorkDir/input' subdirectory,
 and generate the results in 'WorkDir/output' subdirectory.
 
 The best policy is
@@ -39,7 +39,7 @@ Normally, users expect to provide the facility that when entering the applicatio
 it will continue where the previous time the user exited. This goal is reached through using 'Settings'.
 This operation is transparent for the user.
 
-The settigs are well-defined key-value pairs, which can be made persistent between evaluation sessions.
+The settings are well-defined key-value pairs, which can be made persistent between evaluation sessions.
 When the user exits the tool, the actual settings are saved in a file
 and next time they are loaded again.
 This means that  the user may continue the next session exactly
@@ -59,7 +59,7 @@ You may want to work  with several projects, each having their own settings,
 so  a project-wide settings may also be necessary.
  There is a way to make your settings persistent. If the project work directory contains the file
 
-@verbatim |WorkDir/data/PROJECT_NAME PROJECT_VERSION.ini @endverbatim
+@verbatim |WorkDir/input/PROJECT_NAME PROJECT_VERSION.ini @endverbatim
 
 the program will read the settings from that file
 (i.e. the file name is the same, but it is located in the user's data directory,
@@ -81,10 +81,23 @@ settings will be loaded.
 
 The user may save this application-wide settings file as project-wide settings file,
 by simply copying that file into its own 'data' subdirectory in the work directory.
-The settings file can be edited. Take care, however, to not to change the syntax.
+The settings file can be edited. Take care, however, to not change the syntax.
 If reading the key-value pair fails, the default value will be used.
 
 @section User-Work_Logging Logging the evaluation activity
+
+The tool records your actions, parameters, their sequence, and other information
+in a file "PROJECT_NAME_PROJECT_VERSION_date_time.log" file in directory @ref User_Install_WorkDir.
+The file contains different messages, of which you shall consider the information messages,
+and maybe warnings and errors. For its detailed description see @ref EXAMPLES_ASSEMBLE_Evaluate.
+
+If everything goes OK, you do not need that file at all.
+However, if you are in doubt *what* operations you executed already,
+*which* order of operations you used or actually *which* parameters used
+at an operation, you are free to use that file. If you suspect an error
+in the operation of the simulator, just send the log file to the maintainer.
+It is also a good idea to consult the file where the different files and directories
+are actually located.
 
 
 
