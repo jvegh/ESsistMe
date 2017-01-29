@@ -7,7 +7,19 @@
 This is 
 
 
-@section Programming_Objects_Program  The program
+@section Programming_Objects_IO Input/output
+
+The tool reads and writes (import/expoerts) a variety of data files, both text and binary.
+The I/O is supported by routines in file DataIO.cpp.
+The input routines are roboust  enough to recognize format errors in the data file.
+
+@subsection Programming_Objects_IO_FF File formats and types
+The data file (especially the spectrum data) have some internal relations,
+which allow to recognize their type. The file format handling objects
+have a FileMatchesTemplate() routine, which checks these relations
+and decides which ReadFile to use.
+
+Technically, at the beginning the file is read into a string and then man ipulated from there.
 
 
 @section Programming_Objects_Steps Steps of execution

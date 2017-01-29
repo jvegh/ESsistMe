@@ -37,10 +37,12 @@ class SpectrumESA11 : public 	ESpectrumBase, DataIO
     friend class EvalTest;// Just to test private methods
 public:
     /// Ctor for "ESA-11" spectrum file
+        SpectrumESA11(void);
         SpectrumESA11(const std::string& FileName);
 //        SpectrumESA11(const ifstream Stream);
         virtual ~SpectrumESA11(void){}
-        bool FileMatchesTemplate(const std::string& FileName);
+        bool FileMatchesTemplate(const std::string& Data);
+//        bool FileMatchesTemplate(ifstream* stream);
 /*    /// Copy ctor for "ESA-11" spectrum file
         SpectrumESA11(const SpectrumESA11 &S):	Spectrum1Dim(S)
                 {DependenceNo = S.DependenceNo;}

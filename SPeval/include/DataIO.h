@@ -22,14 +22,14 @@ public:
             m_Stream = new ifstream(FileName);
             m_FromString = false
         }*/
-        DataIO( ifstream* Stream)
-            { m_Stream = Stream; m_DefaultTerminators = "|;, \t\r\n"; m_FromString = false;}
+        DataIO( void)
+        {  m_DefaultTerminators = "|;, \t\r\n";}
         DataIO(const std::string& Data)
-            {   m_DefaultTerminators = "|;, \t\r\n"; m_FromString = true;
+            {   m_DefaultTerminators = "|;, \t\r\n";;
                 m_BeginString = 0; m_EndString = 0; m_String = Data;}
 
-        DataIO(void){ m_DefaultTerminators = "|; \t\r\n";}
         static bool Exists(const std::string& FileName);
+        static string String_Get(const std::string& FileName);
         virtual ~DataIO(void){}
 protected:
     std::string m_Token;
@@ -39,7 +39,6 @@ protected:
     size_t m_BeginToken, m_EndToken;
     size_t m_BeginString, m_EndString;
     std::string m_String;
-    bool m_FromString;
 public:
     void EmptyTokenBuffer(void){m_Token.clear();}
     /** Return error code in case of format error and clears error code
@@ -51,6 +50,8 @@ public:
          \param  stream the stream the token is taken from
          \return next float number in ASCII form from the stream     */
      double  GetASCIIFloat(void);
+     long int GetASCIIInt(void);
+     string  GetASCIIString(int length);
 };// of class DataIO
 
 

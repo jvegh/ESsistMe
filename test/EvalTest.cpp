@@ -1,7 +1,6 @@
 #include <gtest/gtest.h>
 #include "Stuff.h"
-#include "ESpectrumBase.h"
-#include "DataIO.h"
+#include "ffatomki.h"
 
 #include <sstream>
 
@@ -54,4 +53,16 @@ TEST_F(EvalTest, FormatBugs)
     DataIO IO(BADFORMAT);
     EXPECT_EQ(.6,IO.GetASCIIFloat());
     EXPECT_EQ(-.3,IO.GetASCIIFloat());
+}
+
+TEST_F(EvalTest, ATOMKIformat)
+{
+    std::string SpectrumString = DataIO::String_Get("/home/jvegh/DEVEL/cpp/old/wx/ewa/FFORMS/ESA_11/SP1271.DAT");
+    EXPECT_NE(0,SpectrumString.size()); // The file exists
+    if(SpectrumString.size())
+    {
+        SpectrumESA11 IO;
+        EXPECT_TRUE(IO.FileMatchesTemplate(SpectrumString));
+        EXPECT_TRUE(IO.FileMatchesTemplate(SP1271));
+    }
 }
