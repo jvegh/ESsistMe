@@ -143,64 +143,51 @@ bool	SpectrumESA13::ReadDiskFile(const wxString& path)
   */
 
     SpectrumESA11::
+SpectrumESA11(void) :  ESpectrumBase(), DataIO()
+{
+}
+    SpectrumESA11::
 SpectrumESA11(const std::string& FileName) :
         ESpectrumBase(FileName),
         DataIO(FileName)
 {
 }
     bool SpectrumESA11::
-FileMatchesTemplate(const std::string& FileName)
+FileMatchesTemplate(const std::string& Data)
 {
-    if(!Exists(FileName)) return false;
-    // The file exists and accessible
-    float First10[11],aN; int Index; bool FD;
-    ifstream stream(FileName);  // Surely exists
-    EmptyTokenBuffer();
-    Index = 0;
-    FD = false; // assume failure
-    // Now attempt to read the 10-value heading
-    while ((Index<10) && (0==GetFormError()))
-                First10[++Index] = GetASCIIFloat();
-    return true;
+        int First10[11],aN; int Index;
+        m_String = Data; m_FormError = feOK; m_BeginString = 0; m_EndString = 0;
+        EmptyTokenBuffer();
+        Index = 0;
+        // Now attempt to read the 10-value heading
+        while ((Index<10) && (0==GetFormError()))
+                    First10[++Index] = GetASCIIInt();
+        if((Index<10) || (0!=GetFormError()))
+            return 0;
+        // The heading does not exclude it can be ESA11 format
+         // verify if really some ESA11 format }
+        if(First10[5]<1) return 0;  // The energy step size is bad
+        if(First10[6]<=First10[4]) return 0; // End is less then begin
+        int NoOfEPoints = (int)First10[10]; aN = (int)((First10[6]-First10[4])/First10[5])+1;
+        if(aN!=NoOfEPoints) return false; // Number of points is bad
+        if(aN>3200) return false; // Too many points
+        if(First10[9] > 0.1) return false; // More than one channels
+        if(First10[10] > 3200) return false; // Bad DAC address
+        // Now check spectral data: if there are
+        Index = 0;
+        int Error = 0;
+        do {
+             GetASCIIInt(); //Just count them
+            Error = GetFormError();
+            if(!Error)
+               ++Index;
+        } while ( !Error);
+        if(Index==NoOfEPoints) return true;
+        return false;
 }
-/*    SpectrumESA11::
-SpectrumESA11(const ifstream Stream) :
-    ESpectrumBase(),
-    DataIO(Stream)
-{
-}
-*/
 
 // Returns true if the file FN is of format 'ESA-11'
 /*
-bool SpectrumESA11::FileMatchesTemplate(const wxString& path, wxClassInfo* CI)
-{	float First10[11],aN; int Index; bool FD;
-        if(Spectrum1Dim::FileMatchesTemplate(path,CI))
-        {	// The file exists at least }
-                        ifstream stream(path);
-                        EmptyTokenBuffer();
-                Index = 0;
-                FD = false; // assume failure
-                while ((Index<10) && (0==GetFormError()))
-                        First10[++Index] = GetASCIIFloat(stream);
-                if((Index>=10) && (0==GetFormError()))
-                {// No error encountered in the first ten values (the heading) }
-                 // verify if really some ESA format }
-                if(First10[5]!=0)
-                        {	NoOfEPoints = (int)First10[10]; aN = (int)((First10[6]-First10[4])/First10[5]);
-                                if(aN < 0) aN -=1; aN = fabs(aN);
-                                if((aN<32000) && (aN>0)
-                                        &&(aN+1-NoOfEPoints<0.5)
-                                        &&(First10[10]<32000) && (First10[9]<32000) && (fabs(First10[9])<0.1))
-                                                FD = true;
-                        }
-                }
-        }
-        else FD = false;
-        return FD;
-}//SpectrumESA11::FileMatchesTemplate
-
-
 bool	SpectrumESA11::ReadDiskFile(const wxString& path)
 {	float rgnEnd; bool OK=true;
         ifstream stream(path);

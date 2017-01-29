@@ -19,7 +19,7 @@ using namespace std;
 
   The base class really stores the data, i.e. other objects can receive pointers to the data.
 */
- ESpectrumBase::
+    ESpectrumBase::
 ESpectrumBase(void)
 {
 /*mData.resize(Y->size()); double x = 0.L;
@@ -31,10 +31,13 @@ for (std::vector<double>::iterator Yit = Y->begin(); Yit!=Y->end(); ++Yit, ++Dit
   Dit->dYR = 1/Dit->dYR;  // For efficiency, stores 1/dY
   Dit->Fit = 0.L;       // Initialize fitted value to 0
   */
+     InitializeFunctionPointers();   // Set up function pointers
 }
 
 /*! \fn ESpectrumBase::ESpectrumBase(void)
- *File constructor for the 2-dim spectrum: data will be read from the file*/
+ *File constructor for the 2-dim spectrum: data will be read from the file
+ *Before using the constructor, member function FileMatchesTemplate must be called
+*/
     ESpectrumBase::
 ESpectrumBase(const std::string& FileName)
 {

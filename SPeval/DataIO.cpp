@@ -25,31 +25,44 @@ Exists(const std::string& FileName)
     else return false;
 
 }
+// Returns the stream to file or null if fails
+    string DataIO::
+String_Get(const std::string& FileName)
+{
+    if(Exists(FileName))
+    {//http://www.cplusplus.com/forum/general/109435/
+        std::ifstream in(FileName);
+        std::string s((std::istreambuf_iterator<char>(in)), std::istreambuf_iterator<char>());
+        s.shrink_to_fit();
+        return s;
+    }
+    else
+        return "";
+}
 
     // Return next token (i.e. terminated with an item in the terminator list) from the file
     string    DataIO::
 GetNextToken()
 {   // Use user's terminator list, if any
-    char m_CurrentLine[1024];            ///< Current line buffer
-    string a;
-    bool EndReached = m_FromString ?m_EndString>=m_String.size() : m_Stream->eof();
-    while (m_Token.empty() && !EndReached)
+    while (m_Token.empty() && (m_EndString<m_String.size()))
         {
-            if(m_FromString)
-            {
-                m_EndString=m_String.find_first_of("\n", m_BeginString);
-                m_Token = m_String.substr(m_BeginString, (m_EndString==string::npos ? m_EndString:m_EndString-m_BeginString+1));
+            m_EndString = m_String.find("\r\n", m_BeginString);
+            if(string::npos == m_EndString )
+            {  // we have a "\n" line termination only
+                m_EndString = m_String.find("\n", m_BeginString);
+                m_Token = m_String.substr(m_BeginString, (m_EndString==string::npos ? m_String.size():m_EndString-m_BeginString+1));
                 m_BeginString=m_EndString+1;
             }
             else
-            {
-                m_Stream->getline(m_CurrentLine,1024-1);
-                m_Token =  m_CurrentLine;
+            { // We have a "\r\n" line terniation
+               // m_EndString=m_String.find("\r\n", m_BeginString);
+                m_Token = m_String.substr(m_BeginString, (m_EndString==string::npos ? m_String.size():m_EndString-m_BeginString)) + '\n';
+                m_BeginString=m_EndString+2;
             }
             m_BeginToken = 0;
         }
     m_EndToken=m_Token.find_first_of(m_DefaultTerminators, m_BeginToken);
-    a = m_Token.substr(m_BeginToken, (m_EndToken==string::npos ? m_EndToken:m_EndToken-m_BeginToken));
+    string a = m_Token.substr(m_BeginToken, (m_EndToken==string::npos ? m_EndToken:m_EndToken-m_BeginToken));
     m_BeginToken=m_EndToken+1; if(m_BeginToken>=m_Token.size()) m_Token = "";
     if(a[0]==' ')
     {   // Remove leading spaces
@@ -64,7 +77,22 @@ GetNextToken()
 }//DataIO::::GetNextToken
 
 
-    // Read an ASCII integer from the file
+
+    // Read an ASCII integer from the stream
+    long int    DataIO::
+GetASCIIInt()
+{   string a = GetNextToken(); char *endptr;
+    long int res; m_FormError = feOK;
+    if(a.empty())
+        { m_FormError = feNoArg; return 0;}
+    res = strtol(a.c_str(),&endptr,10);
+    if (!(*endptr)) return res;
+    m_FormError = feInteger;
+    return res;
+}
+
+
+    // Read an ASCII float number from the stream
     double  DataIO::
 GetASCIIFloat()
 {   string a = GetNextToken(); char *endptr;
@@ -75,8 +103,31 @@ GetASCIIFloat()
     if (('-' == a[0]) && ('.' == a[1]))
         a.insert(1,1, '0');
     double res; m_FormError = feOK;
-                { res = strtod(a.c_str(),&endptr); }
+    res = strtod(a.c_str(),&endptr);
     if (!(*endptr)) return res;
     m_FormError = feFloat;
         return res;
-}//DataIO::GetASCIIFloat
+}
+
+   string  DataIO::
+GetASCIIString(int length)
+   {
+       return "";
+   }
+
+
+/*
+   //get string of max length 'length'
+   wxString    SpectrumDocument::GetASCIIString(istream& stream, int length)
+   {   wxString a;
+       unsigned int    maxlength = length;
+       while (!m_tokenizer.HasMoreTokens() && !stream.eof())
+           {   stream.getline(m_CurrentLine,sizeof(m_CurrentLine)-1);
+               m_tokenizer.SetString(m_CurrentLine,m_DefaultTerminators);
+           }
+       a = m_tokenizer.GetString();
+       if((a.Len()<maxlength) || (maxlength==0)) maxlength = a.Len();
+       m_tokenizer.SetString(a.Mid((size_t) maxlength));
+       return a.Left((size_t) maxlength);
+   }//SpectrumDocument::GetNextString
+ */
