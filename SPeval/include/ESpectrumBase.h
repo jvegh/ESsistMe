@@ -54,7 +54,7 @@ public:
   int IndexOfKineticEnergy(double E, int low=0, int high=0);
   int IndexOfBindingEnergy(double E, int low=0, int high=0);
   int Size_Get(void){ return mData.size();}
-private:
+protected:
     void
   InitializeFunctionPointers(void);
   vector<ESpectrumPoint> mData;   //< Store energy, intensity and uncertainty

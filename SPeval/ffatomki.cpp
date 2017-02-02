@@ -10,6 +10,13 @@
 extern bool UNIT_TESTING;
 using namespace std;
 
+
+/*!
+  Spectra have multiple inheritance:
+  - ESpectrumBase() defines their spectral behavior
+  - DataIO() their export/import capabilities
+
+  */
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////// SpectrumESA13
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -112,27 +119,6 @@ bool	SpectrumESA13::ReadDiskFile(const wxString& path)
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////// SpectrumESA11
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-/** ESA-11 format
-
-  These file forms have a 10-byte heading;
-  contain equidistant data, in one region only
-  the uncalibrated version:
-  Line #1:
-  (#1) SpectrumNO,       spectrum identifier number,0-65535
-  (#2) SPMIIDent         spectrometer ID,0-65535
-  Line #2:
-  (#3) DependenceNo,     typically unused, contains angle at ESA13, sometimes
-  (#4) EnergyStart,      the first energy value
-  (#5) EnergyStep,       the energy step size
-  (#6) EnergyEnd,        the last energy value
-  (#7) TimePerChannel,   Collection time, per channel and per cycle
-                         in units 0.1sec
-  (#8) Cycles,           the counts are the sum of measuring Cycles times
-  (#9) NoOfChannels, =0  The number of data sets, one less
-  (#10) NoOfPoints       The number of the measurement data points per channel
-  Line #3:...
-  measured counts, 10 value per line
-*/
 
 /*! \class SpectrumESA11
   \brief Represents 2-dim measured data in form of double-precision vectors
@@ -143,13 +129,13 @@ bool	SpectrumESA13::ReadDiskFile(const wxString& path)
   */
 
     SpectrumESA11::
-SpectrumESA11(void) :  ESpectrumBase(), DataIO()
+SpectrumESA11(void) :  ESpectrum1Dim()//, DataIO()
 {
 }
     SpectrumESA11::
 SpectrumESA11(const std::string& FileName) :
-        ESpectrumBase(FileName),
-        DataIO(FileName)
+        ESpectrum1Dim(FileName)//,
+   //     DataIO(FileName)
 {
 }
     bool SpectrumESA11::
@@ -165,15 +151,17 @@ FileMatchesTemplate(const std::string& Data)
         if((Index<10) || (0!=GetFormError()))
             return 0;
         // The heading does not exclude it can be ESA11 format
-         // verify if really some ESA11 format }
-        if(First10[5]<1) return 0;  // The energy step size is bad
-        if(First10[6]<=First10[4]) return 0; // End is less then begin
-        int NoOfEPoints = (int)First10[10]; aN = (int)((First10[6]-First10[4])/First10[5])+1;
+         // verify if really some ESA11 format
+        if((First10[1]<0) || (First10[1]>0xFFFF)) return 0; // Illegal spectrum number
+        if(First10[3]>0) return 0;  // Different, like ESA13
+        if((First10[6]<=First10[4]) && (First10[5]>0)) return 0; // End is less then begin
+        int NoOfEPoints = (int)First10[10]; // No of points, intended
+        aN = (int)((First10[6]-First10[4])/First10[5])+1; // No of points, actual
         if(aN!=NoOfEPoints) return false; // Number of points is bad
         if(aN>3200) return false; // Too many points
-        if(First10[9] > 0.1) return false; // More than one channels
+        if(First10[9] > 0) return false; // More than one channels
         if(First10[10] > 3200) return false; // Bad DAC address
-        // Now check spectral data: if there are
+        // Now check spectral data: if there are thr promised number of good points
         Index = 0;
         int Error = 0;
         do {
@@ -185,8 +173,57 @@ FileMatchesTemplate(const std::string& Data)
         if(Index==NoOfEPoints) return true;
         return false;
 }
+    /** ESA-11 format
 
-// Returns true if the file FN is of format 'ESA-11'
+      These file forms have a 10-byte heading;
+      contain equidistant data, in one region only
+      the uncalibrated version:
+      Line #1:
+      (#1) SpectrumNO,       spectrum identifier number,0-65535
+      (#2) SPMIIDent         spectrometer ID,0-65535
+      Line #2:
+      (#3) DependenceNo,     typically unused, contains angle at ESA13, sometimes
+      (#4) EnergyStart,      the first energy value, DAC
+      (#5) EnergyStep,       the energy step size, DAC
+      (#6) EnergyEnd,        the last energy value, DAC
+      (#7) TimePerChannel,   Collection time, per channel and per cycle
+                             in units 0.1sec
+      (#8) Cycles,           the counts are the sum of measuring Cycles times
+      (#9) NoOfChannels, =0  The number of data sets, one less
+      (#10) NoOfPoints       The number of the measurement data points per channel
+      Line #3:...
+      measured counts, 10 value per line
+    */
+/*!
+    \brief Import (read from storage) a spectrum stored in textual form
+
+*/
+    bool SpectrumESA11::
+ReadDiskFile(const std::string& Data)
+{
+        if(!FileMatchesTemplate(Data)) return false;    // Refuse reading wrong format
+        int First10[11]; int Index;
+        m_String = Data; m_FormError = feOK; m_BeginString = 0; m_EndString = 0;
+        EmptyTokenBuffer();
+        Index = 0;
+        // Now  read the 10-value heading
+        while ((Index<10) && (0==GetFormError()))
+                    First10[++Index] = GetASCIIInt();
+        if((Index<10) || (0!=GetFormError()))
+            return 0;
+        // At this point the format is surely correct and the heading is in First10
+
+        mData.resize(First10[10]); double x = First10[4]; double y;
+        for (std::vector<ESpectrumPoint>::iterator Dit = mData.begin(); Dit!=mData.end(); ++Dit)
+        {
+          y = GetASCIIInt();
+          Dit->Y = y; Dit->X = x; x += First10[5];  // Use a sequence number as "energy"
+          Dit->dYR = y >= 1 ? sqrt(y) : 1;   // Protect from zero uncertainty
+          Dit->dYR = 1/Dit->dYR;  // For efficiency, stores 1/dY
+          Dit->Fit = 0.L;       // Initialize fitted value to 0
+        }
+        return true;
+} //
 /*
 bool	SpectrumESA11::ReadDiskFile(const wxString& path)
 {	float rgnEnd; bool OK=true;

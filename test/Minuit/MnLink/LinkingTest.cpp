@@ -19,6 +19,7 @@
 #include    <string>
 void	DumpParameterSet(MinuitParameterSet &S, std::string prefix = "");
 void	DumpParameter(MinuitParameter &P, std::string prefix = "");
+void	DumpMnParameters(MnUserParameters &S, std::string prefix = "");
 void TestLinkingStatic();
 void TestLinkingDynamic();
 #include <gtest/gtest.h>
@@ -178,13 +179,16 @@ TEST_F(MinuitLinkTest, Extract)
 
  	    MinuitParameterSet Gaussian((char*)std::string("Gaussian").c_str());
 	    Gaussian.Add("Energy",mean, 0.1);
-        Gaussian[0].setLimits(-60,10);
+        EXPECT_EQ(mean,Gaussian[0].value()); // Here mean in 34., outside the next range
+        Gaussian[0].setLimits(-60,10);  // limits force the value to 10
+        EXPECT_EQ(10,Gaussian[0].value()); // Here you are
 	    Gaussian.Add("Width",rms, 0.01);
         Gaussian[1].setLowerLimit(0.01);
 	    Gaussian.Add("Yield",area, 0.1);
         Gaussian[1].setUpperLimit(150);
         MnUserParameters upar;
         upar.add(Gaussian);
+        DumpMnParameters(upar,"Inserted");
         // create MIGRAD minimizer
        // MnMigrad migrad(theFCN, upar);
 
@@ -196,8 +200,10 @@ TEST_F(MinuitLinkTest, Extract)
         // Now clear the pm fields
         // Gaussian[0].setLimits(-1,1); 
         Gaussian[0].setValue(1);
-        upar.extract(Gaussian);
-        EXPECT_EQ(1.0, Gaussian[0].value());
+        EXPECT_EQ(1.0, Gaussian[0].value()); // Here we see the recently set value
+        upar.extract(Gaussian); // After extracting, the value cahnges back to the previously set one
+        DumpMnParameters(upar,"Extracted");
+        EXPECT_EQ(10, Gaussian[0].value()); // Must be the upper limit again
         EXPECT_EQ(0.1, Gaussian[0].error());
 //        printf("value = %f\n", Gaussian[0].value());
 //         printf("error = %f\n", Gaussian[0].error());
@@ -396,5 +402,27 @@ void	DumpParameterSet(MinuitParameterSet &S, std::string prefix)
 	}
 */
 	printf("Set :::::::::::::\n");
+}
+
+void	DumpMnParameters(MnUserParameters &S, std::string prefix)
+{
+    std::string a = prefix;
+    printf("Dumping set '%s' having %d parameters\n",  a.c_str(), S.params().size());
+    for(unsigned int i = 0; i<S.params().size(); i++)
+    {
+        if(S.params().size() > 1)
+            printf("%s:<<<<<<<<< Parameter #%d:%f\n", prefix.c_str(), i, S.value(i));
+  //      printf(*S.params(i), prefix);
+    }
+/*	if(S.GetAffectedList()->GetCount())
+    {
+        wxLogMessage("Set: Affects %d parameter sets",S.GetAffectedList()->GetCount());
+    }
+    if(S.GetAttachmentList()->GetCount())
+    {
+        wxLogMessage("Set: Attached  %d parameter sets",S.GetAttachmentList()->GetCount());
+    }
+*/
+    printf("Set :::::::::::::\n");
 }
 

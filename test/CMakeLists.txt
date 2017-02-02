@@ -16,6 +16,7 @@ include_directories( include
 set(TEST_SOURCES
     testESsistMe_Units.cpp	# The main program
     StuffTest.cpp
+    ComponentTest.cpp
     EvalTest.cpp
     SpectrumTest.cpp
 )

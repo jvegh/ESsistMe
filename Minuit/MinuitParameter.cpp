@@ -439,7 +439,7 @@ long MinuitParameterSet::BaseID = 0;     // Initialize the ID
     \param  aName   the label for the _set_
     \see MinuitParameter
  */
-MinuitParameterSet::MinuitParameterSet( char* aName)
+MinuitParameterSet::MinuitParameterSet( const char* aName)
 {   
     setName(aName);
     HasChanged = true;
