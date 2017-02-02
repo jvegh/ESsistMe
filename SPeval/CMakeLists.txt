@@ -14,7 +14,8 @@ file(GLOB_RECURSE SOBJECT_SOURCES
 )
 
 include_directories( include
-		)
+    ${CMAKE_SOURCE_DIR}/Minuit/include
+                )
 
 ADD_LIBRARY(libSPeval
     ${SOBJECT_SOURCES}

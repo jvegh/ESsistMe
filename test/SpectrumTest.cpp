@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
 #include "Stuff.h"
-#include "ESpectrumBase.h"
+#include "ffatomki.h"
+
 
 #include <sstream>
 
@@ -95,57 +96,51 @@ TEST_F(SpectrumTest, Base_ScaleTest)
     EXPECT_EQ(MaxIndex-2,SP.IndexOfEnergy(AlK - 2.00));
 }
 
-std::string SP1271 = "1271,1\n"
-"0,44248,8,45040,20,1,0,100\n"
-"545,590,603,564,566,598,569,585,586,578\n"
-"585,605,630,615,681,676,632,630,603,633\n"
-"693,611,688,690,732,774,872,915,1071,1189\n"
-"1386,1675,2107,2452,2970,3210,2990,2892,2256,1760\n"
-"1283,1070,849,760,707,716,640,654,641,583\n"
-"571,478,563,482,490,545,604,633,655,772\n"
-"889,1114,1371,1687,2204,2699,3467,3937,4099,3973\n"
-"3332,2739,1849,1425,883,782,562,477,390,350\n"
-"293,338,313,323,301,310,359,370,417,384\n"
-"350,333,306,280,265,264,253,216,296,288\n";
+std::string SP1271("1271,1\n"
+                   "0,44248,8,45040,20,1,0,100\n"
+                   "545,590,603,564,566,598,569,585,586,578\n"
+                   "585,605,630,615,681,676,632,630,603,633\n"
+                   "693,611,688,690,732,774,872,915,1071,1189\n"
+                   "1386,1675,2107,2452,2970,3210,2990,2892,2256,1760\n"
+                   "1283,1070,849,760,707,716,640,654,641,583\n"
+                   "571,478,563,482,490,545,604,633,655,772\n"
+                   "889,1114,1371,1687,2204,2699,3467,3937,4099,3973\n"
+                   "3332,2739,1849,1425,883,782,562,477,390,350\n"
+                   "293,338,313,323,301,310,359,370,417,384\n"
+                   "350,333,306,280,265,264,253,216,296,288\n");
 
-TEST_F(SpectrumTest, Spectrum_ESA11_Test)
+
+std::string BADFORMAT(".6,-.3,\n"
+                   );
+TEST_F(SpectrumTest, Empty)
 {
-    cerr << SP1271;
-    cerr<< "This was read\n";
-    string token; int found = 0; int next; int seq = 0;
-    do
-    {
-      next = SP1271.find_first_of(" ,\n",found);
-      token = SP1271.substr(found,next-found);
-      found = next+1;
-      cerr << seq++ << ':' << token << ' ';
-    }
-    while (token.size());
-    cerr << endl;
- /*   while (found!=std::string::npos)
-    {
-      str[found]='*';
-      found=str.find_first_of("aeiou",found+1);
-    }
-
-
-    try { // Tries to understand the contents of the file
-       // throws exceptionif fails
-      std::bitset<5> mybitset (std::string("01234"));
-    }
-    catch (const std::invalid_argument& ia) {
-            qError << "Invalid argument: " << ia.what() << '\n';
-    }
-
-            char * pch;
- //           pch = strtok ((char*)SP1271.c_str()," ,|,\n"); int i = 0;
-            pch = strtok (&SP1271[0]," ,|,\n"); int i = 0;
-            while (pch != NULL && i++ < 10)
-            {
-              cerr << i << ':' << pch << ' ';
-              pch = strtok (NULL, " ,|,\n");
-            }
-    cerr << "\nThis was interpreted\n";
-    */
+    // The first way is to provide a steam, like
+//    ifstream* MyStream = new ifstream("/home/jvegh/DEVEL/cpp/old/wx/ewa/FFORMS/ESA_11/SP1271.DAT");
+//    DataIO IO(MyStream);
+    // The second way is to provide the text string directly
+     DataIO IO(SP1271);
+//    DataIO IO("/home/jvegh/DEVEL/cpp/old/wx/ewa/FFORMS/ESA_11/SP1271.DAT");
+    EXPECT_EQ(1271,IO.GetASCIIFloat());
+    EXPECT_EQ(1,IO.GetASCIIFloat());
+    EXPECT_EQ(0,IO.GetASCIIFloat());
+    EXPECT_EQ(44248,IO.GetASCIIFloat());
 }
 
+TEST_F(SpectrumTest, FormatBugs)
+{
+    DataIO IO(BADFORMAT);
+    EXPECT_EQ(.6,IO.GetASCIIFloat());
+    EXPECT_EQ(-.3,IO.GetASCIIFloat());
+}
+
+TEST_F(SpectrumTest, ATOMKIformat)
+{
+    std::string SpectrumString = DataIO::String_Get("/home/jvegh/DEVEL/cpp/old/wx/ewa/FFORMS/ESA_11/SP1271.DAT");
+    EXPECT_NE(0,SpectrumString.size()); // The file exists
+    if(SpectrumString.size())
+    {
+        SpectrumESA11 IO;
+        EXPECT_TRUE(IO.FileMatchesTemplate(SpectrumString));
+        EXPECT_TRUE(IO.FileMatchesTemplate(SP1271));
+    }
+}

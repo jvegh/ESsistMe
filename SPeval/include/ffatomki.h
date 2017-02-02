@@ -7,8 +7,7 @@
 #ifndef FFATOMKI_H
 #define FFATOMKI_H
 #include <fstream>
-#include "DataIO.h"
-#include "ESpectrumBase.h"
+#include "ESpectrum1Dim.h"
 /// 1-dim spectrum, satisfying "ESA-13" specification
 /*
  * class SpectrumESA13 : public 	ESpectrumBase, DataIO
@@ -32,7 +31,7 @@
 };// of class SpectrumESA13
 */
 /// 1-dim spectrum, satisfying "ESA-11" specification
-class SpectrumESA11 : public 	ESpectrumBase, DataIO
+class SpectrumESA11 : public 	ESpectrum1Dim
 {
     friend class EvalTest;// Just to test private methods
 public:
@@ -42,17 +41,13 @@ public:
 //        SpectrumESA11(const ifstream Stream);
         virtual ~SpectrumESA11(void){}
         bool FileMatchesTemplate(const std::string& Data);
-//        bool FileMatchesTemplate(ifstream* stream);
+        bool ReadDiskFile(const std::string& Data);
 /*    /// Copy ctor for "ESA-11" spectrum file
         SpectrumESA11(const SpectrumESA11 &S):	Spectrum1Dim(S)
                 {DependenceNo = S.DependenceNo;}
     /// Return a (cloned) copy of the "ESA-11" file
         virtual SpectrumBase *Clone(void) const
                 { return new SpectrumESA11(*this);}
-    /// Return true if the file is of form "ESA-11"
-        bool	FileMatchesTemplate(const wxString& path, wxClassInfo* CI);
-    /// Read the spectrum from file to memory
-        bool	ReadDiskFile(const wxString& path);
         */
 };// of class SpectrumESA11
 

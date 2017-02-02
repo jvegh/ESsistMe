@@ -308,6 +308,8 @@ public:
     theUpLimit = up;
     theLoLimValid = true; 
     theUpLimValid = true;
+    if(theValue>theUpLimit)theValue=theUpLimit;
+    if(theValue<theLoLimit)theValue=theLoLimit;
     if(low > up) {
       theLoLimit = up; 
       theUpLimit = low;
@@ -408,7 +410,7 @@ public:
     std::vector<MinuitParameter> Parameters; ///< The parameters belonging to this set
   // Ctor, dtor, init, etc.
     /// Create a parameter set, with aNoOfItems items and label aName
-    MinuitParameterSet(char* const aName=new char);
+    MinuitParameterSet( const char* aName=new char);
 
     /// Copy constructor
     MinuitParameterSet(const MinuitParameterSet &P);
