@@ -10,54 +10,65 @@
 #include <string>
 #include <iostream>
 #include <vector>
+#include "EComponentTypes.h" // Component type
 #include "MinuitParameter.h"
+#include "EComponentBase.h"
 #include "ESpectrumBase.h"
 using namespace std;
 
+typedef unsigned int mask_t;	// A type for mask-like variables
 
 /*! @brief Base class for storing spectral data */
 class EComponentBase : public MinuitParameterSet
 {
+    friend class ComponentTest_Peak_Test;
 public:
-  EComponentBase(ESpectrumBase *aSpectrum, int aWIdent, bool Root, const string& aLabel);
+    EComponentBase(ESpectrumBase *aSpectrum, int aWIdent, bool Root, const string& aLabel);
+    EComponentBase(void);
+
+  /// Dtor for ComponentBase
+  virtual ~EComponentBase(void);
+  void Init(bool Root);
   /// Return temporary store
-  inline const double*   GetObjectStore(void) const
-      {   return ObjectStore.data();}
+  inline const double*   GetObjectData(void) const
+      {   return m_ObjectStore.data();}
+  inline const int GetObjectBegin(void) const { return m_ObjectBegin;}
+  inline const int GetObjectSize(void) const { return m_ObjectStore.size();}
+  /// Return component type
+        inline ot_ComponentTypes
+  ComponentType_Get(void) { return m_ComponentType;}
+        inline ot_ComponentSubTypes
+  ComponentSubType_Get(void) const { return  m_ComponentSubType;}
+        inline mask_t
+  ComponentFlag_Get(void){ return m_ComponentFlag;}
+        inline mask_t
+  FeatureFlag_Get(void){ return m_FeatureFlag;}
 protected:
   bool Setup(void);
   /// Reserve storage for some data
   void    GetStorage(int iFrom, int iTo);
   ESpectrumBase    *m_Spectrum;   ///< Back pointer to the owner spectrum, a copy
-  int ObjectBegin;  // The offset value of the data storage vector
-  vector<double> ObjectStore;   // Vector for storing component data
+  int m_ObjectBegin;  // The offset value of the data storage vector
+  vector<double> m_ObjectStore;   // Vector for storing component data
+  size_t  NMin,                   ///< Lowest sequence# of points
+          NMax,                   ///< Highest sequence# of points
+          ILow,                   ///< to calculate the component from this
+          IHigh,                  ///< to calculate the component up to this
+          MrkL,                   ///< Left marker
+          MrkR;                   ///< Right marker
+  mask_t  m_ComponentFlag,        ///< Contains 'or'ed fbgx_xx values
+          m_FeatureFlag;          ///< Contains features
+  bool    m_Root,                 ///< TRUE if the component is the root of the spectrum components
+          m_Contributing;           ///< TRUE for contributing components like peak and background
+  //        m_AlphaMode;              ///< TRUE if to be displayed in alphanumeric mode
+  double  Merit,                  ///< The calculated merit value, usually chisq
+          AC1;                    ///< The calculated autocorrelation value
+  ot_ComponentTypes m_ComponentType;      ///< Number identifying component type
+  ot_ComponentSubTypes m_ComponentSubType;///< and subtype
 };
 
-
 #endif //  ESsistMe_EComponentBase_H
-#if defined(OldWX)
-    //: compbase.h
-    /*  Component base types
-        \author   (c) JÃ¡nos VÃ©gh, MTA ATOMKI, Debrecen, Hungary (veghj@users.sf.net)
-        \since    Oct 17, 2004
-        $Id: compbase.h,v 1.1 2004-08-23 14:35:15+02 veghj Exp veghj $
-     */
-
-    #if defined(__GNUG__) && !defined(__APPLE__)
-        #pragma interface "compbase.h"
-    #endif
-
-    #ifndef ewa_compbaseh
-    #define ewa_compbaseh
-
-    #include <wx/wxprec.h>
-
-    #ifdef __BORLANDC__
-        #pragma hdrstop
-    #endif
-
-    #ifndef WX_PRECOMP
-        #include <wx/wx.h>
-    #endif
+#ifdef OldWX
 
     #include    <iostream.h>
     #include    <wx/tokenzr.h>
@@ -98,10 +109,6 @@ protected:
         ComponentBase(SpectrumBase *aSpectrum, const int aWIdent, const bool Root, const wxString aLabel="");
         /// Make a full copy of the component base
         ComponentBase(const ComponentBase &C);
-        /// Default ctor for ComponentBase.
-        ComponentBase(void);
-        /// Dtor for ComponentBase
-        virtual ~ComponentBase(void);
         /// Creates and returns a full copy of the base object
         /**	\return	the created new base component */
         virtual wxParameterSet *Clone(void) const
@@ -159,9 +166,6 @@ protected:
         /// Return component type
         inline ot_ComponentTypes GetType(void) const
             {	return  ComponentType;}
-        /// Return component type
-        inline ot_ComponentSubTypes GetSubType(void) const
-            {	return  ComponentSubType;}
         /// Return correlation factor
         inline virtual  double  GetCorrelation(void) const
             {	return AC1;}
@@ -394,13 +398,8 @@ protected:
         inline void SetMrkR(const size_t R)
             {   MrkR = R;}
     protected:
-        bool    m_Root,                 ///< TRUE if the component is the root of the spectrum components
-                Contributing,           ///< TRUE for contributing components like peak and background
-                AlphaMode;              ///< TRUE if to be displayed in alphanumeric mode
 
         wxString    ClassName;          ///< Store class name here
-        ot_ComponentTypes ComponentType;      ///< Number identifying component type
-        ot_ComponentSubTypes ComponentSubType;///< and subtype
         //ROIList : PCollection;    { of TROIs }
         //ActiveROI : word;             // The currently active ROI
         xboolean::xbool OnBindingScale; ///< If energy data are stored on BE
@@ -408,22 +407,9 @@ protected:
         amAxisMode   AxisModeC;         ///<  Stores component display lookout
         amAxisMode  AxisModeE;          ///<  Stores component display lookout
         int     Index0 ;                ///<  Just a work variable
-        double  Merit,                  ///< The calculated merit value, usually chisq
-                AC1;                    ///< The calculated autocorrelation value value
         float   XEnergy;                ///< Energy of the exciting source : -1 = absent
         SpectrumBase    *TheSpectrum;   ///< Back pointer to the owner spectrum, a copy
 
-        size_t  NMin,                   ///< Lowest sequence# of points
-                NMax;                   ///< Highest sequence# of points
-        size_t  ILow,                   ///< to calculate the component from this
-                IHigh;                  ///< to calculate the component up to this
-        int     ComponentFlag,      ///< Contains 'or'ed fbgx_xx values
-                FeatureFlag;        ///< Contains features like etc
-        size_t  MrkL,               ///< Left marker
-                MrkR;               ///< Right marker
-        float   *ObjectStore;       ///< object storage if necessary
-        size_t ObjectSize,          ///< object size, in elements
-            ObjectBegin;            ///< 1st channel of the stored object
         ComponentDialog *CD;        ///< The component parameter select dialog
     };// of class ComponentBase
 
@@ -443,5 +429,4 @@ protected:
     /// Adjust a component (parameter set)
     int wxAdjustComponent( ComponentBase *par, SpectrumView *view, const wxString caption, wxWindow *parent);
 
-    #endif // ewa_compbaseh
 #endif // oldWX

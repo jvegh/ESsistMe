@@ -36,24 +36,75 @@ using namespace std;
     EComponentBase::
 EComponentBase(ESpectrumBase *aSpectrum, int aWIdent, bool Root, const string& aLabel) : MinuitParameterSet(aLabel.c_str())
 {
-        m_Spectrum = aSpectrum;
+    m_Spectrum = aSpectrum;
+    Init(false);        // Initialize to default
+    if(Root)
+    {
+//?        NMin = 0; NMax = m_Spectrum->GetNoOfEPoints()-1;
+        Label = ("Root");
+//        OnBindingScale = xboolean::Unknown;
+    }
+    else
+    {   // Other than root
+/*        ComponentBase *R;
+        if(TheSpectrum && (R = TheSpectrum->GetRoot()))
+        {
+            // Copy settings from root
+            NMin = R->NMin; NMax = R->NMax;
+            XEnergy = R->XEnergy;
+            OnBindingScale = R->OnBindingScale;
+        }
+*/    }
 }
+
+    /** Default Ctor for ComponentBase.
+        Used mainly when creating prototype components */
+    EComponentBase::
+EComponentBase(void) :MinuitParameterSet("")
+{
+    m_Spectrum = (ESpectrumBase*)NULL;
+    Init(false);        // Initialize to default
+}
+
+//Destruct component Base
+EComponentBase::~EComponentBase()
+{
+    //  Dispose(ROIList,Done);
+    //  Markers.Done;
+}// of ComponentBase::~ComponentBase
 
     // sets up some component features;
     // called upon creating a new component
 bool EComponentBase::Setup()
 {
-        HasChanged = true;
-        return true;
+    HasChanged = true;
+    return true;
 }//EComponentBase::Setup
 
-// Reserve storage place for component data
+
+/** Used mainly when creating prototype components */
+void EComponentBase::Init(bool Root)
+{
+    m_Root = Root;                     // The roots are set upon spectrum creating
+    Label = "None";
+//    ClassName = _("Nothing");
+    m_Contributing    = false;            // By default the components do not contribute
+//    m_AlphaMode = false;                  // The default is graphic mode
+//    UniqueID = SpectrumProcessor.MakeUniqueID();
+    m_ComponentFlag = 0;
+    m_FeatureFlag = 0;
+//    AxisModeC = EWADefault.AxisModeC; AxisModeE = EWADefault.AxisModeE;
+    m_ComponentType = ot_Nothing; m_ComponentSubType = (ot_ComponentSubTypes)0;
+    Merit = 0; AC1 = 0;
+}
+
+// Reserve storage place for component data, and clears the area
 void    EComponentBase::GetStorage(int iFrom, int iTo)
 {
-    ObjectBegin = iFrom;
+    m_ObjectBegin = iFrom;
     int ObjectSize = iTo-iFrom +1;
-    ObjectStore.reserve(iTo-iFrom +1);  // Reserve for the number of elements
-    std::fill(ObjectStore.begin(),ObjectStore.end(),0);
+    m_ObjectStore.reserve(ObjectSize);  // Reserve for the number of elements
+    std::fill(m_ObjectStore.begin(),m_ObjectStore.end(),0);
 //    memset(ObjectStore.data(),0,sizeof(ObjectStore[0])*ObjectSize);
 }
 
@@ -99,62 +150,11 @@ void    EComponentBase::GetStorage(int iFrom, int iTo)
             }
 
         }
-        if(IsRoot())
-        {
-            NMin = 0; NMax = TheSpectrum->GetNoOfEPoints()-1;
-            Label = ("Root");
-            OnBindingScale = xboolean::Unknown;
-        }
-        else
-        {   // Other than root
-            ComponentBase *R;
-            if(TheSpectrum && (R = TheSpectrum->GetRoot()))
-            {
-                // Copy settings from root
-                NMin = R->NMin; NMax = R->NMax;
-                EZoom = R->EZoom; EZoomBegin = R->EZoomBegin;
-                VEMin = R->VEMin;VEStep = R->VEStep;VEMax = R->VEMax;
-                AxisModeC = R->AxisModeC; AxisModeE = R->AxisModeE;
-                VCMin = R->VCMin; VCStep = R->VCStep; VCMax = R->VCMax;
-                CZoom = R->CZoom; CZoomBegin = R->CZoomBegin;
-                XEnergy = R->XEnergy;
-    //            ComponentMode = R->ComponentMode;
-                OnBindingScale = R->OnBindingScale;
-            }
-        }
         ILow = NMin; IHigh = NMax;
     }//ComponentBase::ComponentBase
 
 
-    /** Default Ctor for ComponentBase.
-        Used mainly when creating prototype components */
-    ComponentBase::ComponentBase(void)
-    :wxParameterSet()
-    {
-        TheSpectrum = (SpectrumBase*)NULL;
-        Init(false);        // Initialize to default
-    }
 
-
-    /** Used mainly when creating prototype components */
-    void ComponentBase::Init(bool Root)
-    {
-        m_Root = Root;                     // The roots are set upon spectrum creating
-        Label = _("None");
-        ClassName = _("Nothing");
-        Contributing    = false;            // By default the components do not contribute
-        AlphaMode = false;                  // The default is graphic mode
-        UniqueID = SpectrumProcessor.MakeUniqueID();
-    //    Parameters = (wxParameterRecord*)NULL;
-    //    ComponentMode = 0;
-        ComponentFlag = 0;
-        FeatureFlag = 0;
-        EZoom = 1; EZoomBegin = 0;
-        CZoom = 1; CZoomBegin = 0;
-        AxisModeC = EWADefault.AxisModeC; AxisModeE = EWADefault.AxisModeE;
-        ComponentType = ot_Nothing; ComponentSubType = (ot_ComponentSubTypes)0;
-        Merit = 0; AC1 = 0;
-    }
 
     /**	Copy ctor for ComponentBase.
         \param	C	the model for copying */
@@ -197,12 +197,6 @@ void    EComponentBase::GetStorage(int iFrom, int iTo)
         CD = C.CD;      // Copy component dialog
     }//ComponentBase::ComponentBase
 
-    //Destruct component Base
-    ComponentBase::~ComponentBase()
-    {
-    //  Dispose(ROIList,Done);
-    //  Markers.Done;
-    }// of ComponentBase::~ComponentBase
 
     /// Update some settings of a cloned component from the replaced component C
     void ComponentBase::UpdateClonedCopy(const ComponentBase &C)

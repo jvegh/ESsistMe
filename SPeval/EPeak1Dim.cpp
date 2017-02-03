@@ -37,7 +37,19 @@ using namespace std;
 EPeak1Dim( ESpectrum1Dim *aSpectrum, int aWIdent, const string& aLabel ):
          EComponent1Dim(aSpectrum, aWIdent, aLabel)
 {
+        Init();
 }
+
+    void EPeak1Dim::
+    Init(void)
+    {
+        m_ComponentType = ot_Peak;
+        m_Contributing = true;	//Peaks are contributing components
+//        ClassName = _("Peak");
+        m_FeatureFlag = 0;
+        // Implicitly assume using energy, intensity and width terms
+    //	ComponentFlag = fpPk_Position | fpPk_Intensity | fpPk_Width;
+    }
 
 #if defined(OldPeak1)
     //: peak1.cpp
@@ -114,15 +126,6 @@ EPeak1Dim( ESpectrum1Dim *aSpectrum, int aWIdent, const string& aLabel ):
         Init();
     }// of Peak
 
-    void Peak1Dim::Init(void)
-    {
-        ComponentType = ot_Peak;
-        Contributing = true;	//Peaks are contributing components
-        ClassName = _("Peak");
-        FeatureFlag = 0;
-        // Assume using energy, intensity and width terms
-    //	ComponentFlag = fpPk_Position | fpPk_Intensity | fpPk_Width;
-    }
 
     int  Peak1Dim::Create(int CommandCode, wxList *aTypes, size_t &cindex)
     {

@@ -188,7 +188,7 @@ TEST_F(MinuitLinkTest, Extract)
         Gaussian[1].setUpperLimit(150);
         MnUserParameters upar;
         upar.add(Gaussian);
-        DumpMnParameters(upar,"Inserted");
+//        DumpMnParameters(upar,"Inserted");
         // create MIGRAD minimizer
        // MnMigrad migrad(theFCN, upar);
 
@@ -202,7 +202,7 @@ TEST_F(MinuitLinkTest, Extract)
         Gaussian[0].setValue(1);
         EXPECT_EQ(1.0, Gaussian[0].value()); // Here we see the recently set value
         upar.extract(Gaussian); // After extracting, the value cahnges back to the previously set one
-        DumpMnParameters(upar,"Extracted");
+//        DumpMnParameters(upar,"Extracted");
         EXPECT_EQ(10, Gaussian[0].value()); // Must be the upper limit again
         EXPECT_EQ(0.1, Gaussian[0].error());
 //        printf("value = %f\n", Gaussian[0].value());

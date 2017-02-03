@@ -35,6 +35,7 @@ std::string SP1271Test("1271,1\n"
  */
 TEST_F(ComponentTest, Peak)
 {
+    assert(0,"Message");
     // Create a spectrum first
     SpectrumESA11 IO;
     EXPECT_TRUE(IO.ReadDiskFile(SP1271Test));
@@ -42,9 +43,14 @@ TEST_F(ComponentTest, Peak)
     // Create a Gaussian
     EPeak1Gauss Gauss1(&IO, 0,  "Gauss1");
     EXPECT_EQ("Gauss1",string(Gauss1.GetLabel()));
-    const double* MyVector = Gauss1.GetObjectStore();
+    const double* MyVector = Gauss1.GetObjectData();
     EXPECT_TRUE(abs(MyVector[0]) <std::numeric_limits<double>::epsilon());
     EXPECT_TRUE(abs(MyVector[IO.NoOfDataPoints_Get()-1]) <std::numeric_limits<double>::epsilon());
+    EXPECT_TRUE(Gauss1.m_Contributing);
+//    EXPECT_FALSE(Gauss1.m_AlphaMode);
+    EXPECT_EQ(ot_Peak,Gauss1.ComponentType_Get());
+    EXPECT_EQ(opk_Gauss,Gauss1.ComponentSubType_Get());
+    EXPECT_EQ(0,Gauss1.FeatureFlag_Get());
 }
 
 TEST_F(ComponentTest, Empty)
