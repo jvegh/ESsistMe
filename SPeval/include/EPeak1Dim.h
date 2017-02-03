@@ -21,6 +21,7 @@ class EPeak1Dim : public EComponent1Dim
 {
 public:
   EPeak1Dim (ESpectrum1Dim *aSpectrum, int aWIdent,  const string& aLabel);
+  void  Init(void);
 protected:
   ESpectrumBase    *m_Spectrum;   ///< Back pointer to the owner spectrum, a copy
 };
